@@ -59,5 +59,11 @@ def filtrar_datas(df, datas_desejadas: list):
 
     return df[filtro]
 
-
-
+def valores_invalidos(df):
+    for column in df.columns:
+        quantidade_tipos_de_dados = df[column].nunique()
+        if quantidade_tipos_de_dados == 1:
+            return
+        else:
+            return
+            # TODO: tratamentos de exceção

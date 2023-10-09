@@ -14,6 +14,8 @@ df10 = pd.read_csv('data/2023_OrcamentoDespesa.csv', encoding='windows-1252', de
 
 df = pd.concat([df1, df2, df3, df4, df5, df6, df7, df8, df9, df10], axis=0)
 
+print(type(df))
+
 df.reset_index(drop=True, inplace=True)
 
 print(df.head())
@@ -25,11 +27,15 @@ print(df.columns.values)
 df['ORÇAMENTO REALIZADO (R$)'] = pd.to_numeric(df['ORÇAMENTO REALIZADO (R$)'], errors='coerce')
 
 #limpeza dos dados
+df_final = pd.DataFrame()
+df_orcamentos_negativos = pd.DataFrame()
+df_orcamentos_positivos = pd.DataFrame()
+
 df_final = dtc.coletar_colunas(df, ["EXERCÍCIO", "NOME FUNÇÃO", 'NOME SUBFUNÇÃO','ORÇAMENTO REALIZADO (R$)'])
 df_final = dtc.filtrar_coluna_com_termo(df_final, "NOME FUNÇÃO", "educação")
 df_orcamentos_positivos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 1)
 df_orcamentos_negativos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 0)
-df_final = dtc.valores_invalidos(df_final)
+dtc.valores_invalidos(df_final)
 
 #arquivo csv limpo
 df_final.to_csv('data/data_final.csv', index="false")

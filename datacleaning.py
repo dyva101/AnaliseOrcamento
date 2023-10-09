@@ -30,5 +30,34 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: st
     """
     filtro = df['coluna_a_ser_filtrada'].str.contains(topico_desejado, case=False)
     df = df[filtro]
-    
+
     return df
+
+def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
+    """filtrar_coluna_numericas
+
+    #(descricao da funcao)#
+
+    Parameters:
+        df (dataframe): dataframe original
+        coluna_a_ser_filtrada (str): _description_
+        restricao (str): _description_
+
+    Returns:
+        dataframe: _description_
+    """
+    if restricao == 1:
+        filtro = df[coluna_a_ser_filtrada] >= 0
+
+    elif restricao == 0:
+        filtro = df[coluna_a_ser_filtrada] < 0
+
+    return df[filtro]
+
+def filtrar_datas(df, datas_desejadas: list):
+    filtro = df["EXERCÍCIO"].str.contains(datas_desejadas)
+
+    return df[filtro]
+
+
+

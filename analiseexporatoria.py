@@ -24,9 +24,12 @@ print(df.columns.values)
 #conversão dos valores na coluna de orçamentos para float
 df['ORÇAMENTO REALIZADO (R$)'] = pd.to_numeric(df['ORÇAMENTO REALIZADO (R$)'], errors='coerce')
 
+#limpeza dos dados
 df_final = dtc.coletar_colunas(df, ["EXERCÍCIO", "NOME FUNÇÃO", 'NOME SUBFUNÇÃO','ORÇAMENTO REALIZADO (R$)'])
 df_final = dtc.filtrar_coluna_com_termo(df_final, "NOME FUNÇÃO", "educação")
 df_orcamentos_positivos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 1)
 df_orcamentos_negativos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 0)
-df_valores_invalidos = dtc.valores_invalidos(df_final)
+df_final = dtc.valores_invalidos(df_final)
 
+#arquivo csv limpo
+df_final.to_csv('data/data_final.csv', index="false")

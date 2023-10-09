@@ -28,7 +28,7 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: st
     Returns:
         _type_: _description_
     """
-    filtro = df['coluna_a_ser_filtrada'].str.contains(topico_desejado, case=False)
+    filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
     df = df[filtro]
 
     return df

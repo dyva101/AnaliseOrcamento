@@ -12,7 +12,7 @@ def coletar_colunas(df, colunas_desejadas: list):
     Returns:
         dataframe: dataframe apenas com as colunas desejadas
     """
-    df = df[[colunas_desejadas]]
+    df = df[colunas_desejadas]
     return df
 
 def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: str):

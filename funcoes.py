@@ -6,13 +6,28 @@ import analiseexporatoria as ae
 
 df = ae.df_sem_outliers
 
-# Plote o gráfico de pizza
-df.plot(kind='pie', y='Percentis', labels=df['NOME SUBFUNÇÃO'], autopct='%1.1f%%', legend=False)
+df = ae.df_sem_outliers
+
+coluna_subfuncao = df['NOME SUBFUNÇÃO']
+
+frequencia_subfuncao = df['NOME SUBFUNÇÃO'].value_counts()
+
+mp.figure(figsize=(6, 6))  # Defina o tamanho da figura
+mp.pie(frequencia_subfuncao, labels=frequencia_subfuncao.index, autopct='%1.1f%%', startangle=140)
+mp.title('Frequência das Palavras')
+mp.axis('equal')  # Isso garante que o círculo seja desenhado de forma equilibrada
+
+mp.show()
 
 # Ajuste o título do gráfico
 mp.title('Gastos com Educação')
 
 # Exiba o gráfico
+mp.show()
+
+
+df.plot(kind= 'hist' , y='R$', labels=df['ORÇAMENTO REALIZADO'], autopct='%1.1f%%', legend=False)
+mp.title('orçamento total')
 mp.show()
 
 """

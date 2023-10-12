@@ -1,9 +1,10 @@
 import pandas as pd
 import datacleaning as dtc
 import analiseexporatoria as ae
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 
-print (ae.df_final['ORÇAMENTO REALIZADO (R$)'])
+colunas = ae.df_final[['ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO']]
+
 data = ae.df_final['ORÇAMENTO REALIZADO (R$)']
 
 # Crie o boxplot e obtenha os limites dos bigodes
@@ -13,8 +14,9 @@ boxplot = plt.boxplot([data])
 whiskers = [item.get_ydata() for item in boxplot['whiskers']]
 limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
 
-outliers = data[(data < limite_inferior) | (data > limite_superior)]
-print (outliers)
+print(colunas[(colunas['ORÇAMENTO REALIZADO (R$)'] < limite_inferior) | (colunas['ORÇAMENTO REALIZADO (R$)'] > limite_superior)])
+
+colunas.to_csv('data/outliers.csv', index="false")
 
 # Plote o boxplot
 plt.boxplot([data])

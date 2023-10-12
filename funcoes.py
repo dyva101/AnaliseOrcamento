@@ -24,11 +24,16 @@ mp.title('Gastos com Educação')
 
 # Exiba o gráfico
 mp.show()
+#-------------------------------------------------------------------------------------------
+# Dados de exemplo (lista de valores)
+dados =  ae.df_sem_outliers
+# Criar o histograma
+df.hist( ae.df_sem_outliers, bins=10, color='skyblue', edgecolor='black')
 
-
-df.plot(kind= 'hist' , y='R$', labels=df['ORÇAMENTO REALIZADO'], autopct='%1.1f%%', legend=False)
-mp.title('orçamento total')
-mp.show()
+# Adicionar rótulos ao gráfico
+mp.xlabel('ORÇAMENTO REALIZADO')
+mp.ylabel('R$')
+mp.title('orçamento total ')
 
 """
 

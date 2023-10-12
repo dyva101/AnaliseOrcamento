@@ -3,6 +3,8 @@ import datacleaning as dtc
 import analiseexporatoria as ae
 import matplotlib.pyplot as plt
 
+#teste de commits
+
 print(ae.df_final['ORÇAMENTO REALIZADO (R$)']) 
 plt.boxplot([ae.df_final['ORÇAMENTO REALIZADO (R$)']])
 

@@ -1,35 +1,33 @@
 import pandas as pd
 import datacleaning as dtc
-import analiseexporatoria as ae
 import matplotlib.pyplot as plt 
 
-colunas = ae.df_final[['ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO']]
+def boxplot_coluna_de_dataframe(df, coluna):
+    data = df[coluna]
 
-data = ae.df_final['ORÇAMENTO REALIZADO (R$)']
+    plt.boxplot([data])
 
-# Crie o boxplot e obtenha os limites dos bigodes
-boxplot = plt.boxplot([data])
+    plt.show()
 
-# Obtenha os limites superior e inferior dos bigodes
-whiskers = [item.get_ydata() for item in boxplot['whiskers']]
-limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
+def separar_outliers_colunas_numericas(df, coluna_numerica):
+    
+    data = df[coluna_numerica]
+    boxplot = plt.boxplot(data)
+    whiskers = [item.get_ydata() for item in boxplot['whiskers']]
+    limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
 
-print(colunas[(colunas['ORÇAMENTO REALIZADO (R$)'] < limite_inferior) | (colunas['ORÇAMENTO REALIZADO (R$)'] > limite_superior)])
+    df_sem_outliers = df[(df[coluna_numerica] < limite_inferior) | (df[coluna_numerica] > limite_superior)]
 
-colunas.to_csv('data/outliers.csv', index="false")
+    return df_sem_outliers
 
-# Plote o boxplot
-plt.boxplot([data])
+def criar_dataframe_sem_outliers(df, coluna_numerica):
+    data = df[coluna_numerica]
+    boxplot = plt.boxplot(data)
+    whiskers = [item.get_ydata() for item in boxplot['whiskers']]
+    limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
+    sem_outliers = df[
+    (df[coluna_numerica] >= limite_inferior) &
+    (df[coluna_numerica] <= limite_superior)
+    ]
 
-plt.title('Boxplot ORÇAMENTO REALIZADO (R$)')
-plt.ylabel('Boxplot ORÇAMENTO REALIZADO (R$)')
-
-plt.show()
-
-# Filtre o DataFrame para remover os outliers
-sem_outliers = ae.df_final[
-    (ae.df_final['ORÇAMENTO REALIZADO (R$)'] >= limite_inferior) &
-    (ae.df_final['ORÇAMENTO REALIZADO (R$)'] <= limite_superior)
-]
-
-sem_outliers.to_csv('data/sem_outliers.csv', index="false")
+    return sem_outliers

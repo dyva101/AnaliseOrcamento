@@ -47,4 +47,4 @@ df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
 dff = pd.read_csv('data/data_sem_outliers.csv')
 
 # Salvar o DataFrame em um arquivo Excel
-dff.to_excel('arquivolimpo.xlsx', index="false")  
+dff.to_excel('data/arquivolimpo.xlsx', index="false")  

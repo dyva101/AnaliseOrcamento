@@ -1,9 +1,7 @@
 import pandas as pd
 
 def coletar_colunas(df, colunas_desejadas: list):
-    """coletar_colunas
-
-    função que gera, a partir do dataframe original, um novo dataframe apenas com as colunas desejadas
+    """Essa função gera um novo dataframe contendo apenas as colunas desejadas do dataframe original
 
     Parameters:
         df (dataframe): dataframe original
@@ -16,17 +14,15 @@ def coletar_colunas(df, colunas_desejadas: list):
     return df
 
 def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: str):
-    """filtrar_coluna_com_termo
-
-    #(descricao da funcao)#
+    """Essa função filtra a coluna de um dataframe com base em um termo desejado. Só restarão as linhas nas quais esteja escrito esse termo (e somente ele)
 
     Parameters:
         df (dataframe): dataframe original
-        coluna_a_ser_filtrada (str): _description_
-        topico_desejado (str): _description_
+        coluna_a_ser_filtrada (str): nome da coluna para filtarar
+        topico_desejado (str): termo ou expressão exata que deve ser identificada
 
     Returns:
-        _type_: _description_
+        dataframe: dataframe filtrado
     """
     filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
     df = df[filtro]
@@ -34,17 +30,15 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: st
     return df
 
 def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
-    """filtrar_coluna_numericas
-
-    #(descricao da funcao)#
-
+    """Esta função filtra um dataframe com base em uma coluna numérica e uma restrição.
+    
     Parameters:
         df (dataframe): dataframe original
-        coluna_a_ser_filtrada (str): _description_
-        restricao (str): _description_
+        coluna_a_ser_filtrada (str): nome da coluna para aplicar o filtro
+        restricao (str): 0 caso queira apenas os valores negativos; 1 para os valores não-negativos (incluindo o zero)
 
     Returns:
-        dataframe: _description_
+        dataframe: dataframe filtrado
     """
     if restricao == 1:
         filtro = df[coluna_a_ser_filtrada] >= 0
@@ -55,11 +49,28 @@ def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
     return df[filtro]
 
 def filtrar_datas(df, datas_desejadas: list):
+    """Filtrar um dataframe com base em datas desejadas em uma coluna que contenha datas.
+
+    Parameters:
+        df (dataframe): dataframe original
+        datas_desejadas (list): lista com as datas para filtragem dos registros
+
+    Returns:
+        dataframe: dataframe filtrado
+    """
     filtro = df["EXERCÍCIO"].str.contains(datas_desejadas)
 
     return df[filtro]
 
 def valores_invalidos(df):
+    """Identificar colunas com valores inválidos em um DataFrame.
+
+    Parameters:
+        df (dataframe): Dataframe desejado
+
+    Raises:
+        ValueError: As funções contém valores inválidos.
+    """
     error_columns = []
 
     for column in df.columns:

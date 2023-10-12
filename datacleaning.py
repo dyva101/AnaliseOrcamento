@@ -32,10 +32,18 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: st
     Returns:
         dataframe: dataframe filtrado
     """
-    filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
-    df = df[filtro]
 
-    return df
+    try:
+        filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
+        df = df[filtro]
+        return df
+    except TypeError:
+        if isinstance(df, pd.DataFrame):
+            print("Não foi passado um dataframe válido!")
+        elif isinstance(coluna_a_ser_filtrada, list):
+            print("Não foi passado uma lista de colunas válidas")
+    except KeyError:
+        print("A coluna desejada não pertence ao dataframe passado")
 
 def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
     """Esta função filtra um dataframe com base em uma coluna numérica e uma restrição.

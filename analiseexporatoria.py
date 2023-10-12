@@ -21,10 +21,8 @@ df.reset_index(drop=True, inplace=True)
 print(df.head())
 print(df.tail())
 
-print(df.columns.values)
-
 #conversão dos valores na coluna de orçamentos para float
-df['ORÇAMENTO REALIZADO (R$)'] = pd.to_numeric(df['ORÇAMENTO REALIZADO (R$)'], errors='coerce')
+df['ORÇAMENTO REALIZADO (R$)'] = df['ORÇAMENTO REALIZADO (R$)'].str.replace(',', '.').astype(float)
 
 #limpeza dos dados
 df_final = pd.DataFrame()

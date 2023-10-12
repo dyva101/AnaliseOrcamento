@@ -42,3 +42,6 @@ outliers = bx.separar_outliers_colunas_numericas(df, 'ORÇAMENTO REALIZADO (R$)'
 
 #arquivo csv limpo
 df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
+
+#gráfio de pizza com porcentagens mostrando em quais áreas é gasto o dinheiro
+#histograma mostrando o orçamento total de cada ano

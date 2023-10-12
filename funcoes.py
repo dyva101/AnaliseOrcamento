@@ -22,6 +22,22 @@ mp.axis('equal')  # Isso garante que o círculo seja desenhado de forma equilibr
 
 mp.show()
 
+# Ajuste o título do gráfico
+mp.title('Gastos com Educação')
+
+# Exiba o gráfico
+mp.show()
+#-------------------------------------------------------------------------------------------
+# Dados de exemplo (lista de valores)
+dados =  ae.df_sem_outliers
+# Criar o histograma
+df.hist( ae.df_sem_outliers, bins=10, color='skyblue', edgecolor='black')
+
+# Adicionar rótulos ao gráfico
+mp.xlabel('ORÇAMENTO REALIZADO')
+mp.ylabel('R$')
+mp.title('orçamento total ')
+
 """
 
 '''

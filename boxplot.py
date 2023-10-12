@@ -25,3 +25,11 @@ plt.title('Boxplot ORÇAMENTO REALIZADO (R$)')
 plt.ylabel('Boxplot ORÇAMENTO REALIZADO (R$)')
 
 plt.show()
+
+# Filtre o DataFrame para remover os outliers
+sem_outliers = ae.df_final[
+    (ae.df_final['ORÇAMENTO REALIZADO (R$)'] >= limite_inferior) &
+    (ae.df_final['ORÇAMENTO REALIZADO (R$)'] <= limite_superior)
+]
+
+sem_outliers.to_csv('data/sem_outliers.csv', index="false")

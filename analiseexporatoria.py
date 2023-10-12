@@ -21,8 +21,6 @@ df.reset_index(drop=True, inplace=True)
 print(df.head())
 print(df.tail())
 
-print(df.columns.values)
-
 #conversão dos valores na coluna de orçamentos para float
 df['ORÇAMENTO REALIZADO (R$)'] = pd.to_numeric(df['ORÇAMENTO REALIZADO (R$)'], errors='coerce')
 
@@ -39,4 +37,4 @@ df_orcamentos_negativos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REA
 dtc.valores_invalidos(df_final)
 
 #arquivo csv limpo
-df_final.to_csv('data/data_final.csv', index="false")
+df_final.to_csv('data/data_final.csv', index=False)

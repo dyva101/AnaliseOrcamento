@@ -42,3 +42,9 @@ outliers = bx.separar_outliers_colunas_numericas(df, 'ORÇAMENTO REALIZADO (R$)'
 
 #arquivo csv limpo
 df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
+
+# Ler o arquivo CSV para um DataFrame
+dff = pd.read_csv('data/data_sem_outliers.csv')
+
+# Salvar o DataFrame em um arquivo Excel
+dff.to_excel('arquivolimpo.xlsx', index="false")  

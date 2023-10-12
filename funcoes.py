@@ -6,6 +6,8 @@ import analiseexporatoria as ae
 
 df = ae.df_sem_outliers
 
+df = ae.df_sem_outliers
+
 coluna_subfuncao = df['NOME SUBFUNÇÃO']
 
 frequencia_subfuncao = df['NOME SUBFUNÇÃO'].value_counts()
@@ -21,6 +23,11 @@ mp.show()
 mp.title('Gastos com Educação')
 
 # Exiba o gráfico
+mp.show()
+
+
+df.plot(kind= 'hist' , y='R$', labels=df['ORÇAMENTO REALIZADO'], autopct='%1.1f%%', legend=False)
+mp.title('orçamento total')
 mp.show()
 
 """

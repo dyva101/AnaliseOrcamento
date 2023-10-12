@@ -10,8 +10,16 @@ def coletar_colunas(df, colunas_desejadas: list):
     Returns:
         dataframe: dataframe apenas com as colunas desejadas
     """
-    df = df[colunas_desejadas]
-    return df
+    try:
+        df = df[colunas_desejadas]
+        return df
+    except TypeError:
+        if isinstance(df, pd.DataFrame):
+            print("Não foi passado um dataframe válido!")
+        elif isinstance(colunas_desejadas, list):
+            print("Não foi passado uma lista de colunas válidas")
+    except KeyError:
+        print("A coluna desejada não pertence ao dataframe passado")
 
 def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: str):
     """Essa função filtra a coluna de um dataframe com base em um termo desejado. Só restarão as linhas nas quais esteja escrito esse termo (e somente ele)
@@ -67,9 +75,6 @@ def valores_invalidos(df):
 
     Parameters:
         df (dataframe): Dataframe desejado
-
-    Raises:
-        ValueError: As funções contém valores inválidos.
     """
     error_columns = []
 

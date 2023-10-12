@@ -88,13 +88,15 @@ def valores_invalidos(df):
     for column in df.columns:
         tipos_de_dados = df[column].apply(type).unique()
 
-        #guardando as colunas e posições onde há valores inválidos
-        if df[column].isna().any() == True:
+        # Guardando as colunas e posições onde há valores inválidos
+        if df[column].isna().any():
             index = df.index[df[column].isna()].tolist()
-            error_columns.append(column)
-        #levantando erro caso haja mais de um tipo de dado em uma coluna
-        if len(tipos_de_dados) > 1:#
+            error_columns.append((column, index))
+
+        # Levantando erro caso haja mais de um tipo de dado em uma coluna
+        if len(tipos_de_dados) > 1:
             raise ValueError(f"A coluna '{column}' contém valores com tipos de dados diferentes.")
-    
-    if not error_columns:
-        raise ValueError(f"As colunas '{tipos_de_dados}' contém valores inválidos, respectivamente, nas seguintes posições: {index}")
+
+    if error_columns:
+        # Se houver colunas com valores inválidos
+        raise ValueError(f"As colunas com valores inválidos são: {error_columns}")

@@ -1,5 +1,6 @@
 import pandas as pd 
 import datacleaning as dtc
+import boxplot as bx
 
 df1 = pd.read_csv('data/2014_OrcamentoDespesa.csv', encoding='windows-1252', delimiter=';')
 df2 = pd.read_csv('data/2015_OrcamentoDespesa.csv', encoding='windows-1252', delimiter=';')
@@ -35,5 +36,15 @@ df_orcamentos_positivos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REA
 df_orcamentos_negativos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 0)
 dtc.valores_invalidos(df_final)
 
+bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
+df_sem_outliers = bx.criar_dataframe_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)')
+outliers = bx.separar_outliers_colunas_numericas(df, 'ORÇAMENTO REALIZADO (R$)')
+
 #arquivo csv limpo
-df_final.to_csv('data/data_final.csv', index="false")
+df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
+
+# Ler o arquivo CSV para um DataFrame
+dff = pd.read_csv('data/data_sem_outliers.csv')
+
+# Salvar o DataFrame em um arquivo Excel
+dff.to_excel('data/arquivolimpo.xlsx', index="false")  

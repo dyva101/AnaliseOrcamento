@@ -1,9 +1,7 @@
 import pandas as pd
 
 def coletar_colunas(df, colunas_desejadas: list):
-    """coletar_colunas
-
-    função que gera, a partir do dataframe original, um novo dataframe apenas com as colunas desejadas
+    """Essa função gera um novo dataframe contendo apenas as colunas desejadas do dataframe original
 
     Parameters:
         df (dataframe): dataframe original
@@ -12,58 +10,91 @@ def coletar_colunas(df, colunas_desejadas: list):
     Returns:
         dataframe: dataframe apenas com as colunas desejadas
     """
-    df = df[colunas_desejadas]
-    return df
+    try:
+        df = df[colunas_desejadas]
+        return df
+    except TypeError:
+        if isinstance(df, pd.DataFrame):
+            print("Não foi passado um dataframe válido!")
+        elif isinstance(colunas_desejadas, list):
+            print("Não foi passado uma lista de colunas válidas")
+    except KeyError:
+        print("A coluna desejada não pertence ao dataframe passado")
 
 def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: str):
-    """filtrar_coluna_com_termo
-
-    #(descricao da funcao)#
+    """Essa função filtra a coluna de um dataframe com base em um termo desejado. Só restarão as linhas nas quais esteja escrito esse termo (e somente ele)
 
     Parameters:
         df (dataframe): dataframe original
-        coluna_a_ser_filtrada (str): _description_
-        topico_desejado (str): _description_
+        coluna_a_ser_filtrada (str): nome da coluna para filtarar
+        topico_desejado (str): termo ou expressão exata que deve ser identificada
 
     Returns:
-        _type_: _description_
+        dataframe: dataframe filtrado
     """
-    filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
-    df = df[filtro]
 
-    return df
+    try:
+        filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
+        df = df[filtro]
+        return df
+    except TypeError:
+        if isinstance(df, pd.DataFrame):
+            print("Não foi passado um dataframe válido!")
+        elif isinstance(coluna_a_ser_filtrada, list):
+            print("Não foi passado uma lista de colunas válidas")
+    except KeyError:
+        print("A coluna desejada não pertence ao dataframe passado")
 
 def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
-    """filtrar_coluna_numericas
-
-    #(descricao da funcao)#
-
+    """Esta função filtra um dataframe com base em uma coluna numérica e uma restrição.
+    
     Parameters:
         df (dataframe): dataframe original
-        coluna_a_ser_filtrada (str): _description_
-        restricao (str): _description_
+        coluna_a_ser_filtrada (str): nome da coluna para aplicar o filtro
+        restricao (str): 0 caso queira apenas os valores negativos; 1 para os valores não-negativos (incluindo o zero)
 
     Returns:
-        dataframe: _description_
+        dataframe: dataframe filtrado
     """
-    if restricao == 1:
-        filtro = df[coluna_a_ser_filtrada] >= 0
+    try:
+        if restricao == 1:
+            filtro = df[coluna_a_ser_filtrada] >= 0
 
-    elif restricao == 0:
-        filtro = df[coluna_a_ser_filtrada] < 0
+        elif restricao == 0:
+            filtro = df[coluna_a_ser_filtrada] < 0
 
-    return df[filtro]
-
-def filtrar_datas(df, datas_desejadas: list):
-    filtro = df["EXERCÍCIO"].str.contains(datas_desejadas)
-
-    return df[filtro]
-
-def valores_invalidos(df):
-    for column in df.columns:
-        quantidade_tipos_de_dados = df[column].nunique()
-        if quantidade_tipos_de_dados == 1:
-            return
         else:
-            return
-            # TODO: tratamentos de exceção
+            raise ValueError("A restrição deve ser ou igual à 0 ou igual à 1")
+        
+        return df[filtro]
+    except TypeError:
+        if isinstance(df, pd.DataFrame):
+            print("Não foi passado um dataframe válido!")
+        elif isinstance(coluna_a_ser_filtrada, list):
+            print("Não foi passado uma lista de colunas válidas")
+        elif isinstance(restricao, int):
+            print("O número passado não é um inteiro")
+    except KeyError:
+        print("A coluna desejada não pertence ao dataframe passado")
+            
+def valores_invalidos(df):
+    """Identificar colunas com valores inválidos em um DataFrame.
+
+    Parameters:
+        df (dataframe): Dataframe desejado
+    """
+    error_columns = []
+
+    for column in df.columns:
+        tipos_de_dados = df[column].apply(type).unique()
+
+        #guardando as colunas e posições onde há valores inválidos
+        if df[column].isna().any() == True:
+            index = df.index[df[column].isna()].tolist()
+            error_columns.append(column)
+        #levantando erro caso haja mais de um tipo de dado em uma coluna
+        if len(tipos_de_dados) > 1:#
+            raise ValueError(f"A coluna '{column}' contém valores com tipos de dados diferentes.")
+    
+    if not error_columns:
+        raise ValueError(f"As colunas '{tipos_de_dados}' contém valores inválidos, respectivamente, nas seguintes posições: {index}")

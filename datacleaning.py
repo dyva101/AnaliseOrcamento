@@ -56,28 +56,27 @@ def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
     Returns:
         dataframe: dataframe filtrado
     """
-    if restricao == 1:
-        filtro = df[coluna_a_ser_filtrada] >= 0
+    try:
+        if restricao == 1:
+            filtro = df[coluna_a_ser_filtrada] >= 0
 
-    elif restricao == 0:
-        filtro = df[coluna_a_ser_filtrada] < 0
+        elif restricao == 0:
+            filtro = df[coluna_a_ser_filtrada] < 0
 
-    return df[filtro]
-
-def filtrar_datas(df, datas_desejadas: list):
-    """Filtrar um dataframe com base em datas desejadas em uma coluna que contenha datas.
-
-    Parameters:
-        df (dataframe): dataframe original
-        datas_desejadas (list): lista com as datas para filtragem dos registros
-
-    Returns:
-        dataframe: dataframe filtrado
-    """
-    filtro = df["EXERCÍCIO"].str.contains(datas_desejadas)
-
-    return df[filtro]
-
+        else:
+            raise ValueError("A restrição deve ser ou igual à 0 ou igual à 1")
+        
+        return df[filtro]
+    except TypeError:
+        if isinstance(df, pd.DataFrame):
+            print("Não foi passado um dataframe válido!")
+        elif isinstance(coluna_a_ser_filtrada, list):
+            print("Não foi passado uma lista de colunas válidas")
+        elif isinstance(restricao, int):
+            print("O número passado não é um inteiro")
+    except KeyError:
+        print("A coluna desejada não pertence ao dataframe passado")
+            
 def valores_invalidos(df):
     """Identificar colunas com valores inválidos em um DataFrame.
 

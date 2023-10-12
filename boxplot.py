@@ -1,16 +1,33 @@
 import pandas as pd
 import datacleaning as dtc
-import analiseexporatoria as ae
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 
-#teste de commits
+def boxplot_coluna_de_dataframe(df, coluna):
+    data = df[coluna]
 
-print(ae.df_final['ORÇAMENTO REALIZADO (R$)']) 
-plt.boxplot([ae.df_final['ORÇAMENTO REALIZADO (R$)']])
+    plt.boxplot([data])
 
-plt.title('Boxplot ORÇAMENTO REALIZADO (R$)')
-plt.ylabel('Boxplot ORÇAMENTO REALIZADO (R$)')
+    plt.show()
 
-plt.show()
+def separar_outliers_colunas_numericas(df, coluna_numerica):
+    
+    data = df[coluna_numerica]
+    boxplot = plt.boxplot(data)
+    whiskers = [item.get_ydata() for item in boxplot['whiskers']]
+    limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
 
-#teste de coommits
+    df_sem_outliers = df[(df[coluna_numerica] < limite_inferior) | (df[coluna_numerica] > limite_superior)]
+
+    return df_sem_outliers
+
+def criar_dataframe_sem_outliers(df, coluna_numerica):
+    data = df[coluna_numerica]
+    boxplot = plt.boxplot(data)
+    whiskers = [item.get_ydata() for item in boxplot['whiskers']]
+    limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
+    sem_outliers = df[
+    (df[coluna_numerica] >= limite_inferior) &
+    (df[coluna_numerica] <= limite_superior)
+    ]
+
+    return sem_outliers

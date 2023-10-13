@@ -7,28 +7,7 @@ import datacleaning as dtc
 
 
 df = ae.df_sem_outliers
-"""
-coluna_subfuncao = df['NOME SUBFUNÇÃO']
 
-df['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(r'Outros encargos especiais|Difusão do conhecimento científico e tecnológico|Educação infantil|Outras transferências|Transferências para a educação básica|Comunicação social|Educação especial|Educação de jovens e adultos|Desenvolvimento científico|Alimentação e nutrição|Suporte profilático e terapêutico|Administração financeira|Serviços financeiros', 'Outros', regex=True)
-
-frequencia_subfuncao = df['NOME SUBFUNÇÃO'].value_counts()
-
-
-mp.figure(figsize=(6, 6))  # Defina o tamanho da figura
-mp.pie(frequencia_subfuncao, labels=frequencia_subfuncao.index, autopct='%1.1f%%', startangle=140)
-mp.title('Frequência das Palavras')
-mp.axis('equal')  # Isso garante que o círculo seja desenhado de forma equilibrada
-
-mp.show()
-
-# Ajuste o título do gráfico
-mp.title('Gastos com Educação')
-
-# Exiba o gráfico
-mp.show()
-"""
-#-------------------------------------------------------------------------------------------
 orcamentos = list()
 years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 
@@ -45,6 +24,10 @@ mp.bar(list(map(str, years)), height, width=0.8, align='center', log=True)
 mp.xlabel('Ano')
 mp.title("ORÇAMENTO ANUAL (2014-2023)")
 mp.show()
+#-------------------------------------------------------------------------------------------
+df_for_stacked_chart = pd.DataFrame(df['EXERCÍCIO'], df['NOME SUBFUNÇÃO'], df['ORÇAMENTO REALIZADO(R$)'])
+
+df_for_stacked_chart.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).size().unstack().plot(kind='bar', stacked=True )
 
 """
 

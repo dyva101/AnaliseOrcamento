@@ -41,6 +41,10 @@ mp.bar(list(map(str, years)), height, width=0.8, align='center', log=True)
 mp.xlabel('Ano')
 mp.title("ORÇAMENTO ANUAL (2014-2023)")
 mp.show()
+#-------------------------------------------------------------------------------------------
+df_for_stacked_chart = pd.DataFrame(df['EXERCÍCIO'], df['NOME SUBFUNÇÃO'], df['ORÇAMENTO REALIZADO(R$)'])
+
+df_for_stacked_chart.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).size().unstack().plot(kind='bar', stacked=True )
 
 """
 

@@ -38,7 +38,10 @@ dtc.valores_invalidos(df_final)
 
 bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
 df_sem_outliers = bx.criar_dataframe_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)')
+"""
 outliers = bx.separar_outliers_colunas_numericas(df, 'ORÇAMENTO REALIZADO (R$)')
+
+bx.boxplot_coluna_de_dataframe(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)')
 
 #arquivo csv limpo
 df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
@@ -48,3 +51,4 @@ dff = pd.read_csv('data/data_sem_outliers.csv')
 
 # Salvar o DataFrame em um arquivo Excel
 dff.to_excel('data/arquivolimpo.xlsx', index="false")  
+"""

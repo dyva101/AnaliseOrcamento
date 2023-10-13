@@ -4,13 +4,12 @@ import numpy as np
 import pandas as pd
 import analiseexporatoria as ae
 
-df = ae.df_sem_outliers
 
 df = ae.df_sem_outliers
 
 coluna_subfuncao = df['NOME SUBFUNÇÃO']
 
-df['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(r'Outros encargos especiais|Difusão do conhecimento científico e tecnológico|Educação infantil|Outras transferências', 'Outros', regex=True)
+df['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(r'Outros encargos especiais|Difusão do conhecimento científico e tecnológico|Educação infantil|Outras transferências|Transferências para a educação básica|Comunicação social|Educação especial|Educação de jovens e adultos|Desenvolvimento científico|Alimentação e nutrição|Suporte profilático e terapêutico|Administração financeira|Serviços financeiros', 'Outros', regex=True)
 
 frequencia_subfuncao = df['NOME SUBFUNÇÃO'].value_counts()
 
@@ -31,12 +30,12 @@ mp.show()
 # Dados de exemplo (lista de valores)
 dados =  ae.df_sem_outliers
 # Criar o histograma
-df.hist( ae.df_sem_outliers, bins=10, color='skyblue', edgecolor='black')
+mp.hist(dados, bins=10, color='skyblue', edgecolor='black')
 
 # Adicionar rótulos ao gráfico
-mp.xlabel('ORÇAMENTO REALIZADO')
+mp.xlabel('Ano de Exercício')
 mp.ylabel('R$')
-mp.title('orçamento total ')
+mp.title('Orçamento Anual (2014-2023)')
 
 """
 

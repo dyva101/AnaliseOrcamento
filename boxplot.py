@@ -3,12 +3,6 @@ import datacleaning as dtc
 import matplotlib.pyplot as plt 
 
 def boxplot_coluna_de_dataframe(df, coluna):
-    data = df[coluna]
-
-    plt.boxplot([data])
-
-    plt.show()
-
     """
     Cria um gráfico de boxplot para uma coluna específica de um DataFrame.
 
@@ -19,6 +13,12 @@ def boxplot_coluna_de_dataframe(df, coluna):
     Returns:
         None
     """
+    
+    data = df[coluna]
+
+    plt.boxplot([data])
+
+    plt.show()
 
 def separar_outliers_colunas_numericas(df, coluna_numerica):
     

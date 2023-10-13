@@ -87,7 +87,6 @@ def valores_invalidos(df):
     Parameters:
         df (dataframe): Dataframe desejado
     """
-    df = pd.DataFrame()
     error_columns = []
 
     for column in df.columns:
@@ -95,7 +94,7 @@ def valores_invalidos(df):
 
         # Guardando as colunas e posições onde há valores inválidos
         if df[column].isna().any():
-            index = df.index[df[column].isna()].tolist()
+            index = df.index[df[column].isnan()].tolist()
             error_columns.append((column, index))
 
         # Levantando erro caso haja mais de um tipo de dado em uma coluna

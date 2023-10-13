@@ -19,59 +19,46 @@ def boxplot_coluna_de_dataframe(df, coluna):
 
     plt.show()   
 
-import matplotlib.pyplot as plt
 
-def boxplot_sem_outliers(data, titulo):
+def boxplot_sem_outliers(df, coluna, titulo):
+    """
+    Gera um gráfico de caixa sem outliers a partir de um DataFrame.
+
+    Parameters:
+    df (DataFrame): O DataFrame contendo os dados a serem plotados.
+    coluna (str): O nome da coluna no DataFrame a ser usado para criar o gráfico de caixa.
+    titulo (str): O título a ser exibido no gráfico.
+
+    Retorna:
+    fig (Figure): A figura do gráfico de caixa sem outliers.
+    ax (Axes): O eixo do gráfico de caixa.
+    """
+    data = df[coluna]
     fig, ax = plt.subplots()
-    ax.set_title('titulo')
-    ax.boxplot(data, showfliers=False)
+    ax.set_title(titulo)  
+    ax.boxplot(data, showfliers=False)  # Oculte os outliers no gráfico de caixa
+    plt.show() 
+
     return fig, ax
-
-
-def boxplot_sem_outliers(df, coluna):
-    fig4, ax4 = plt.subplots() 
-    ax4.set_title('Hide Outlier Points') 
-    ax4.boxplot(data, showfliers=False)
-
+    
 def separar_outliers_colunas_numericas(df, coluna_numerica):
     """
-    Separa os outliers de uma coluna numérica de um DataFrame com base em um boxplot.
+    Separa valores discrepantes (outliers) de uma coluna numérica em um DataFrame.
 
     Parameters:
-        df (pandas.DataFrame): O DataFrame contendo os dados.
-        coluna_numerica (str): O nome da coluna numérica que deseja separar os outliers.
+    df (DataFrame): O DataFrame contendo os dados a serem analisados.
+    coluna_numerica (str): O nome da coluna numérica a ser analisada quanto a outliers.
 
-    Returns:
-        pandas.DataFrame: Um novo DataFrame contendo apenas as linhas que correspondem aos outliers da coluna numérica.
+    Retorna:
+    df_sem_outliers (DataFrame): Um novo DataFrame que contém apenas as observações que não são outliers na coluna especificada.
+
     """
-    
-    data = df[coluna_numerica]
-    boxplot = plt.boxplot(data)
-    whiskers = [item.get_ydata() for item in boxplot['whiskers']]
-    limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
-
-    df_com_outliers = df[(df[coluna_numerica] < limite_inferior) | (df[coluna_numerica] > limite_superior)]
-
-    return df_com_outliers
-   
-def criar_dataframe_sem_outliers(df, coluna_numerica):
-    """
-    Cria um novo DataFrame sem os outliers de uma coluna numérica com base em um boxplot.
-
-    Parameters:
-        df (pandas.DataFrame): O DataFrame contendo os dados.
-        coluna_numerica (str): O nome da coluna numérica da qual deseja remover os outliers.
-
-    Returns:
-        pandas.DataFrame: Um novo DataFrame contendo apenas as linhas que não são outliers da coluna numérica.
-    """
-    
     data = df[coluna_numerica]
     boxplot = plt.boxplot(data)
     whiskers = [item.get_ydata() for item in boxplot['whiskers']]
     limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
     df_sem_outliers = df[(df[coluna_numerica] >= limite_inferior) &
-                         (df[coluna_numerica] <= limite_superior)]
+    (df[coluna_numerica] <= limite_superior)]
 
     return df_sem_outliers 
 

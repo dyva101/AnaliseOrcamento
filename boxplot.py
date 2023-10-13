@@ -13,7 +13,6 @@ def boxplot_coluna_de_dataframe(df, coluna):
     Returns:
         None
     """
-    
     data = df[coluna]
 
     plt.boxplot([data])
@@ -21,16 +20,6 @@ def boxplot_coluna_de_dataframe(df, coluna):
     plt.show()
 
 def separar_outliers_colunas_numericas(df, coluna_numerica):
-    
-    data = df[coluna_numerica]
-    boxplot = plt.boxplot(data)
-    whiskers = [item.get_ydata() for item in boxplot['whiskers']]
-    limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
-
-    df_com_outliers = df[(df[coluna_numerica] < limite_inferior) | (df[coluna_numerica] > limite_superior)]
-
-    return df_com_outliers
-    
     """
     Separa os outliers de uma coluna numérica de um DataFrame com base em um boxplot.
 
@@ -41,8 +30,28 @@ def separar_outliers_colunas_numericas(df, coluna_numerica):
     Returns:
         pandas.DataFrame: Um novo DataFrame contendo apenas as linhas que correspondem aos outliers da coluna numérica.
     """
+    
+    data = df[coluna_numerica]
+    boxplot = plt.boxplot(data)
+    whiskers = [item.get_ydata() for item in boxplot['whiskers']]
+    limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
 
+    df_com_outliers = df[(df[coluna_numerica] < limite_inferior) | (df[coluna_numerica] > limite_superior)]
+
+    return df_com_outliers
+   
 def criar_dataframe_sem_outliers(df, coluna_numerica):
+    """
+    Cria um novo DataFrame sem os outliers de uma coluna numérica com base em um boxplot.
+
+    Parameters:
+        df (pandas.DataFrame): O DataFrame contendo os dados.
+        coluna_numerica (str): O nome da coluna numérica da qual deseja remover os outliers.
+
+    Returns:
+        pandas.DataFrame: Um novo DataFrame contendo apenas as linhas que não são outliers da coluna numérica.
+    """
+    
     data = df[coluna_numerica]
     boxplot = plt.boxplot(data)
     whiskers = [item.get_ydata() for item in boxplot['whiskers']]
@@ -54,13 +63,4 @@ def criar_dataframe_sem_outliers(df, coluna_numerica):
 
     return df_sem_outliers 
 
-    """
-    Cria um novo DataFrame sem os outliers de uma coluna numérica com base em um boxplot.
-
-    Parameters:
-        df (pandas.DataFrame): O DataFrame contendo os dados.
-        coluna_numerica (str): O nome da coluna numérica da qual deseja remover os outliers.
-
-    Returns:
-        pandas.DataFrame: Um novo DataFrame contendo apenas as linhas que não são outliers da coluna numérica.
-    """
+   

@@ -7,7 +7,7 @@ import datacleaning as dtc
 
 
 df = ae.df_sem_outliers
-
+"""
 coluna_subfuncao = df['NOME SUBFUNÇÃO']
 
 df['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(r'Outros encargos especiais|Difusão do conhecimento científico e tecnológico|Educação infantil|Outras transferências|Transferências para a educação básica|Comunicação social|Educação especial|Educação de jovens e adultos|Desenvolvimento científico|Alimentação e nutrição|Suporte profilático e terapêutico|Administração financeira|Serviços financeiros', 'Outros', regex=True)
@@ -27,26 +27,27 @@ mp.title('Gastos com Educação')
 
 # Exiba o gráfico
 mp.show()
+"""
 #-------------------------------------------------------------------------------------------
 orcamentos = list()
-years = ['2014', '2015', '2016','2017', '2018', '2019', '2020', '2021', '2022', '2023']
+years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 
 for year in years:
-    df_year = dtc.filtrar_coluna_com_termo(df, 'EXERCÍCIO', year)
+    df_year = df[df['ORÇAMENTO REALIZADO (R$)'] == year]
     orcamentos.append(df_year['ORÇAMENTO REALIZADO (R$)'].sum())
 
 df_histograma = pd.DataFrame({
-    'EXERCÍCIO': ['2014', '2015', '2016','2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+    'EXERCÍCIO': [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
     'ORÇAMENTO REALIZADO' : orcamentos
 })
 
-mp.bar(df_histograma['EXERCÍCIO'], df_histograma['ORÇAMENTO REALIZADO'], color='skyblue', edgecolor='black')
-
+x = [1,2,3,4,5,6,7,8,9,10]
+mp.bar(x, height=orcamentos)
+mp.xticks(x, ('2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'))
 # Adicionar rótulos ao gráfico-
-mp.xlabel('Ano de Exercício')
-mp.ylabel('R$')
 mp.title('ORÇAMENTO ANUAL (2014-2023)')
 
+mp.show()
 """
 
 '''

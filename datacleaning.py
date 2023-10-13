@@ -32,15 +32,14 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: st
     Returns:
         dataframe: dataframe filtrado
     """
-
     try:
         filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
         df = df[filtro]
         return df
     except TypeError:
-        if isinstance(df, pd.DataFrame):
+        if not isinstance(df, pd.DataFrame):
             print("Não foi passado um dataframe válido!")
-        elif isinstance(coluna_a_ser_filtrada, list):
+        elif not isinstance(coluna_a_ser_filtrada, list):
             print("Não foi passado uma lista de colunas válidas")
     except KeyError:
         print("A coluna desejada não pertence ao dataframe passado")
@@ -83,6 +82,7 @@ def valores_invalidos(df):
     Parameters:
         df (dataframe): Dataframe desejado
     """
+    df = pd.DataFrame()
     error_columns = []
 
     for column in df.columns:

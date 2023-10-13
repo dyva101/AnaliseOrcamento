@@ -42,16 +42,25 @@ def plot_orcamentos_anuais(df, years):
 
 #-------------------------------------------------------------------------------------------
 mp.clf()
-df['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(
+df_subset = df.copy()
+df_subset['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(
     r'(Outros encargos especiais|Difusão do conhecimento científico e tecnológico|'
     r'Educação infantil|Outras transferências|Transferências para a educação básica|'
     r'Comunicação social|Educação especial|Educação de jovens e adultos|'
     r'Desenvolvimento científico|Alimentação e nutrição|Suporte profilático e terapêutico|'
     r'Administração financeira|Serviços financeiros)', 'Outros', regex=True
 )
-df_for_stacked_chart = pd.DataFrame(df['EXERCÍCIO'], df['NOME SUBFUNÇÃO'], df['ORÇAMENTO REALIZADO (R$)'])
+df_for_stacked_chart = pd.DataFrame({'EXERCÍCIO': df_subset['EXERCÍCIO'],
+                                     'NOME SUBFUNÇÃO': df_subset['NOME SUBFUNÇÃO'],
+                                     'ORÇAMENTO REALIZADO (R$)': df_subset['ORÇAMENTO REALIZADO (R$)']
+                                    })
 
 df_for_stacked_chart.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).size().unstack().plot(kind='bar', stacked=True )
+
+mp.xlabel('Ano')
+mp.ylabel('Orçamento')
+mp.title('Orçamento por subfunção')
+mp.show()
 
 
 """

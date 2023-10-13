@@ -36,13 +36,13 @@ dtc.valores_invalidos(df_final)#TODO: definir o que são valores inválidos
 bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
 bx.boxplot_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers')
 
-#outliers = bx.separar_outliers_colunas_numericas(df, 'ORÇAMENTO REALIZADO (R$)')
+outliers = bx.separar_outliers_colunas_numericas(df, 'ORÇAMENTO REALIZADO (R$)')
 
 #arquivo csv limpo
-#df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
+df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
 
-# Ler o arquivo CSV para um DataFrame
-#dff = pd.read_csv('data/data_sem_outliers.csv')
+#Ler o arquivo CSV para um DataFrame
+dff = pd.read_csv('data/data_sem_outliers.csv')
 
-# Salvar o DataFrame em um arquivo Excel
-#dff.to_excel('data/arquivolimpo.xlsx', index="false") 
+#Salvar o DataFrame em um arquivo Excel
+dff.to_excel('data/arquivolimpo.xlsx', index="false") 

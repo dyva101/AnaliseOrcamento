@@ -26,10 +26,17 @@ mp.title("ORÇAMENTO ANUAL (2014-2023)")
 mp.show()
 #-------------------------------------------------------------------------------------------
 mp.clf()
-
+df['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(
+    r'(Outros encargos especiais|Difusão do conhecimento científico e tecnológico|'
+    r'Educação infantil|Outras transferências|Transferências para a educação básica|'
+    r'Comunicação social|Educação especial|Educação de jovens e adultos|'
+    r'Desenvolvimento científico|Alimentação e nutrição|Suporte profilático e terapêutico|'
+    r'Administração financeira|Serviços financeiros)', 'Outros', regex=True
+)
 df_for_stacked_chart = pd.DataFrame(df['EXERCÍCIO'], df['NOME SUBFUNÇÃO'], df['ORÇAMENTO REALIZADO (R$)'])
 
 df_for_stacked_chart.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).size().unstack().plot(kind='bar', stacked=True )
+
 
 """
 

@@ -41,9 +41,9 @@ def boxplot_sem_outliers(df, coluna, titulo):
 
     return fig, ax
     
-def separar_outliers_colunas_numericas(df, coluna_numerica):
+def excluir_outliers(df, coluna_numerica):
     """
-    Separa valores discrepantes (outliers) de uma coluna numérica em um DataFrame.
+    Exclui os valores discrepantes (outliers) de um DataFrame.
 
     Parameters:
     df (DataFrame): O DataFrame contendo os dados a serem analisados.

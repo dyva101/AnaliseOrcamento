@@ -36,13 +36,12 @@ bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
 bx.boxplot_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers')
 
 df_sem_outliers = bx.excluir_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)')
-df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
 
 #arquivo csv limpo
 df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
 
 #Ler o arquivo CSV para um DataFrame
-#dff = pd.read_csv('data/data_sem_outliers.csv')
+dff = pd.read_csv('data/data_sem_outliers.csv')
 
 #Salvar o DataFrame em um arquivo Excel
-#dff.to_excel('data/arquivolimpo.xlsx', index="false")
+dff.to_excel('data/arquivolimpo.xlsx', index="false")

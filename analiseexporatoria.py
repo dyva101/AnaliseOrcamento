@@ -32,17 +32,17 @@ df_orcamentos_positivos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REA
 df_orcamentos_negativos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 0)
 dtc.valores_invalidos(df_final)#TODO: definir o que são valores inválidos
 
-
 bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
 bx.boxplot_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers')
 
-#outliers = bx.separar_outliers_colunas_numericas(df, 'ORÇAMENTO REALIZADO (R$)')
+df_sem_outliers = bx.excluir_outliers(df, 'ORÇAMENTO REALIZADO (R$)')
+df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
 
 #arquivo csv limpo
-#df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
+df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
 
-# Ler o arquivo CSV para um DataFrame
+#Ler o arquivo CSV para um DataFrame
 #dff = pd.read_csv('data/data_sem_outliers.csv')
 
-# Salvar o DataFrame em um arquivo Excel
-#dff.to_excel('data/arquivolimpo.xlsx', index="false") 
+#Salvar o DataFrame em um arquivo Excel
+#dff.to_excel('data/arquivolimpo.xlsx', index="false")

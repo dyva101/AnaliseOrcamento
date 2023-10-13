@@ -36,24 +36,21 @@ for year in years:
     df_year = df[df['ORÇAMENTO REALIZADO (R$)'] == year]
     orcamentos.append(df_year['ORÇAMENTO REALIZADO (R$)'].sum())
 
-df_histograma = pd.DataFrame({
-    'EXERCÍCIO': [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
-    'ORÇAMENTO REALIZADO' : orcamentos
-})
 
-x = [1,2,3,4,5,6,7,8,9,10]
-mp.bar(x, height=orcamentos)
-mp.xticks(x, ('2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'))
-# Adicionar rótulos ao gráfico-
-mp.title('ORÇAMENTO ANUAL (2014-2023)')
+x = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
+height = orcamentos
 
+df_histograma = mp.bar(x, height, width=3.0, bottom=None, align='center')
+
+mp.title("ORÇAMENTO ANUAL (2014-2023)")
 mp.show()
+
 """
 
 '''
 ‘bar’ or ‘barh’ for bar plots
 
-‘hist’ fo+r histogram
+‘hist’ for histogram
 
 ‘box’ for boxplot
 

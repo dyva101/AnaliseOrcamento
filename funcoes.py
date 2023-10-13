@@ -3,6 +3,7 @@ import matplotlib.pyplot as mp
 import numpy as np
 import pandas as pd
 import analiseexporatoria as ae
+import datacleaning as dtc
 
 df = ae.df_sem_outliers
 
@@ -25,15 +26,24 @@ mp.title('Gastos com Educação')
 # Exiba o gráfico
 mp.show()
 #-------------------------------------------------------------------------------------------
-# Dados de exemplo (lista de valores)
-dados =  ae.df_sem_outliers
-# Criar o histograma
-df.hist( ae.df_sem_outliers, bins=10, color='skyblue', edgecolor='black')
+orcamentos = list()
+years = ['2014', '2015', '2016','2017', '2018', '2019', '2020', '2021', '2022', '2023']
 
-# Adicionar rótulos ao gráfico
-mp.xlabel('ORÇAMENTO REALIZADO')
+for year in years:
+    df_year = dtc.filtrar_coluna_com_termo(df, 'EXERCÍCIO', year)
+    orcamentos.append(df_year['ORÇAMENTO REALIZADO (R$)'].sum())
+
+df_histograma = pd.DataFrame({
+    'EXERCÍCIO': ['2014', '2015', '2016','2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+    'ORÇAMENTO REALIZADO' : orcamentos
+})
+
+mp.bar(df_histograma['EXERCÍCIO'], df_histograma['ORÇAMENTO REALIZADO'], color='skyblue', edgecolor='black')
+
+# Adicionar rótulos ao gráfico-
+mp.xlabel('Ano de Exercício')
 mp.ylabel('R$')
-mp.title('orçamento total ')
+mp.title('ORÇAMENTO ANUAL (2014-2023)')
 
 """
 

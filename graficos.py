@@ -8,28 +8,48 @@ import datacleaning as dtc
 
 df = ae.df_sem_outliers
 #-------------------------------------------------------------------------------------------
-orcamentos = list()
-years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+def plot_orcamentos_anuais(df, years):
+    """
+    Gera um gráfico de barras empilhadas para o orçamento anual a partir de um DataFrame.
 
-for year in years:
-    df_year = dtc.filtrar_coluna_com_termo(df, 'EXERCÍCIO', year)
-    orcamentos.append(df_year['ORÇAMENTO REALIZADO (R$)'].sum())
+    Parameters:
+        df (pd.DataFrame): O DataFrame contendo os dados.
+        years (list): Uma lista de anos para os quais deseja gerar o gráfico.
 
-mp.clf()
+    Returns:
+        None
+    """
+    if not isinstance(df, pd.DataFrame):
+        raise ValueError("'df' deve ser um DataFrame.")
+    
+    if not all(col in df.columns for col in ['EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)']) or not years:
+        raise ValueError("O DataFrame deve conter as colunas 'EXERCÍCIO' e 'ORÇAMENTO REALIZADO (R$)' e 'years' não deve estar vazio.")
 
-height = orcamentos
+    orcamentos = []
 
-mp.bar(list(map(str, years)), height, width=0.8, align='center', log=True)
+    try:
+        for year in years:
+            df_year = dtc.filtrar_coluna_com_termo(df, 'EXERCÍCIO', year)
+            orcamentos.append(df_year['ORÇAMENTO REALIZADO (R$)'].sum())
 
-mp.xlabel('Ano')
-mp.title("ORÇAMENTO ANUAL (2014-2023)")
-mp.show()
+        mp.clf()
+        mp.bar(list(map(str, years)), orcamentos, width=0.8, align='center', log=True)
+        mp.xlabel('Ano')
+        mp.title("ORÇAMENTO ANUAL ({}-{})".format(years[0], years[-1]))
+        mp.show()
+    except Exception as e:
+        print(f"Ocorreu um erro ao gerar o gráfico: {str(e)}")
+
 #-------------------------------------------------------------------------------------------
-mp.clf()
 
-df_for_stacked_chart = pd.DataFrame(df['EXERCÍCIO'], df['NOME SUBFUNÇÃO'], df['ORÇAMENTO REALIZADO (R$)'])
+df_for_stacked_chart = pd.DataFrame({'EXERCÍCIO': df['EXERCÍCIO'], 
+                                     'NOME SUBFUNÇÃO': df['NOME SUBFUNÇÃO'], 
+                                     'ORÇAMENTO REALIZADO (R$)': df['ORÇAMENTO REALIZADO (R$)'
+                       ]})
 
-df_for_stacked_chart.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).size().unstack().plot(kind='bar', stacked=True )
+df_for_stacked_chart.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).size().unstack().plot(kind='bar', stacked=True)
+
+mp.show()
 
 """
 

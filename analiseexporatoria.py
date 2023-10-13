@@ -35,7 +35,7 @@ dtc.valores_invalidos(df_final)#TODO: definir o que são valores inválidos
 bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
 bx.boxplot_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers')
 
-df_sem_outliers = bx.excluir_outliers(df, 'ORÇAMENTO REALIZADO (R$)')
+df_sem_outliers = bx.excluir_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)')
 df_sem_outliers.to_csv('data/data_sem_outliers.csv', index="false")
 
 #arquivo csv limpo

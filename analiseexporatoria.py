@@ -16,12 +16,7 @@ df10 = pd.read_csv('data/2023_OrcamentoDespesa.csv', encoding='windows-1252', de
 
 df = pd.concat([df1, df2, df3, df4, df5, df6, df7, df8, df9, df10], axis=0)
 
-print(type(df))
-
 df.reset_index(drop=True, inplace=True)
-
-print(df.head())
-print(df.tail())
 
 #conversão dos valores na coluna de orçamentos para float
 df['ORÇAMENTO REALIZADO (R$)'] = df['ORÇAMENTO REALIZADO (R$)'].str.replace(',', '.').astype(float)
@@ -31,16 +26,15 @@ df_final = pd.DataFrame()
 df_orcamentos_negativos = pd.DataFrame()
 df_orcamentos_positivos = pd.DataFrame()
 
-print(type(df_final))
 df_final = dtc.coletar_colunas(df, ["EXERCÍCIO", "NOME FUNÇÃO", 'NOME SUBFUNÇÃO','ORÇAMENTO REALIZADO (R$)'])
-print(type(df_final))
 df_final = dtc.filtrar_coluna_com_termo(df_final, "NOME FUNÇÃO", "educação")
 df_orcamentos_positivos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 1)
 df_orcamentos_negativos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 0)
-dtc.valores_invalidos(df_final)
+dtc.valores_invalidos(df_final)#TODO: definir o que são valores inválidos
 
-print(type(df_final))
-#bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
+
+bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
+
 df_sem_outliers = bx.criar_dataframe_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)')
 
 outliers = bx.separar_outliers_colunas_numericas(df, 'ORÇAMENTO REALIZADO (R$)')

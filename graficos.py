@@ -7,27 +7,23 @@ import datacleaning as dtc
 
 
 df = ae.df_sem_outliers
-"""
-coluna_subfuncao = df['NOME SUBFUNÇÃO']
 
-df['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(r'Outros encargos especiais|Difusão do conhecimento científico e tecnológico|Educação infantil|Outras transferências|Transferências para a educação básica|Comunicação social|Educação especial|Educação de jovens e adultos|Desenvolvimento científico|Alimentação e nutrição|Suporte profilático e terapêutico|Administração financeira|Serviços financeiros', 'Outros', regex=True)
-
-frequencia_subfuncao = df['NOME SUBFUNÇÃO'].value_counts()
-
-
-mp.figure(figsize=(6, 6))  # Defina o tamanho da figura
-mp.pie(frequencia_subfuncao, labels=frequencia_subfuncao.index, autopct='%1.1f%%', startangle=140)
-mp.title('Frequência das Palavras')
-mp.axis('equal')  # Isso garante que o círculo seja desenhado de forma equilibrada
-
-mp.show()
-
-# Ajuste o título do gráfico
-mp.title('Gastos com Educação')
-
-# Exiba o gráfico
-mp.show()
-"""
+def grafico_de_barras(df, coluna):
+    """
+    Cria um gráfico de barras, onde o eixo x seja  a partir de um DataFrame.
+    
+    Parameters:
+    df (DataFrame): O DataFrame contendo os dados a serem plotados.
+    coluna (str): O nome da coluna no DataFrame a ser usado para criar o gráfico de barras.
+    
+    Retorna:
+    None
+    """
+    data = df[coluna]
+    data = data.value_counts()
+    data = data.sort_index()
+    data.plot.bar()
+    mp.show()
 #-------------------------------------------------------------------------------------------
 orcamentos = list()
 years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]

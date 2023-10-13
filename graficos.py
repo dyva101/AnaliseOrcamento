@@ -33,15 +33,16 @@ orcamentos = list()
 years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 
 for year in years:
-    df_year = df[df['ORÇAMENTO REALIZADO (R$)'] == year]
+    df_year = dtc.filtrar_coluna_com_termo(df, 'EXERCÍCIO', year)
     orcamentos.append(df_year['ORÇAMENTO REALIZADO (R$)'].sum())
 
+mp.clf()
 
-x = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
 height = orcamentos
 
-df_histograma = mp.bar(x, height, width=3.0, bottom=None, align='center')
+mp.bar(list(map(str, years)), height, width=0.8, align='center', log=True)
 
+mp.xlabel('Ano')
 mp.title("ORÇAMENTO ANUAL (2014-2023)")
 mp.show()
 

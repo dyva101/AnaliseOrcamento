@@ -21,7 +21,7 @@ def coletar_colunas(df, colunas_desejadas: list):
     except KeyError:
         print("A coluna desejada não pertence ao dataframe passado")
 
-def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: str):
+def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado):
     """Essa função filtra a coluna de um dataframe com base em um termo desejado. Só restarão as linhas nas quais esteja escrito esse termo (e somente ele)
 
     Parameters:
@@ -33,9 +33,14 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado: st
         dataframe: dataframe filtrado
     """
     try:
-        filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
-        df = df[filtro]
-        return df
+        if type(topico_desejado) == str:
+            filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
+            df = df[filtro]
+            return df
+        else:
+            filtro = df[coluna_a_ser_filtrada] == topico_desejado
+            df = df[filtro]
+            return df
     except TypeError:
         if not isinstance(df, pd.DataFrame):
             print("Não foi passado um dataframe válido!")

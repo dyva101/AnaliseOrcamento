@@ -11,7 +11,10 @@ df = ae.df_sem_outliers
 
 coluna_subfuncao = df['NOME SUBFUNÇÃO']
 
+df['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(r'Outros encargos especiais|Difusão do conhecimento científico e tecnológico|Educação infantil|Outras transferências', 'Outros', regex=True)
+
 frequencia_subfuncao = df['NOME SUBFUNÇÃO'].value_counts()
+
 
 mp.figure(figsize=(6, 6))  # Defina o tamanho da figura
 mp.pie(frequencia_subfuncao, labels=frequencia_subfuncao.index, autopct='%1.1f%%', startangle=140)

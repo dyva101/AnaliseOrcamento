@@ -1,10 +1,7 @@
 # https://tmfilho.github.io/pyestbook/math/05_matp.html(fonte)
-
 import matplotlib.pyplot as mp
-
 import numpy as np
 import pandas as pd
-
 import datacleaning as dtc
 
 
@@ -14,18 +11,13 @@ def plotar_colunas_empilhadas(df: pd.DataFrame, coluna_de_empilhamento: str, x_c
     Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
 
     Parameters:
-
         df (pd.DataFrame): O DataFrame contendo os dados.
         x_column (str): Nome da coluna a ser usada no eixo x.
-
         y_column (str): Nome da coluna a ser usada no eixo y.
         title (str): Título do gráfico (opcional).
 
-
     Returns:
-
         None
-
     """
 
 

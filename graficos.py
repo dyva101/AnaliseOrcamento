@@ -41,7 +41,7 @@ def plot_orcamentos_anuais(df, years):
         print(f"Ocorreu um erro ao gerar o gráfico: {str(e)}")
 
 #-------------------------------------------------------------------------------------------
-mp.clf()
+mp.clf() 
 df_subset = df.copy()
 df_subset['NOME SUBFUNÇÃO'] = df['NOME SUBFUNÇÃO'].replace(
     r'(Outros encargos especiais|Difusão do conhecimento científico e tecnológico|'
@@ -58,7 +58,7 @@ df_for_stacked_chart = pd.DataFrame({'EXERCÍCIO': df_subset['EXERCÍCIO'],
 df_for_stacked_chart.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).size().unstack().plot(kind='bar', stacked=True )
 
 mp.xlabel('Ano')
-mp.ylabel('Orçamento')
+mp.ylabel('Orçamento') 
 mp.title('Orçamento por subfunção')
 mp.show()
 

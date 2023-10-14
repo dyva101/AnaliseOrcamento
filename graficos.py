@@ -97,3 +97,31 @@ def plotar_colunas_empilhadas(df: pd.DataFrame, x_column: str, y_column: str, ti
     mp.ylabel('Orçamento')
     mp.title(title)
     mp.show()
+
+def plotar_colunas_empilhadas_normalizado(df: pd.DataFrame, x_column: str, y_column: str, title="Colunas Empilhadas"):
+    """
+    Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
+
+    Parameters:
+        df (pd.DataFrame): O DataFrame contendo os dados.
+        x_column (str): Nome da coluna a ser usada no eixo x.
+        y_column (str): Nome da coluna a ser usada no eixo y.
+        title (str): Título do gráfico (opcional).
+
+    Returns:
+        None
+    """
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("O argumento 'df' deve ser um DataFrame válido.")
+    
+    if not all(col in df.columns for col in [x_column, y_column]):
+        colunas_ausentes = [col for col in [x_column, y_column] if col not in df.columns]
+        raise ValueError(f"As colunas especificadas não estão presentes no DataFrame: {', '.join(colunas_ausentes)}")
+
+    df_grouped = df.groupby([x_column, y_column]).size().unstack()
+    df_grouped.plot(kind='bar', stacked=True, normalize=True)
+
+    mp.xlabel(x_column)
+    mp.ylabel('Orçamento')
+    mp.title(title)
+    mp.show()

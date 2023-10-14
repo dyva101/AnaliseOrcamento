@@ -20,7 +20,6 @@ def boxplot_coluna_de_dataframe(df, coluna):
 
     plt.show()   
 
-
 def boxplot_sem_outliers(df, coluna, titulo):
     """
     Gera um gráfico de caixa sem outliers a partir de um DataFrame.

@@ -3,6 +3,26 @@ import pandas as pd
 def coletar_colunas(df, colunas_desejadas: list):
     """Essa função gera um novo dataframe contendo apenas as colunas desejadas do dataframe original
 
+    exemplo: 
+        >>> dataframe = {'A': [1,999,31], 'B': ['EMAp', 'força', 'ficar'], 'C': [8.7, 7.5, 3.7]}
+        >>> df = DataFrame(dataframe)
+        >>> coletar_colunas(df, ['A', 'B'])
+          A     B  
+          1  EMAp 
+        999 força 
+         31 ficar 
+        >>> coletar_colunas(df, ['A', 'C'])
+          A    C
+          1  8.7
+        999  7.5
+         31  3.7
+        >>> coletar_colunas(df, ['A','F'])
+        KeyError: A coluna desejada não pertence ao dataframe passado
+        >>> coletar_colunas(df, ['2'])
+        TypeError: Não foi passado uma lista de colunas válidas
+        >>> coletar_colunas(osmar, ['A','B'])
+        TypeError: Não foi passado um dataframe válido
+
     Parameters:
         df (dataframe): dataframe original
         colunas_desejadas (list): lista com strings representando as colunas desejadas
@@ -20,14 +40,44 @@ def coletar_colunas(df, colunas_desejadas: list):
             print("Não foi passado uma lista de colunas válidas")
     except KeyError:
         print("A coluna desejada não pertence ao dataframe passado")
+    
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
 
 def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado):
     """Essa função filtra a coluna de um dataframe com base em um termo desejado. Só restarão as linhas nas quais esteja escrito esse termo (e somente ele)
-
+    
     Parameters:
         df (dataframe): dataframe original
-        coluna_a_ser_filtrada (str): nome da coluna para filtarar
+        coluna_a_ser_filtrada (str): nome da coluna para filtrar
         topico_desejado (str): termo ou expressão exata que deve ser identificada
+
+        Ex: 
+        >>> dataframe = {'letras do alfabeto': ['a', 'b','c', 'd' ], 'forma maiúscula': ['A', 'B', 'C', 'D']}
+        >>> df = DataFrame(dataframe)
+
+
+        >>> filtrar_coluna_com_termo(df, 'letras do alfabeto', 'a')
+
+        letras do alfabeto 
+               a                 
+        #TODO: "acrescentar esse tratamento"
+        >>> filtrar_coluna_com_termo(df, 'forma maiúscula', 'k')
+        NaoContemValor: foi passado um DataFrame vazio
+        
+        >>> filtrar_coluna_com_termo(df, 'forma maiúscula', '2')
+        TypeError: você não passou um termo válido
+
+        >>> filtrar_coluna_com_termo(df, 'forma numérica', 'a')
+        KeyError: A coluna desejada não pertence ao dataframe passado
+
+        >>> filtrar_coluna_com_termo(almir, 'forma maiúscula', 'c')
+        TypeError: Não foi passado um dataframe válido
+            #TODO: "acrescentar esse tratamento"
+        >>> filtrar_coluna_com_termo(df, ['forma maiúscula', 'letras do alfabeto'], 'a')
+        TypeError: você só pode passar uma coluna por vez
+
 
     Returns:
         dataframe: dataframe filtrado

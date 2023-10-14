@@ -47,10 +47,10 @@ dff = pd.read_csv('data/data_sem_outliers.csv')
 dff.to_excel('data/arquivolimpo.xlsx', index="false")
 
 #testes com o gráfico.py
-#grf.plotar_colunas_empilhadas(df_sem_outliers, [2014, 2015, 2016], 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
+grf.plotar_colunas_empilhadas(df_sem_outliers, [2014, 2015, 2016], 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
 
 #grf.plotar_colunas_empilhadas_normalizado(df_sem_outliers, 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
 #TODO: arrumar normalized
 #TODO: usar a funcao de substituicao junto
 
-grf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2014, '2014 - gráfico')
+#grf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2014, '2014 - gráfico')

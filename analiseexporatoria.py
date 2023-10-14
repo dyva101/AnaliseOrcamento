@@ -1,7 +1,7 @@
 import pandas as pd 
 import datacleaning as dtc
-import boxplot as bx 
-
+import boxplot as bx
+import graficos as grf
 
 df1 = pd.read_csv('data/2014_OrcamentoDespesa.csv', encoding='windows-1252', delimiter=';')
 df2 = pd.read_csv('data/2015_OrcamentoDespesa.csv', encoding='windows-1252', delimiter=';')
@@ -45,3 +45,5 @@ dff = pd.read_csv('data/data_sem_outliers.csv')
 
 #Salvar o DataFrame em um arquivo Excel
 dff.to_excel('data/arquivolimpo.xlsx', index="false")
+
+#testes com o gráfico.py

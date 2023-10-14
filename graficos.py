@@ -103,16 +103,17 @@ def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada, filtro, titl
 
     Parameters:
         df (pd.DataFrame): dataframe original
-        coluna (str): será mostrada a distriuição dos dados dessa coluna
+        coluna (str): será mostrada a distribuição dos dados dessa coluna
         coluna_a_ser_filtrada (str): coluna para filtrar os dados
         filtro (): termo ou expressão para filtrar os registros do dataframe
-        title (str): título do istoy(ama
-el(x_column)
-    plt
+        title (str): título do histograma
+    """
+    df_hist = df[df[coluna_a_ser_filtrada] == filtro]
+    coluna_hist = df_hist[coluna]
 
-
-
-
+    mp.hist(df[coluna], bins=50, log=True)
     mp.title(title)
+
+    mp.show()
 
 

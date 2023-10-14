@@ -5,44 +5,40 @@ import pandas as pd
 import datacleaning as dtc
 
 
-def plotar_colunas_empilhadas(df: pd.DataFrame, years: list, x_axis: str, y_axis: str, title: str):
+
+def plotar_colunas_empilhadas(df: pd.DataFrame, coluna_de_empilhamento: str, x_column: str, y_column: str, title="Colunas Empilhadas"):
     """
-    Gera um gráfico de barras empilhadas para o orçamento anual a partir de um DataFrame.
+    Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
 
     Parameters:
         df (pd.DataFrame): O DataFrame contendo os dados.
-        years (list): Uma lista de anos para os quais deseja gerar o gráfico.
         x_column (str): Nome da coluna a ser usada no eixo x.
         y_column (str): Nome da coluna a ser usada no eixo y.
-        title (str): Título do gráfico.
+        title (str): Título do gráfico (opcional).
 
     Returns:
         None
     """
+
+
     if not isinstance(df, pd.DataFrame):
-        raise ValueError("'df' deve ser um DataFrame.")
+        raise TypeError("O argumento 'df' deve ser um DataFrame válido.")
     
-    if not all(col in df.columns for col in [x_axis, y_axis]):
-        raise ValueError(f"O DataFrame deve conter as colunas {x_axis} e {y_axis}")
-    if not years:
-        raise ValueError(f"O argumento {years} não pode ser vazio")
+    if not all(col in df.columns for col in [x_column, y_column]):
+        colunas_ausentes = [col for col in [x_column, y_column] if col not in df.columns]
+        raise ValueError(f"As colunas especificadas não estão presentes no DataFrame: {', '.join(colunas_ausentes)}")
 
-    orcamentos = []
+    df_for_stacked_chart = pd.DataFrame({x_column: df[x_column], coluna_de_empilhamento: df[coluna_de_empilhamento], y_column: df[y_column]})
 
-    try:
-        for year in years:
-            df_year = dtc.filtrar_coluna_com_termo(df, x_axis, year)
-            orcamentos.append(df_year[y_axis].sum())
+    df_for_stacked_chart.groupby([x_column, coluna_de_empilhamento]).size().unstack().plot(kind='bar', stacked=True )
 
-        mp.clf()
-        mp.bar(years, orcamentos, width=0.8, align='center', log=True)
-        mp.xlabel('Ano')
-        mp.title(title)
-        mp.show()
-    except Exception as e:
-        print(f"Ocorreu um erro ao gerar o gráfico: {str(e)}")
+    mp.xlabel(x_column)
+    mp.ylabel(y_column)
+    mp.title(title)
 
-def substituir_coluna_por_lista_especificada(df: pd.DataFrame, column: str, replacements: list):
+    mp.show()
+
+def substituir_coluna_por_lista_especificada(df: pd.DataFrame, column: str, substituto: str, termos_a_serem_substituidos: list):
     """
     Substitui valores em uma coluna de um DataFrame, e devolve o dataframe com a coluna modificada.
 
@@ -62,37 +58,35 @@ def substituir_coluna_por_lista_especificada(df: pd.DataFrame, column: str, repl
 
     df_copy = df.copy()
 
-    for pattern, replacement in replacements:
-        df_copy[column] = df_copy[column].replace(pattern, replacement, regex=True)
+    for termo in termos_a_serem_substituidos:
+        df_copy[column] = df_copy[column].replace(termo, substituto, regex=True)
 
     return df_copy
 
-def plotar_colunas_empilhadas_normalizado(df: pd.DataFrame, x_column: str, y_column: str, title="Colunas Empilhadas"):
-    """
-    Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
-
-    Parameters:
-        df (pd.DataFrame): O DataFrame contendo os dados.
-        x_column (str): Nome da coluna a ser usada no eixo x.
-        y_column (str): Nome da coluna a ser usada no eixo y.
-        title (str): Título do gráfico (opcional).
-
-    Returns:
-        None
-    """
+def plotar_colunas_empilhadas_normalizado(df: pd.DataFrame, coluna_de_empilhamento: str, x_column: str, y_column: str, title="Colunas Empilhadas Normalizadas"):
     if not isinstance(df, pd.DataFrame):
         raise TypeError("O argumento 'df' deve ser um DataFrame válido.")
     
-    if not all(col in df.columns for col in [x_column, y_column]):
-        colunas_ausentes = [col for col in [x_column, y_column] if col not in df.columns]
+    if not all(col in df.columns for col in [x_column, y_column, coluna_de_empilhamento]):
+        colunas_ausentes = [col for col in [x_column, y_column, coluna_de_empilhamento] if col not in df.columns]
         raise ValueError(f"As colunas especificadas não estão presentes no DataFrame: {', '.join(colunas_ausentes)}")
 
-    df_grouped = df.groupby([x_column, y_column]).size().unstack()
-    df_grouped.plot(kind='bar', stacked=True, normalize=True)
+    # Agregando os valores duplicados antes de pivotar o DataFrame
+    df_grouped = df.groupby([x_column, coluna_de_empilhamento])[y_column].sum().reset_index()
 
-    mp.xlabel(x_column)  # Correção
-    mp.ylabel('Orçamento')  # Correção
+    # Pivotando o DataFrame para ter as categorias de empilhamento como colunas
+    df_pivoted = df_grouped.pivot(index=x_column, columns=coluna_de_empilhamento, values=y_column).fillna(0)
+
+    # Normalizando para obter as porcentagens
+    df_normalized = df_pivoted.div(df_pivoted.sum(axis=1), axis=0) * 100
+
+    # Criando o gráfico de barras empilhadas normalizado
+    ax = df_normalized.plot(kind='bar', stacked=True, figsize=(10, 6))
+
+    mp.xlabel(x_column)
+    mp.ylabel("Porcentagem")
     mp.title(title)
+    mp.legend(title=coluna_de_empilhamento)
     mp.show()
 
 def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada, filtro, title):
@@ -113,3 +107,5 @@ def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada, filtro, titl
     mp.title(title)
 
     mp.show()
+
+

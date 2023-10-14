@@ -1,7 +1,7 @@
 import pandas as pd
 import datacleaning as dtc
 import matplotlib.pyplot as plt 
-import doctest as dc
+#import doctest as dc
 
 def boxplot_coluna_de_dataframe(df, coluna):
     """

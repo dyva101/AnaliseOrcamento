@@ -62,10 +62,8 @@ df_sem_outliers_com_colunas_substituidas = grf.substituir_coluna_por_lista_espec
                                                                                             "Serviços financeiros"
                                                                                            ])
 
-grf.plotar_colunas_empilhadas(df_sem_outliers_com_colunas_substituidas, 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
+grf.plotar_colunas_empilhadas(df_sem_outliers_com_colunas_substituidas, 'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
 
-grf.plotar_colunas_empilhadas_normalizado(df_sem_outliers, 'NOME SUBFUNÇÃO','EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
-#TODO: arrumar normalized
-#TODO: usar a funcao de substituicao junto
+grf.plotar_colunas_empilhadas_normalizado(df_sem_outliers_com_colunas_substituidas, 'NOME SUBFUNÇÃO','EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
 
 grf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2014, '2014 - gráfico')

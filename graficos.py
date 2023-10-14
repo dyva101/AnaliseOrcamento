@@ -69,14 +69,14 @@ def plotar_colunas_empilhadas_normalizado(df: pd.DataFrame, coluna_de_empilhamen
         colunas_ausentes = [col for col in [x_column, y_column, coluna_de_empilhamento] if col not in df.columns]
         raise ValueError(f"As colunas especificadas não estão presentes no DataFrame: {', '.join(colunas_ausentes)}")
 
-    # Calculando a soma das barras para cada categoria de empilhamento
-    df_grouped = df.groupby(x_column)[y_column].sum().reset_index()
+    # Agregando os valores duplicados antes de pivotar o DataFrame
+    df_grouped = df.groupby([x_column, coluna_de_empilhamento])[y_column].sum().reset_index()
 
     # Pivotando o DataFrame para ter as categorias de empilhamento como colunas
-    df_pivoted = df.pivot(index=x_column, columns=coluna_de_empilhamento, values=y_column).fillna(0)
+    df_pivoted = df_grouped.pivot(index=x_column, columns=coluna_de_empilhamento, values=y_column).fillna(0)
 
     # Normalizando para obter as porcentagens
-    df_normalized = df_pivoted.div(df_grouped[y_column], axis=0) * 100
+    df_normalized = df_pivoted.div(df_pivoted.sum(axis=1), axis=0) * 100
 
     # Criando o gráfico de barras empilhadas normalizado
     ax = df_normalized.plot(kind='bar', stacked=True, figsize=(10, 6))

@@ -1,8 +1,12 @@
 # https://tmfilho.github.io/pyestbook/math/05_matp.html(fonte)
+
 import matplotlib.pyplot as mp
+
 import numpy as np
 import pandas as pd
+
 import datacleaning as dtc
+
 
 
 def plotar_colunas_empilhadas(df: pd.DataFrame, coluna_de_empilhamento: str, x_column: str, y_column: str, title="Colunas Empilhadas"):
@@ -10,14 +14,20 @@ def plotar_colunas_empilhadas(df: pd.DataFrame, coluna_de_empilhamento: str, x_c
     Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
 
     Parameters:
+
         df (pd.DataFrame): O DataFrame contendo os dados.
         x_column (str): Nome da coluna a ser usada no eixo x.
+
         y_column (str): Nome da coluna a ser usada no eixo y.
         title (str): Título do gráfico (opcional).
 
+
     Returns:
+
         None
+
     """
+
 
     if not isinstance(df, pd.DataFrame):
         raise TypeError("O argumento 'df' deve ser um DataFrame válido.")
@@ -93,15 +103,16 @@ def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada, filtro, titl
 
     Parameters:
         df (pd.DataFrame): dataframe original
-        coluna (str): será mostrada a distribuição dos dados dessa coluna
+        coluna (str): será mostrada a distriuição dos dados dessa coluna
         coluna_a_ser_filtrada (str): coluna para filtrar os dados
         filtro (): termo ou expressão para filtrar os registros do dataframe
-        title (str): título do histograma
-    """
-    df_hist = df[df[coluna_a_ser_filtrada] == filtro]
-    coluna_hist = df_hist[coluna]
+        title (str): título do istoy(ama
+el(x_column)
+    plt
 
-    mp.hist(df[coluna], bins=50, log=True)
+
+
+
     mp.title(title)
 
-    mp.show()
+

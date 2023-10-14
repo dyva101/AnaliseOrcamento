@@ -66,4 +66,4 @@ grf.plotar_colunas_empilhadas(df_sem_outliers_com_colunas_substituidas, 'NOME SU
 
 grf.plotar_colunas_empilhadas_normalizado(df_sem_outliers_com_colunas_substituidas, 'NOME SUBFUNÇÃO','EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
 
-grf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2014, '2014 - gráfico')
+#grf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2014, '2014 - gráfico')

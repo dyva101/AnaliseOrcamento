@@ -47,9 +47,24 @@ dff = pd.read_csv('data/data_sem_outliers.csv')
 dff.to_excel('data/arquivolimpo.xlsx', index="false")
 
 #testes com o gráfico.py
-#grf.plotar_colunas_empilhadas(df_sem_outliers, [2014, 2015, 2016], 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
+df_sem_outliers_com_colunas_substituidas = grf.substituir_coluna_por_lista_especificada(df_sem_outliers, 'NOME SUBFUNÇÃO', 'Outros' , ["Outros encargos especiais",
+                                                                                            "Difusão do conhecimento científico e tecnológico",
+                                                                                            "Educação infantil",
+                                                                                            "Outras transferências",
+                                                                                            "Transferências para a educação básica",
+                                                                                            "Comunicação social",
+                                                                                            "Educação especial",
+                                                                                            "Educação de jovens e adultos",
+                                                                                            "Desenvolvimento científico",
+                                                                                            "Alimentação e nutrição",
+                                                                                            "Suporte profilático e terapêutico",
+                                                                                            "Administração financeira",
+                                                                                            "Serviços financeiros"
+                                                                                           ])
 
-#grf.plotar_colunas_empilhadas_normalizado(df_sem_outliers, 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
+grf.plotar_colunas_empilhadas(df_sem_outliers_com_colunas_substituidas, 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
+
+grf.plotar_colunas_empilhadas_normalizado(df_sem_outliers, 'NOME SUBFUNÇÃO','EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento Anual')
 #TODO: arrumar normalized
 #TODO: usar a funcao de substituicao junto
 

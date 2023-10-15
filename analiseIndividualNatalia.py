@@ -5,34 +5,51 @@ import analiseexporatoria as ae
 import pandas as pd
 import matplotlib.pyplot as mp
 
-#Analisando os outliers
+# Analisando os outliers
 bx.boxplot_coluna_de_dataframe(ae.df_final,'ORÇAMENTO REALIZADO (R$)')
 
-# É perceptível que, na visualização do box plot do DataFrame limpo e organizado com os dados de orçamento do governo na educação,
+# Noção da quantidade de outliers
+numero_de_dados = ae.df_final.shape[0]
+
+print(f"O DataFrame contém {numero_de_dados} elementos.")
+
+numero_de_dados = ae.df_sem_outliers.shape[0]
+
+print(f"O DataFrame sem outliers contém {numero_de_dados} elementos.")
+
+# É perceptível que, na visualização do box plot do DataFrame (limpo e organizado com os dados de orçamento do governo na educação),
 # os outliers são consideravelmente poucos. Além disso, é notório um certo padrão
-# de outliers a cada ano, e que tais outliers, em sua maioria, estão acima da média de gastos. Isso significa que todo ano o governo
+# de outliers a cada ano, e que os mesmos, em sua maioria, estão acima da média de gastos. Isso significa que todo ano o governo
 # sempre vai fazer investimentos consideráveis em comparação com a maioria dos investimentos. O que pode indicar que esses
-# orçamentos são "obrigatórios" a cada ano, independentemente de ser um ano de eleição ou não.
+# orçamentos são "obrigatórios" a cada ano.
+
 # São poucos outliers baixos, também padronizados a cada ano. Indicando que, independentemente
-# de ser um ano de eleição ou não, sempre haverá ações recorrentes em todo ano por exemplo:
+# de ser um ano de eleição, sempre haverá ações de orçamentos baixos recorrentes em todo ano.
 
-# - Apoio a projetos comunitários: Financiar projetos de voluntariado ou iniciativas que envolvam a comunidade na educação.
-# - Programas de tutoria de curto prazo: Fornecer apoio educacional adicional a grupos específicos de alunos por um período limitado,
-#   entre outras iniciativas. Esses são eventos que são triviais de acontecer em qualquer governo.
-
-# Portanto, devido a essa padronização de
-# outliers a cada ano, independentemente de ser um ano de eleição ou não, podemos ignorá-los e continuar analisando os orçamentos
-# realizados na educação pelo governo a cada ano, para tirar conclusões.
-#Não é apropriado analisar o orçamento realizado em educação do governo para o ano de 2023 neste momento, uma vez que o ano ainda não 
-#chegou ao fim.
+# Portanto, devido a essa padronização de outliers a cada ano, independentemente de ser um ano de eleição ou não,
+# podemos ignorá-los e continuar analisando os orçamentos realizados na educação pelo governo a cada ano, 
+# para tirar conclusões. Não é apropriado analisar o orçamento realizado em educação do governo para 
+# o ano de 2023 neste momento, uma vez que o ano ainda não chegou ao fim.
 
 
 #Análise sem outliers
-    #""""
-    #colunas
-    #"""
-#É notório que nos anos [especificar anos] a soma dos orçamentos destinados à educação foi consideravelmente maior do que em outros anos.
-#desconsiderar 20 e 21
+
+# Definindo as quatro palavras-chave em uma lista
+palavras_chave = ['Educação', 'educação', 'Ensino', 'ensino']
+
+# Criando um filtro para selecionar as linhas que contêm as palavras-chave desejadas
+filtro = ae.df_sem_outliers['NOME SUBFUNÇÃO'].str.contains('|'.join(palavras_chave), case=False, na=False)
+
+# Criando um novo DataFrame contendo apenas as linhas que atendem ao filtro
+novo_df = ae.df_sem_outliers[filtro].reset_index(drop=True)
+grf.plotar_colunas_empilhadas(novo_df, 'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento anual')
+
+#É notório que nos anos 2014, 2015, 2020 e 2021 a soma dos orçamentos destinados à educação foi maior 
+# do que em outros anos. Logo, não se pode concluir que em anos de eleição (2014, 2018, 2022) os investimentos em educação
+#são maiores. Bem como, fica evidente no gráfico de colunas, que nos anos 2016, 2017 e 2018 a soma dos orçamentos destinados
+# à educação foi menor em relação aos outros anos, indicando que não se pode afirmar que em anos que não são de eleição
+#o orçamento destinado à educação são menores.
+
 
 #Análise de 2017 reforma do ensino médio (pode ser que aumentou o investimo em ens. básico)
 #stacked bar com os setores

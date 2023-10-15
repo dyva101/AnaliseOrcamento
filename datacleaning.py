@@ -11,18 +11,22 @@ def coletar_colunas(df, colunas_desejadas: list):
           1  EMAp 
         999 força 
          31 ficar 
+         
         >>> coletar_colunas(df, ['A', 'C'])
           A    C
           1  8.7
         999  7.5
          31  3.7
+         
         >>> coletar_colunas(df, ['A','F'])
         KeyError: A coluna desejada não pertence ao dataframe passado
+        
         >>> coletar_colunas(df, ['2'])
         TypeError: Não foi passado uma lista de colunas válidas
+        
         >>> coletar_colunas(osmar, ['A','B'])
         TypeError: Não foi passado um dataframe válido
-
+ 
     Parameters:
         df (dataframe): dataframe original
         colunas_desejadas (list): lista com strings representando as colunas desejadas
@@ -154,3 +158,38 @@ def valores_invalidos(df):
     if error_columns:
         # Se houver colunas com valores inválidos
         raise ValueError(f"As colunas com valores inválidos são: {error_columns}")
+
+def filtrar_coluna_com_termos(df, coluna_a_ser_filtrada: str, topicos_desejados):
+    """Essa função filtra a coluna de um dataframe com base em uma lista de termos desejados. 
+       Só restarão as linhas que contenham pelo menos um dos termos da lista na coluna.
+
+    Parameters:
+        df (dataframe): dataframe original
+        coluna_a_ser_filtrada (str): nome da coluna para filtrar
+        topicos_desejados (list): lista de termos ou expressões a serem identificados
+
+    Returns:
+        dataframe: dataframe filtrado
+    """
+    try:
+        if df.empty:
+            raise ValueError("O dataframe está vazio")
+    
+        if not isinstance(topicos_desejados, list):
+            raise TypeError("Você deve passar uma lista de termos válidos")
+        
+        if len(topicos_desejados) == 0:
+            raise ValueError("A lista de termos desejados está vazia")
+        
+        # Use .str.contains para verificar se algum dos termos aparece na coluna
+        filtro = df[coluna_a_ser_filtrada].str.contains('|'.join(topicos_desejados), case=False)
+        df = df[filtro]
+        return df
+    except TypeError as e:
+        print(e)
+    except KeyError:
+        print("A coluna desejada não pertence ao dataframe passado")
+    except ValueError as e:
+        print(e)
+    except:
+        print("Ocorreu um erro não especificado.")

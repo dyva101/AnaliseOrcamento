@@ -8,20 +8,24 @@ import boxplot as bx
 #para minha análise, vou começar teorizando que em anos eleitorais os gastos em geral foram maiores, nosso grupo coletou dados do governo do portal de
 #transparência, com gastos do governo nos anos de 2014 a 2023
 #nesse caso, os anos eleitorais foram: 2014, 2018 e 2022, ou seja, nesses anos os gastos devem ser superiores aos demais gastos
-df = pd.read_csv('df_final')
+df_sem_outliers = pd.read_csv('df_final')
 
-plt.hist(df['column'], bins=10)
+plt.hist(df_sem_outliers['column'], ['years'], bins=10)
 plt.title('analise do orçamento(2014-2023)')
 plt.xlabel('anos')
 plt.ylabel('orçamento(R$)')
 plt.show()
-#TODO: grafico com os dados que eu preciso(colunas)
+#TODO: grafico com os dados que eu preciso(colunas)[prévia acima]
 
 
 #TODO: linha para completar com os resultados(DESCREVER OS RESULTADOS)
 
-
-#TODO gráfico com outliers(boxplot)
+plt.boxplot(df)
+plt.ylabel('orçamento')  
+plt.xticks(['2014'],['2015'],['2016'],['2017'],['2018'],['2019'],['2020'],['2021'],['2022'],['2023'],['2023'])  
+plt.title('gráfico com outliers') 
+plt.show()
+#TODO gráfico com outliers(boxplot)[prévia acima]
 
 #na minha analise individual vou desconsiderar os outliers em certos casos(como esse primeiro por exemplo, pois são valores muito fora da escala normal do resto dos valores, 
 # o que de certa forma corrompe para a análise geral, grande parte dos outliers são muito altos )

@@ -20,7 +20,7 @@ df = pd.concat([df1, df2, df3, df4, df5, df6, df7, df8, df9, df10], axis=0)
 
 df.reset_index(drop=True, inplace=True)
 
-#conversão dos valores na coluna de orçamentos para float
+#conversão dos valores na coluna de orçamentos para float (a partir de valores com vírgula para indicar casas decimais)
 df['ORÇAMENTO REALIZADO (R$)'] = df['ORÇAMENTO REALIZADO (R$)'].str.replace(',', '.').astype(float)
 
 #limpeza dos dados
@@ -69,7 +69,7 @@ print("Year Expenditure for the election years(sem considerar os outliers): ", s
 print("#"*100, "\n")
 # Compare the difference in means and show if it does conffirms the hypothesis
 
-### Análise da queda brusca de investimento no período pandêmico (2019-2021) ###
+### Análise do investimento no período pandêmico (2019-2021) ###
 
 # Calculate the mean for the pre-pandemic years
 orcamentos_anos_pre_pandemia = []
@@ -99,6 +99,7 @@ for ano in [2014, 2015, 2016, 2017, 2018, 2019]:
 
 serie_orcamentos_anos_pre_pandemia = pd.Series(orcamentos_anos_pre_pandemia)
 print("Year Expenditure for the pre-pandemic years(considerar os outliers): ", serie_orcamentos_anos_pre_pandemia.mean())
+print("#"*100, "\n")
 
 # Calculate the mean for the pandemic years (with outliers)
 orcamentos_anos_pos_pandemia = []
@@ -108,6 +109,7 @@ for ano in [2020, 2021]:
 
 serie_orcamentos_anos_pos_pandemia = pd.Series(orcamentos_anos_pos_pandemia)
 print("Year Expenditure for the pandemic years(considerar os outliers): ", serie_orcamentos_anos_pos_pandemia.mean())
+print("#"*100, "\n")
     
 # Hypothesis: the expenditure in education diminished in the pandemic years, for all sectors
 
@@ -131,14 +133,12 @@ df_final_com_colunas_substituidas = grf.substituir_coluna_por_lista_especificada
 grf.plotar_colunas_empilhadas(df_final_com_colunas_substituidas, "NOME SUBFUNÇÃO", "EXERCÍCIO", "ORÇAMENTO REALIZADO (R$)", "Orçamento Anual & Gastos por função")
 
 # Plot a histogram of the data
-for ano in [2020, 2021]:
-    grf.plotar_histograma_com_filtro(df_sem_outliers, "ORÇAMENTO REALIZADO (R$)", 'EXERCÍCIO', ano, f'Gastos em {ano}' )
-
-# Use all the intel gathered to confirm or reject the hypothesis
+for ano in [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]:
+    grf.plotar_histograma_com_filtro(df_sem_outliers, "ORÇAMENTO REALIZADO (R$)", 'EXERCÍCIO', ano, f'Gastos em {ano}')
 
 ### Rankings: Governos com maior investimento bruto em educação e seus subcampos ###
 
-#Ranking com os 3 mandadtos do período, em ordem de investimento bruto em educação (stacked bar chart)
+#Ranking com os 3 mandatos do período, em ordem de investimento bruto em educação (stacked bar chart)
 
 #Ranking com os 3 mandatos do período, em ordem de investimento bruto em educação básica (stacked bar chart)
 

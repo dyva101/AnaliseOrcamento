@@ -6,7 +6,7 @@ import datacleaning as dtc
 
 
 
-def plotar_colunas_empilhadas(df: pd.DataFrame, coluna_de_empilhamento: str, x_column: str, y_column: str, title="Colunas Empilhadas"):
+def plotar_colunas(df: pd.DataFrame, coluna_de_empilhamento: str, y_column: str, title="Colunas Empilhadas"):
     """
     Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
 
@@ -24,15 +24,15 @@ def plotar_colunas_empilhadas(df: pd.DataFrame, coluna_de_empilhamento: str, x_c
     if not isinstance(df, pd.DataFrame):
         raise TypeError("O argumento 'df' deve ser um DataFrame válido.")
     
-    if not all(col in df.columns for col in [x_column, y_column]):
-        colunas_ausentes = [col for col in [x_column, y_column] if col not in df.columns]
+    if not all(col in df.columns for col in [coluna_de_empilhamento, y_column]):
+        colunas_ausentes = [col for col in [coluna_de_empilhamento, y_column] if col not in df.columns]
         raise ValueError(f"As colunas especificadas não estão presentes no DataFrame: {', '.join(colunas_ausentes)}")
 
-    df_for_stacked_chart = pd.DataFrame({x_column: df[x_column], coluna_de_empilhamento: df[coluna_de_empilhamento], y_column: df[y_column]})
+    df_for_stacked_chart = pd.DataFrame({coluna_de_empilhamento: df[coluna_de_empilhamento], coluna_de_empilhamento: df[coluna_de_empilhamento], y_column: df[y_column]})
 
-    df_for_stacked_chart.groupby([x_column, coluna_de_empilhamento]).size().unstack().plot(kind='bar', stacked=True )
+    df_for_stacked_chart.groupby(coluna_de_empilhamento)[y_column].sum().plot(kind='bar', stacked=True )
 
-    mp.xlabel(x_column)
+    mp.xlabel(coluna_de_empilhamento)
     mp.ylabel(y_column)
     mp.title(title)
 
@@ -89,7 +89,7 @@ def plotar_colunas_empilhadas_normalizado(df: pd.DataFrame, coluna_de_empilhamen
     mp.legend(title=coluna_de_empilhamento)
     mp.show()
 
-def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada, filtro, title):
+def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada='', filtro='', title=''):
     """
     Utiliza um dataframe e uma coluna que a ele pertence para gerar um histograma, após filtrá-lo a partir de uma de suas colunas e um termo ou expressão.
 
@@ -100,12 +100,22 @@ def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada, filtro, titl
         filtro (): termo ou expressão para filtrar os registros do dataframe
         title (str): título do histograma
     """
-    df_hist = df[df[coluna_a_ser_filtrada] == filtro]
-    coluna_hist = df_hist[coluna]
 
-    mp.hist(df[coluna], bins=50, log=True)
-    mp.title(title)
+    if filtro == '':
+        mp.hist(df[coluna], bins=50, log=True)
+        mp.title(title)
 
-    mp.show()
+        mp.show()
+
+    else:
+
+        df_hist = df[df[coluna_a_ser_filtrada] == filtro]
+
+        print(df_hist)
+
+        mp.hist(df_hist[coluna], bins=50, log=True)
+        mp.title(title)
+
+        mp.show()
 
 

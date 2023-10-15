@@ -32,8 +32,9 @@ df_orcamentos_positivos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REA
 df_orcamentos_negativos = dtc.filtrar_colunas_numericas(df_final,"ORÇAMENTO REALIZADO (R$)", 0)
 dtc.valores_invalidos(df_final)#TODO: definir o que são valores inválidos
 
-bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
-bx.boxplot_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers')
+if __name__ == '__main__':
+    bx.boxplot_coluna_de_dataframe(df_final, 'ORÇAMENTO REALIZADO (R$)')
+    bx.boxplot_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers')
 
 df_sem_outliers = bx.excluir_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)')
 

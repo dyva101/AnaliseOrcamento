@@ -42,14 +42,31 @@ df_sem_outliers = bx.excluir_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)')
 
 # Print the statistics
 print(df_final['ORÇAMENTO REALIZADO (R$)'].describe(include='all'))
+print("#"*100, "\n")
+
 print(df_sem_outliers['ORÇAMENTO REALIZADO (R$)'].describe(include='all'))
+print("#"*100, "\n")
 
 ### Análise de correlação entre o ano eleitoral e os outros anos ###
 
 # Calculate the mean for the non-election years
+orcamentos_anos_nao_eleitorais = []
+for ano in [2015, 2016, 2017, 2019, 2020, 2021, 2023]:
+    df_final_filtrado = dtc.filtrar_coluna_com_termo(df_sem_outliers, "EXERCÍCIO", ano)
+    orcamentos_anos_nao_eleitorais.append(df_final_filtrado["ORÇAMENTO REALIZADO (R$)"].sum())
 
+serie_orcamentos_anos__nao_eleitorais = pd.Series(orcamentos_anos_nao_eleitorais)
+print("Year Expenditure for the election years(sem considerar os outliers): ", serie_orcamentos_anos__nao_eleitorais.mean())
+print("#"*100, "\n")
 # Calculate the mean for the election years
+orcamentos_anos_eleitorais = []
+for ano in [2014, 2018, 2022]:
+    df_final_filtrado = dtc.filtrar_coluna_com_termo(df_sem_outliers, "EXERCÍCIO", ano)
+    orcamentos_anos_eleitorais.append(df_final_filtrado["ORÇAMENTO REALIZADO (R$)"].sum())
 
+serie_orcamentos_anos_eleitorais = pd.Series(orcamentos_anos_eleitorais)
+print("Year Expenditure for the election years(sem considerar os outliers): ", serie_orcamentos_anos_eleitorais.mean())
+print("#"*100, "\n")
 # Compare the difference in means and show if it does conffirms the hypothesis
 
 ### Análise da queda brusca de investimento no período pandêmico (2019-2021) ###
@@ -62,6 +79,7 @@ for ano in [2014, 2015, 2016, 2017, 2018, 2019]:
 
 serie_orcamentos_anos_pre_pandemia = pd.Series(orcamentos_anos_pre_pandemia)
 print("Year Expenditure for the pre-pandemic years(sem considerar os outliers): ", serie_orcamentos_anos_pre_pandemia.mean())
+print("#"*100, "\n")
 
 # Calculate the mean for the pandemic years
 orcamentos_anos_pos_pandemia = []
@@ -71,11 +89,46 @@ for ano in [2020, 2021]:
 
 serie_orcamentos_anos_pos_pandemia = pd.Series(orcamentos_anos_pos_pandemia)
 print("Year Expenditure for the pandemic years(sem considerar os outliers): ", serie_orcamentos_anos_pos_pandemia.mean())
+print("#"*100, "\n")
+
+# Calculate the mean for the pre-pandemic years (with outliers)
+orcamentos_anos_pre_pandemia = []
+for ano in [2014, 2015, 2016, 2017, 2018, 2019]:
+    df_final_filtrado = dtc.filtrar_coluna_com_termo(df_final, "EXERCÍCIO", ano)
+    orcamentos_anos_pre_pandemia.append(df_final_filtrado["ORÇAMENTO REALIZADO (R$)"].sum())
+
+serie_orcamentos_anos_pre_pandemia = pd.Series(orcamentos_anos_pre_pandemia)
+print("Year Expenditure for the pre-pandemic years(considerar os outliers): ", serie_orcamentos_anos_pre_pandemia.mean())
+
+# Calculate the mean for the pandemic years (with outliers)
+orcamentos_anos_pos_pandemia = []
+for ano in [2020, 2021]:
+    df_final_filtrado = dtc.filtrar_coluna_com_termo(df_final, "EXERCÍCIO", ano)
+    orcamentos_anos_pos_pandemia.append(df_final_filtrado["ORÇAMENTO REALIZADO (R$)"].sum())
+
+serie_orcamentos_anos_pos_pandemia = pd.Series(orcamentos_anos_pos_pandemia)
+print("Year Expenditure for the pandemic years(considerar os outliers): ", serie_orcamentos_anos_pos_pandemia.mean())
     
 # Hypothesis: the expenditure in education diminished in the pandemic years, for all sectors
 
 # Plot a stacked bar chart of the 10 year period 2014-2023
-grf.plotar_colunas_empilhadas(df_final, "NOME SUBFUNÇÃO", "EXERCÍCIO", "ORÇAMENTO REALIZADO (R$)", "Orçamento Anual & Gastos por função")
+df_final_com_colunas_substituidas = grf.substituir_coluna_por_lista_especificada(df_final, "NOME SUBFUNÇÃO", 'OUTROS', ['Outros encargos especiais',
+                                                                          'Difusão do conhecimento científico e tecnológico',
+                                                                          'Difusão do conhecimento científico e tecnológico',
+                                                                          'Transferências para a educação básica',
+                                                                          'Comunicação social',
+                                                                          'Educação especial',
+                                                                          'Educação de jovens e adultos',
+                                                                          'Desenvolvimento científico',
+                                                                          'Educação infantil',
+                                                                          'Alimentação e nutrição',
+                                                                          'Administração financeira',
+                                                                          'Serviços financeiros',
+                                                                          'Suporte profilático e terapêutico',
+                                                                          'Outras transferências',
+                                                                         ])
+
+grf.plotar_colunas_empilhadas(df_final_com_colunas_substituidas, "NOME SUBFUNÇÃO", "EXERCÍCIO", "ORÇAMENTO REALIZADO (R$)", "Orçamento Anual & Gastos por função")
 
 # Plot a histogram of the data
 for ano in [2020, 2021]:

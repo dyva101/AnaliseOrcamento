@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import boxplot as bx
 import datacleaning as dtc
 import graficos as grf
-import analiseexporatoria as ae
 
 df1 = pd.read_csv('data/2014_OrcamentoDespesa.csv', encoding='windows-1252', delimiter=';')
 df2 = pd.read_csv('data/2015_OrcamentoDespesa.csv', encoding='windows-1252', delimiter=';')
@@ -42,7 +41,8 @@ bx.boxplot_sem_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers')
 df_sem_outliers = bx.excluir_outliers(df_final, 'ORÇAMENTO REALIZADO (R$)')
 
 # Print the statistics
-print(df_sem_outliers.describe())
+print(df_final['ORÇAMENTO REALIZADO (R$)'].describe(include='all'))
+print(df_sem_outliers['ORÇAMENTO REALIZADO (R$)'].describe(include='all'))
 
 ### Análise de correlação entre o ano eleitoral e os outros anos ###
 
@@ -56,24 +56,26 @@ print(df_sem_outliers.describe())
 
 # Calculate the mean for the pre-pandemic years
 orcamentos_anos_pre_pandemia = []
-for ano in [2014, 2015, 2016, 2017, 2018]:
-    dtc.filtrar_coluna_com_termo(df_geral, "EXERCÍCIO", ano)
-    orcamentos_anos_pre_pandemia.append(df_geral["ORÇAMENTO REALIZADO (R$)"].sum())
-    
-print(orcamentos_anos_pre_pandemia.mean())
+for ano in [2014, 2015, 2016, 2017, 2018, 2019]:
+    df_final_filtrado = dtc.filtrar_coluna_com_termo(df_sem_outliers, "EXERCÍCIO", ano)
+    orcamentos_anos_pre_pandemia.append(df_final_filtrado["ORÇAMENTO REALIZADO (R$)"].sum())
+
+serie_orcamentos_anos_pre_pandemia = pd.Series(orcamentos_anos_pre_pandemia)
+print("Year Expenditure for the pre-pandemic years(sem considerar os outliers): ", serie_orcamentos_anos_pre_pandemia.mean())
 
 # Calculate the mean for the pandemic years
 orcamentos_anos_pos_pandemia = []
-for ano in [2019, 2020, 2021]:
-    dtc.filtrar_coluna_com_termo(df_geral, "EXERCÍCIO", ano)
-    orcamentos_anos_pos_pandemia.append(df_geral["ORÇAMENTO REALIZADO (R$)"].sum())
-    
-print(orcamentos_anos_pos_pandemia.mean())
+for ano in [2020, 2021]:
+    df_final_filtrado = dtc.filtrar_coluna_com_termo(df_sem_outliers, "EXERCÍCIO", ano)
+    orcamentos_anos_pos_pandemia.append(df_final_filtrado["ORÇAMENTO REALIZADO (R$)"].sum())
+
+serie_orcamentos_anos_pos_pandemia = pd.Series(orcamentos_anos_pos_pandemia)
+print("Year Expenditure for the pandemic years(sem considerar os outliers): ", serie_orcamentos_anos_pos_pandemia.mean())
     
 # Hypothesis: the expenditure in education diminished in the pandemic years, for all sectors
 
 # Plot a stacked bar chart of the 10 year period 2014-2023
-grf.plotar_colunas_empilhadas(df_geral, "EXERCÍCIO", "ORÇAMENTO REALIZADO (R$)", "NOME FUNÇÃO", "Gastos por função", 2014, 2023)
+grf.plotar_colunas_empilhadas(df_final, "NOME SUBFUNÇÃO", "EXERCÍCIO", "ORÇAMENTO REALIZADO (R$)", "Orçamento Anual & Gastos por função")
 
 # Plot a histogram of the data
 for ano in [2020, 2021]:

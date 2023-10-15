@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as mp
 
 # Analisando os outliers
-bx.boxplot_coluna_de_dataframe(ae.df_final,'ORÇAMENTO REALIZADO (R$)')
+#bx.boxplot_coluna_de_dataframe(ae.df_final,'ORÇAMENTO REALIZADO (R$)')
 
 # Noção da quantidade de outliers
 numero_de_dados = ae.df_final.shape[0]
@@ -31,18 +31,17 @@ print(f"O DataFrame sem outliers contém {numero_de_dados} elementos.")
 # para tirar conclusões. Não é apropriado analisar o orçamento realizado em educação do governo para 
 # o ano de 2023 neste momento, uma vez que o ano ainda não chegou ao fim.
 
-
 #Análise sem outliers
 
 # Definindo as quatro palavras-chave em uma lista
-palavras_chave = ['Educação', 'educação', 'Ensino', 'ensino']
+#palavras_chave = ['Educação', 'educação', 'Ensino', 'ensino']
 
 # Criando um filtro para selecionar as linhas que contêm as palavras-chave desejadas
-filtro = ae.df_sem_outliers['NOME SUBFUNÇÃO'].str.contains('|'.join(palavras_chave), case=False, na=False)
+#filtro = ae.df_sem_outliers['NOME SUBFUNÇÃO'].str.contains('|'.join(palavras_chave), case=False, na=False)
 
 # Criando um novo DataFrame contendo apenas as linhas que atendem ao filtro
-novo_df = ae.df_sem_outliers[filtro].reset_index(drop=True)
-grf.plotar_colunas_empilhadas(novo_df, 'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento anual')
+#novo_df = ae.df_sem_outliers[filtro].reset_index(drop=True)
+#grf.plotar_colunas_empilhadas(novo_df, 'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento anual')
 
 #É notório que nos anos 2014, 2015, 2020 e 2021 a soma dos orçamentos destinados à educação foi maior 
 # do que em outros anos. Logo, não se pode concluir que em anos de eleição (2014, 2018, 2022) os investimentos em educação
@@ -50,10 +49,13 @@ grf.plotar_colunas_empilhadas(novo_df, 'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAM
 # à educação foi menor em relação aos outros anos, indicando que não se pode afirmar que em anos que não são de eleição
 #o orçamento destinado à educação são menores.
 
-
 #Análise de 2017 reforma do ensino médio (pode ser que aumentou o investimo em ens. básico)
 #stacked bar com os setores
+valores_a_manter = ['Educação básica', 'Ensino superior', 'Educação infantil', 'Comunicação social', 'Atenção básica']
+condicao = ae.df_sem_outliers['NOME SUBFUNÇÃO'].isin(valores_a_manter)
+df_filtrado = ae.df_sem_outliers.loc[condicao]
 
+grf.plotar_colunas_empilhadas_normalizado(df_filtrado,'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Colunas')
 
 # , é interessante analisar inicio 2019 e fim 2022 nos principais setores investidos no início e no fim de um mandato. 
 #"""

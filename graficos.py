@@ -1,3 +1,4 @@
+import importlib
 # https://tmfilho.github.io/pyestbook/math/05_matp.html(fonte)
 import matplotlib.pyplot as mp
 import numpy as np
@@ -20,17 +21,25 @@ def plotar_colunas(df: pd.DataFrame, coluna_de_empilhamento: str, y_column: str,
         None
     """
 
+    if df.empty:
+        raise ValueError("O DataFrame está vazio.")
 
     if not isinstance(df, pd.DataFrame):
         raise TypeError("O argumento 'df' deve ser um DataFrame válido.")
-    
+
     if not all(col in df.columns for col in [coluna_de_empilhamento, y_column]):
         colunas_ausentes = [col for col in [coluna_de_empilhamento, y_column] if col not in df.columns]
         raise ValueError(f"As colunas especificadas não estão presentes no DataFrame: {', '.join(colunas_ausentes)}")
 
     df_for_stacked_chart = pd.DataFrame({coluna_de_empilhamento: df[coluna_de_empilhamento], coluna_de_empilhamento: df[coluna_de_empilhamento], y_column: df[y_column]})
 
-    df_for_stacked_chart.groupby(coluna_de_empilhamento)[y_column].sum().plot(kind='bar', stacked=True )
+    if df_for_stacked_chart.isnull().values.any():
+        raise ValueError("O DataFrame contém valores NaN nas colunas especificadas.")
+
+    if not df[y_column].dtype in [np.float64, np.int64]:
+        raise TypeError(f"The data type of column '{y_column}' is not suitable for plotting.")
+
+    df_for_stacked_chart.groupby(coluna_de_empilhamento)[y_column].sum().plot(kind='bar', stacked=True)
 
     mp.xlabel(coluna_de_empilhamento)
     mp.ylabel(y_column)

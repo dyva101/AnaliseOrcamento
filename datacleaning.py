@@ -35,15 +35,20 @@ def coletar_colunas(df, colunas_desejadas: list):
         dataframe: dataframe apenas com as colunas desejadas
     """
     try:
+        
+        if colunas_desejadas==[]:
+            return pd.DataFrame()
+        
         df = df[colunas_desejadas]
         return df
+    
     except TypeError:
         if isinstance(df, pd.DataFrame):
-            print("Não foi passado um dataframe válido!")
+            raise TypeError("Não foi passado um dataframe válido!")
         elif isinstance(colunas_desejadas, list):
-            print("Não foi passado uma lista de colunas válidas")
+            raise TypeError("Não foi passado uma lista de colunas válidas")
     except KeyError:
-        print("A coluna desejada não pertence ao dataframe passado")
+        raise KeyError("A coluna desejada não pertence ao dataframe passado")
     
 if __name__ == "__main__":
     import doctest

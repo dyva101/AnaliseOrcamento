@@ -1,7 +1,6 @@
 """Análise Individual - Davy Albert Dutra de Andrade
 Análise de dados de gastos do governo federal com educação, no período de 2014 a 2023.
 """ 
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import boxplot as bx
@@ -30,7 +29,6 @@ df['ORÇAMENTO REALIZADO (R$)'] = df['ORÇAMENTO REALIZADO (R$)'].str.replace(',
 df_final = pd.DataFrame()
 df_orcamentos_negativos = pd.DataFrame()
 df_orcamentos_positivos = pd.DataFrame()
-
 df_final = dtc.coletar_colunas(df, ["EXERCÍCIO", "NOME FUNÇÃO", 'NOME SUBFUNÇÃO','ORÇAMENTO REALIZADO (R$)'])
 df_final = dtc.filtrar_coluna_com_termo(df_final, "NOME FUNÇÃO", "educação")
 

@@ -58,7 +58,7 @@ filtro = ae.df_sem_outliers['NOME SUBFUNÇÃO'].str.contains('|'.join(palavras_c
 
 # Criando um novo DataFrame contendo apenas as linhas que atendem ao filtro
 novo_df = ae.df_sem_outliers[filtro].reset_index(drop=True)
-grf.plotar_colunas_empilhadas(novo_df, 'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento anual')
+grf.plotar_colunas(novo_df, 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento anual')
 
 # É notório que nos anos 2014, 2015, 2020 e 2021 a soma dos orçamentos destinados à educação foi maior 
 # do que em outros anos. Logo, não se pode concluir ,nesse intervalo, que em anos de eleição 

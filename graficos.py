@@ -11,7 +11,7 @@ import datacleaning as dtc
 
 def plotar_colunas(df: pd.DataFrame, coluna_de_empilhamento, y_column, title="Colunas Empilhadas"):
     """
-    Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
+    Cria um gráfico de barras empilhadas a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
 
     Parameters:
         df (pd.DataFrame): O DataFrame contendo os dados.

@@ -9,9 +9,8 @@ import boxplot as bx
 #transparência, com gastos do governo nos anos de 2014 a 2023
 #nesse caso, os anos eleitorais foram: 2014, 2018 e 2022, ou seja, nesses anos os gastos devem ser superiores aos demais gastos
 df_sem_outliers = pd.read_csv('data/data_sem_outliers.csv')
-#TODO: análise com outliers, e análise sem outliers (para ver os pequenos investimentos e os grandes investimentos)
-graf.plotar_histograma_com_filtro(ae.df_final, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', title="Histograma de gastos em educação")
-graf.plotar_histograma_com_filtro(ae.df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', title="Histograma de gastos em educação")
+#graf.plotar_histograma_com_filtro(ae.df_final, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', title="Histograma de gastos em educação")
+#graf.plotar_histograma_com_filtro(ae.df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', title="Histograma de gastos em educação")
 
 bx.boxplot_coluna_de_dataframe(ae.df_final, 'ORÇAMENTO REALIZADO (R$)')
 bx.boxplot_sem_outliers(ae.df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers')
@@ -30,6 +29,41 @@ bx.boxplot_sem_outliers(ae.df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers'
 #3 minha segunda hipótese, é de que, no período pandêmico(2020 e 2021) os investimentos em educação foram super baixos, visto que o mundo estava passando por um 
 # completo caos na saúde, no qual grande parte dos investimentos são direcionados foram direcionados ao setor da saúde, a tecnologia para produção de vacinas 
 # mais rápidas(no caso para a compra de vacinas que foram produzidas) e meio que a educação foi mais "deixada de lado" nessa época
+
+# minha segunda hipótese, é de que, no período pandêmico(2020 e 2021) os investimentos em educação foram super baixos, visto que o mundo estava passando por um 
+# completo caos na saúde, no qual grande parte dos investimentos são direcionados foram direcionados ao setor da saúde, a tecnologia para produção de vacinas 
+# mais rápidas(no caso para a compra de vacinas que foram produzidas) e meio que a educação foi mais "deixada de lado" nessa época
+
+df_final = graf.substituir_coluna_por_lista_especificada(ae.df_final, "NOME SUBFUNÇÃO", 'OUTROS', ['Outros encargos especiais',
+                                                                                                              'Difusão do conhecimento científico e tecnológico',
+                                                                                                              'Difusão do conhecimento científico e tecnológico',
+                                                                                                              'Transferências para a educação básica',
+                                                                                                              'Comunicação social',
+                                                                                                              'Educação especial',
+                                                                                                              'Educação de jovens e adultos',
+                                                                                                              'Desenvolvimento científico',
+                                                                                                              'Educação infantil',
+                                                                                                              'Alimentação e nutrição',
+                                                                                                              'Administração financeira',
+                                                                                                              'Serviços financeiros',
+                                                                                                              'Suporte profilático e terapêutico',
+                                                                                                              'Outras transferências',
+                                                                                                            ])
+#gráfico de colunas que mostra como diminuiu na pandemia
+
+df_final_colunas = pd.DataFrame({'EXERCÍCIO': df_final['EXERCÍCIO'], 'NOME SUBFUNÇÃO': df_final['NOME SUBFUNÇÃO'], 'ORÇAMENTO REALIZADO (R$)': df_final['ORÇAMENTO REALIZADO (R$)']})
+
+df_final_colunas.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).sum().unstack().plot(kind='line')
+
+plt.xlabel('Anos')
+plt.ylabel('Gastos em educação')
+plt.title('Gastos em educação por ano')
+
+plt.legend()
+
+plt.show()
+
+
 
 #TODO: análise com outliers, e análise sem outliers (para ver os pequenos investimentos e os grandes investimentos)
 

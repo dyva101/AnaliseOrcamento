@@ -46,6 +46,9 @@
      3. [boxplot.py](graficos.py)
           - Handles the plotting of necessary box plots for exploratory analysis and deals with any outliers
             found in these box plots if needed.
+  3. **Individual Analysis**
+     1. Each member of the group developed an analysis to complement the overall scope of our work
+     2. You can find in analiseIndividualFulano.py the individual analysis of Fulano
 ---
 
 ### Configs/Requirements:
@@ -79,9 +82,8 @@
 
 ### Docs
 
-  - The documentation for the repository can be found at (insert link when ready), complementing the instructions in this
-    document. It also includes the individual analyses performed by each team member, which make up the overall scope of
-    the proposed Budget Analysis.
+  - The documentation for the repository can be found once you clone the repo, complementing the instructions in this
+    document.
 
 ---
 

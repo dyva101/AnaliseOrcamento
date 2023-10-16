@@ -1,3 +1,8 @@
+""" Módulo para a limpeza e filtragem dos dados
+Nesse módulo, funções especializadas em trabalhar com dataframes fazem sua limpeza e filtragem de diferentes maneiras.
+Também está presente a função valores_invalidos(), que garante a integridade e homogeneidade dos dados do dataframe em toda as colunas
+"""
+
 import pandas as pd
 import unittest as un
 

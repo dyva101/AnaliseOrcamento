@@ -1,5 +1,7 @@
+"""Módulo de Geração de Gráficos
+Esta biblioteca contém funções para criar e personalizar vários tipos de gráficos usando a biblioteca matplotlib. Também inclui uma função para limpar dados e substituir valores em um DataFrame do pandas.
+"""
 import importlib
-# https://tmfilho.github.io/pyestbook/math/05_matp.html(fonte)
 import matplotlib.pyplot as mp
 import numpy as np
 import pandas as pd

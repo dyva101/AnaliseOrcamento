@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boxplot package &mdash; Public Education Budget Analysis 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="datacleaning package" href="datacleaning.html" />
+    <link rel="prev" title="analiseindividualJoao module" href="analiseindividualJoao.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Public Education Budget Analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">AnaliseOrcamento</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="analiseIndividualDavy.html">analiseIndividualDavy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analiseIndividualIsabelli.html">analiseIndividualIsabelli module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analiseIndividualNatalia.html">analiseIndividualNatalia module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analiseindividualJoao.html">analiseindividualJoao module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">boxplot package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-boxplot.boxplot">boxplot.boxplot module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boxplot.boxplot.TesteBoxPlotColunaDeDataFrame"><code class="docutils literal notranslate"><span class="pre">TesteBoxPlotColunaDeDataFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boxplot.boxplot.TesteBoxPlotSemOutliers"><code class="docutils literal notranslate"><span class="pre">TesteBoxPlotSemOutliers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boxplot.boxplot.TesteExcluirOutliers"><code class="docutils literal notranslate"><span class="pre">TesteExcluirOutliers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boxplot.boxplot.boxplot_coluna_de_dataframe"><code class="docutils literal notranslate"><span class="pre">boxplot_coluna_de_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boxplot.boxplot.boxplot_sem_outliers"><code class="docutils literal notranslate"><span class="pre">boxplot_sem_outliers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boxplot.boxplot.excluir_outliers"><code class="docutils literal notranslate"><span class="pre">excluir_outliers()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-boxplot">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacleaning.html">datacleaning package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graficos.html">graficos package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Public Education Budget Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">AnaliseOrcamento</a></li>
+      <li class="breadcrumb-item active">boxplot package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/boxplot.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="boxplot-package">
+<h1>boxplot package<a class="headerlink" href="#boxplot-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-boxplot.boxplot">
+<span id="boxplot-boxplot-module"></span><h2>boxplot.boxplot module<a class="headerlink" href="#module-boxplot.boxplot" title="Link to this heading"></a></h2>
+<p>Módulo para a geração de gráficos de boxplot e tratamento de outliers.
+Nesse módulo, são definidas as funções para a geração de gráficos de boxplot e tratamento de outliers e seus testcases.
+Importante dizer que, apesar de em parte utilizar funções quase que já existentes, os pequenos detalhes que estão automatizados aqui fizeram bastante diferença no tempo de desenvolvimento da análise individual. 
+Por isso a importância e existência do módulo</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotColunaDeDataFrame">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boxplot.boxplot.</span></span><span class="sig-name descname"><span class="pre">TesteBoxPlotColunaDeDataFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotColunaDeDataFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotColunaDeDataFrame" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_column_with_non_numeric_values">
+<span class="sig-name descname"><span class="pre">test_column_with_non_numeric_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotColunaDeDataFrame.test_column_with_non_numeric_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_column_with_non_numeric_values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_column_with_null_values">
+<span class="sig-name descname"><span class="pre">test_column_with_null_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotColunaDeDataFrame.test_column_with_null_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_column_with_null_values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_non_existent_column">
+<span class="sig-name descname"><span class="pre">test_non_existent_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotColunaDeDataFrame.test_non_existent_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_non_existent_column" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_one_column_dataframe">
+<span class="sig-name descname"><span class="pre">test_one_column_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotColunaDeDataFrame.test_one_column_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_one_column_dataframe" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_one_row_dataframe">
+<span class="sig-name descname"><span class="pre">test_one_row_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotColunaDeDataFrame.test_one_row_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_one_row_dataframe" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_valid_dataframe_and_column">
+<span class="sig-name descname"><span class="pre">test_valid_dataframe_and_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotColunaDeDataFrame.test_valid_dataframe_and_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotColunaDeDataFrame.test_valid_dataframe_and_column" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotSemOutliers">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boxplot.boxplot.</span></span><span class="sig-name descname"><span class="pre">TesteBoxPlotSemOutliers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotSemOutliers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotSemOutliers" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotSemOutliers.test_column_with_non_numeric_values">
+<span class="sig-name descname"><span class="pre">test_column_with_non_numeric_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotSemOutliers.test_column_with_non_numeric_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotSemOutliers.test_column_with_non_numeric_values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotSemOutliers.test_column_with_null_values">
+<span class="sig-name descname"><span class="pre">test_column_with_null_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotSemOutliers.test_column_with_null_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotSemOutliers.test_column_with_null_values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotSemOutliers.test_non_existent_column">
+<span class="sig-name descname"><span class="pre">test_non_existent_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotSemOutliers.test_non_existent_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotSemOutliers.test_non_existent_column" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotSemOutliers.test_one_column_dataframe">
+<span class="sig-name descname"><span class="pre">test_one_column_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotSemOutliers.test_one_column_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotSemOutliers.test_one_column_dataframe" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotSemOutliers.test_one_row_dataframe">
+<span class="sig-name descname"><span class="pre">test_one_row_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotSemOutliers.test_one_row_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotSemOutliers.test_one_row_dataframe" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteBoxPlotSemOutliers.test_valid_dataframe_and_column">
+<span class="sig-name descname"><span class="pre">test_valid_dataframe_and_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteBoxPlotSemOutliers.test_valid_dataframe_and_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteBoxPlotSemOutliers.test_valid_dataframe_and_column" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteExcluirOutliers">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boxplot.boxplot.</span></span><span class="sig-name descname"><span class="pre">TesteExcluirOutliers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteExcluirOutliers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteExcluirOutliers" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteExcluirOutliers.test_empty_dataframe">
+<span class="sig-name descname"><span class="pre">test_empty_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteExcluirOutliers.test_empty_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteExcluirOutliers.test_empty_dataframe" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteExcluirOutliers.test_invalid_column_name">
+<span class="sig-name descname"><span class="pre">test_invalid_column_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteExcluirOutliers.test_invalid_column_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteExcluirOutliers.test_invalid_column_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteExcluirOutliers.test_non_dataframe_object">
+<span class="sig-name descname"><span class="pre">test_non_dataframe_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteExcluirOutliers.test_non_dataframe_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteExcluirOutliers.test_non_dataframe_object" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteExcluirOutliers.test_non_numeric_column">
+<span class="sig-name descname"><span class="pre">test_non_numeric_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteExcluirOutliers.test_non_numeric_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteExcluirOutliers.test_non_numeric_column" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteExcluirOutliers.test_valid_dataframe_all_null_values">
+<span class="sig-name descname"><span class="pre">test_valid_dataframe_all_null_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteExcluirOutliers.test_valid_dataframe_all_null_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteExcluirOutliers.test_valid_dataframe_all_null_values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boxplot.boxplot.TesteExcluirOutliers.test_valid_dataframe_valid_column">
+<span class="sig-name descname"><span class="pre">test_valid_dataframe_valid_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#TesteExcluirOutliers.test_valid_dataframe_valid_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.TesteExcluirOutliers.test_valid_dataframe_valid_column" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boxplot.boxplot.boxplot_coluna_de_dataframe">
+<span class="sig-prename descclassname"><span class="pre">boxplot.boxplot.</span></span><span class="sig-name descname"><span class="pre">boxplot_coluna_de_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coluna</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#boxplot_coluna_de_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.boxplot_coluna_de_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Cria um gráfico de boxplot para uma coluna específica de um DataFrame, sem nenhum tratamento diferente.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>df (pandas.DataFrame): O DataFrame contendo os dados.
+coluna: O nome da coluna a ser visualizada no gráfico de boxplot.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boxplot.boxplot.boxplot_sem_outliers">
+<span class="sig-prename descclassname"><span class="pre">boxplot.boxplot.</span></span><span class="sig-name descname"><span class="pre">boxplot_sem_outliers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coluna</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titulo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Boxplot</span> <span class="pre">Sem</span> <span class="pre">Outliers'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#boxplot_sem_outliers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.boxplot_sem_outliers" title="Link to this definition"></a></dt>
+<dd><p>Gera um boxplot sem seus outliers a partir de um DataFrame.</p>
+<p>Parameters:
+df (DataFrame): O DataFrame contendo os dados a serem plotados.
+coluna: O nome da coluna no DataFrame a ser usado para criar o gráfico de caixa.
+titulo (str): O título a ser exibido no gráfico (OPCIONAL).</p>
+<p>Returns:
+fig (Figure): A figura do gráfico de caixa sem outliers.
+ax (Axes): O eixo do gráfico de caixa.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boxplot.boxplot.excluir_outliers">
+<span class="sig-prename descclassname"><span class="pre">boxplot.boxplot.</span></span><span class="sig-name descname"><span class="pre">excluir_outliers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coluna_numerica</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boxplot/boxplot.html#excluir_outliers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boxplot.boxplot.excluir_outliers" title="Link to this definition"></a></dt>
+<dd><p>Exclui as linhas com valores discrepantes (outliers) encontrados em uma dada coluna do dataframe.</p>
+<p>Parameters:
+df (DataFrame): O DataFrame contendo os dados a serem analisados.
+coluna_numerica: O nome da coluna de valores a ser filtrada.</p>
+<p>Returns:
+df_sem_outliers (DataFrame): Um novo DataFrame que contém apenas as observações que não são outliers na coluna especificada.</p>
+</dd></dl>
+
+</section>
+<section id="module-boxplot">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-boxplot" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="analiseindividualJoao.html" class="btn btn-neutral float-left" title="analiseindividualJoao module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datacleaning.html" class="btn btn-neutral float-right" title="datacleaning package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Davy Albert, Natalia Brandao, Isabelli Cristhini, Joao Otavio.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

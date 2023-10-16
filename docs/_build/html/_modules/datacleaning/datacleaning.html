@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>datacleaning.datacleaning &mdash; Public Education Budget Analysis 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Public Education Budget Analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">AnaliseOrcamento</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Public Education Budget Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">datacleaning.datacleaning</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for datacleaning.datacleaning</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Módulo para a limpeza e filtragem dos dados</span>
+<span class="sd">Nesse módulo, funções especializadas em trabalhar com dataframes fazem sua limpeza e filtragem de diferentes maneiras.</span>
+<span class="sd">Também está presente a função valores_invalidos(), que garante a integridade e homogeneidade dos dados do dataframe em toda as colunas</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">unittest</span> <span class="k">as</span> <span class="nn">un</span>
+
+<div class="viewcode-block" id="coletar_colunas">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.coletar_colunas">[docs]</a>
+<span class="k">def</span> <span class="nf">coletar_colunas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">colunas_desejadas</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Essa função gera um novo dataframe contendo apenas as colunas desejadas do dataframe original</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        df (dataframe): dataframe original</span>
+<span class="sd">        colunas_desejadas (list): lista com as expressões representando as colunas desejadas</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataframe: dataframe apenas com as colunas desejadas</span>
+<span class="sd">    exemplo: </span>
+<span class="sd">        &gt;&gt;&gt; dataframe = {&#39;A&#39;: [1,999,31], &#39;B&#39;: [&#39;EMAp&#39;, &#39;força&#39;, &#39;ficar&#39;], &#39;C&#39;: [8.7, 7.5, 3.7]}</span>
+<span class="sd">        &gt;&gt;&gt; df = pd.DataFrame(dataframe)</span>
+<span class="sd">        &gt;&gt;&gt; coletar_colunas(df, [&#39;A&#39;, &#39;B&#39;])</span>
+<span class="sd">          A     B  </span>
+<span class="sd">          1  EMAp </span>
+<span class="sd">        999 força </span>
+<span class="sd">         31 ficar </span>
+<span class="sd">         </span>
+<span class="sd">        &gt;&gt;&gt; coletar_colunas(df, [&#39;A&#39;, &#39;C&#39;])</span>
+<span class="sd">          A    C</span>
+<span class="sd">          1  8.7</span>
+<span class="sd">        999  7.5</span>
+<span class="sd">         31  3.7</span>
+<span class="sd">         </span>
+<span class="sd">        &gt;&gt;&gt; coletar_colunas(df, [&#39;A&#39;,&#39;F&#39;])</span>
+<span class="sd">        KeyError: A coluna desejada não pertence ao dataframe passado</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; coletar_colunas(df, 2)</span>
+<span class="sd">        TypeError: Não foi passado uma lista de colunas válidas</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; coletar_colunas(&quot;osmar&quot;, [&#39;A&#39;,&#39;B&#39;])</span>
+<span class="sd">        TypeError: Não foi passado um dataframe válido</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colunas_desejadas</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+        
+        <span class="k">if</span> <span class="n">colunas_desejadas</span> <span class="o">==</span> <span class="p">[]</span> <span class="ow">or</span> <span class="n">colunas_desejadas</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colunas_desejadas</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">df</span>
+    
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Não foi passado um dataframe válido!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colunas_desejadas</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Não foi passado uma lista de colunas válidas&quot;</span><span class="p">)</span> 
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;A coluna desejada não pertence ao dataframe passado&quot;</span><span class="p">)</span></div>
+
+    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+
+<div class="viewcode-block" id="filtrar_coluna_com_termo">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.filtrar_coluna_com_termo">[docs]</a>
+<span class="k">def</span> <span class="nf">filtrar_coluna_com_termo</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">coluna_a_ser_filtrada</span><span class="p">,</span> <span class="n">topico_desejado</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Essa função filtra a coluna de um dataframe com base em um termo desejado. Só restarão as linhas nas quais esteja escrito esse termo (e somente ele)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        df (dataframe): dataframe original</span>
+<span class="sd">        coluna_a_ser_filtrada: nome da coluna a ser filtrada</span>
+<span class="sd">        topico_desejado: termo, valor ou expressão que deve ser identificada</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        dataframe(pd.DataFrame): dataframe filtrado</span>
+<span class="sd">    Exemplos:</span>
+<span class="sd">        &gt;&gt;&gt; dataframe = {&#39;letras do alfabeto&#39;: [&#39;a&#39;, &#39;b&#39;,&#39;c&#39;, &#39;d&#39; ], &#39;forma maiúscula&#39;: [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;]}</span>
+<span class="sd">        &gt;&gt;&gt; df = pd.DataFrame(dataframe)</span>
+
+
+<span class="sd">        &gt;&gt;&gt; filtrar_coluna_com_termo(df, &#39;letras do alfabeto&#39;, &#39;a&#39;)</span>
+
+<span class="sd">        letras do alfabeto </span>
+<span class="sd">               a                 </span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; df_empty = pd.DataFrame()</span>
+<span class="sd">        &gt;&gt;&gt; filtrar_coluna_com_termo(df_empty, &#39;forma maiúscula&#39;, &#39;k&#39;)</span>
+<span class="sd">        pd.DataFrame()</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; filtrar_coluna_com_termo(df, 23, &#39;A&#39;)</span>
+<span class="sd">        TypeError: Não foi passado uma string no nome da coluna a ser filtrada</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; filtrar_coluna_com_termo(df, &#39;forma maiúscula&#39;, &#39;2&#39;)</span>
+<span class="sd">        pd.DataFrame()</span>
+
+<span class="sd">        &gt;&gt;&gt; filtrar_coluna_com_termo(df, &#39;forma numérica&#39;, &#39;a&#39;)</span>
+<span class="sd">        KeyError: A coluna desejada não pertence ao dataframe passado</span>
+
+<span class="sd">        &gt;&gt;&gt; filtrar_coluna_com_termo(&quot;almir&quot;, &#39;forma maiúscula&#39;, &#39;c&#39;)</span>
+<span class="sd">        TypeError: Não foi passado um dataframe válido</span>
+<span class="sd">            </span>
+<span class="sd">        &gt;&gt;&gt; filtrar_coluna_com_termo(df, [&#39;forma maiúscula&#39;, &#39;letras do alfabeto&#39;], &#39;a&#39;)</span>
+<span class="sd">        TypeError: você só pode passar uma coluna por vez</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coluna_a_ser_filtrada</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+        
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topico_desejado</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">filtro</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">coluna_a_ser_filtrada</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">topico_desejado</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">filtro</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">df</span>
+        
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topico_desejado</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topico_desejado</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">filtro</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">coluna_a_ser_filtrada</span><span class="p">]</span> <span class="o">==</span> <span class="n">topico_desejado</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">filtro</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">df</span>
+        
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Não foi passado um dataframe válido!&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coluna_a_ser_filtrada</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Não foi passado uma lista de colunas válidas&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topico_desejado</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;você só pode passar uma coluna por vez&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;A coluna desejada não pertence ao dataframe passado&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="filtrar_colunas_numericas">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.filtrar_colunas_numericas">[docs]</a>
+<span class="k">def</span> <span class="nf">filtrar_colunas_numericas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">coluna_a_ser_filtrada</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">restricao</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Esta função filtra um dataframe com base em uma coluna numérica e uma restrição.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        df (dataframe): dataframe original</span>
+<span class="sd">        coluna_a_ser_filtrada: nome da coluna para aplicar o filtro</span>
+<span class="sd">        restricao (int): 0 para valores negativos; 1 para valores não-negativos (incluindo o zero)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataframe: dataframe filtrado</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;A&#39;: [1, -2, 3, -4, 5], &#39;B&#39;: [0, 1, -2, 3, -4]})</span>
+
+<span class="sd">    # Filtrar valores não-negativos na coluna &#39;A&#39;</span>
+<span class="sd">    &gt;&gt;&gt; filtrar_colunas_numericas(df, &#39;A&#39;, 1)</span>
+<span class="sd">       A  B</span>
+<span class="sd">    0  1  0</span>
+<span class="sd">    2  3 -2</span>
+<span class="sd">    4  5 -4</span>
+
+<span class="sd">    # Filtrar valores negativos na coluna &#39;B&#39;</span>
+<span class="sd">    &gt;&gt;&gt; filtrar_colunas_numericas(df, &#39;B&#39;, 0)</span>
+<span class="sd">       A  B</span>
+<span class="sd">    1 -2  1</span>
+<span class="sd">    3 -4  3</span>
+<span class="sd">    4  5 -4</span>
+
+<span class="sd">    &gt;&gt;&gt; filtrar_colunas_numericas(df, &#39;C&#39;, 1)</span>
+<span class="sd">    KeyError: &quot;A coluna desejada não pertence ao dataframe passado&quot;</span>
+
+<span class="sd">    &gt;&gt;&gt; filtrar_colunas_numericas(df, &#39;A&#39;, 2.5)</span>
+<span class="sd">    ValueError: &quot;O número passado não é um inteiro&quot;</span>
+
+<span class="sd">    &gt;&gt;&gt; filtrar_colunas_numericas(&#39;Isso não é um DataFrame&#39;, &#39;A&#39;, 1)</span>
+<span class="sd">    TypeError: &quot;Não foi passado um dataframe válido!&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+        <span class="k">if</span> <span class="n">coluna_a_ser_filtrada</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">restricao</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+
+        <span class="k">if</span> <span class="n">restricao</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">filtro</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">coluna_a_ser_filtrada</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">restricao</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">filtro</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">coluna_a_ser_filtrada</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+
+        <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">filtro</span><span class="p">]</span>
+
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Não foi passado um dataframe válido!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">restricao</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;O número passado não é um inteiro&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;A coluna desejada não pertence ao dataframe passado&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A restrição deve ser igual a 0 ou igual a 1&quot;</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="valores_invalidos">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.valores_invalidos">[docs]</a>
+<span class="k">def</span> <span class="nf">valores_invalidos</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identifica colunas com valores inválidos em um DataFrame, ou colunas com mais de um tipo de dado presentes, garantindo a sua homogeneidade.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        df (dataframe): Dataframe desejado</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;A&#39;: [1, 2, &#39;three&#39;, 4], &#39;B&#39;: [5.1, 6.2, None, 8.4]})</span>
+<span class="sd">    &gt;&gt;&gt; valores_invalidos(df)</span>
+<span class="sd">    ValueError: A coluna &#39;A&#39; contém valores com tipos de dados diferentes.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;A&#39;: [1, 2, None, 4], &#39;B&#39;: [5.1, 6.2, None, 8.4]})</span>
+<span class="sd">    &gt;&gt;&gt; valores_invalidos(df)</span>
+<span class="sd">    ValueError: As colunas com valores inválidos são: [(&#39;A&#39;, [2])]</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; valores_invalidos(&quot;rafael pinho&quot;)</span>
+<span class="sd">    TypeError: Não foi passado um dataframe válido!</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;A&#39;: [1, 2, 3, 4], &#39;B&#39;: [5.1, 6.2, 7.3, 8.4]})</span>
+<span class="sd">    &gt;&gt;&gt; valores_invalidos(df)</span>
+<span class="sd">    None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">error_columns</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">tipos_de_dados</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="n">error_columns</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">column</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span>
+
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">tipos_de_dados</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span>
+
+        <span class="k">if</span> <span class="n">error_columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Não foi passado um dataframe válido!&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tipos_de_dados</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A coluna &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39; contém valores com tipos de dados diferentes.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">error_columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;As colunas com valores inválidos são: </span><span class="si">{</span><span class="n">error_columns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="filtrar_coluna_com_termos">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.filtrar_coluna_com_termos">[docs]</a>
+<span class="k">def</span> <span class="nf">filtrar_coluna_com_termos</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">coluna_a_ser_filtrada</span><span class="p">,</span> <span class="n">topicos_desejados</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Essa função filtra a coluna de um dataframe com base em uma lista de termos desejados. </span>
+<span class="sd">    Só restarão as linhas que contenham pelo menos um dos termos da lista na coluna.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        df (dataframe): dataframe original</span>
+<span class="sd">        coluna_a_ser_filtrada: nome da coluna para filtrar</span>
+<span class="sd">        topicos_desejados (list): lista de termos ou expressões a serem identificadas</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataframe: dataframe filtrado</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: Se o argumento `topicos_desejados` não for uma lista ou se o argumento `df` não for um DataFrame válido.</span>
+<span class="sd">        KeyError: Se a coluna especificada não pertencer ao DataFrame passado.</span>
+<span class="sd">        ValueError: Se a lista de `topicos_desejados` estiver vazia.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;Textos&#39;: [&#39;Halo: melhor da Beyonce&#39;, &#39;August: melhor da Taylor&#39;, &#39;Data Science&#39;, &#39;I Love AlgLin&#39;]})</span>
+<span class="sd">    &gt;&gt;&gt; topicos = [&#39;Taylor&#39;, &#39;AlgLin&#39;]</span>
+<span class="sd">    </span>
+<span class="sd">    # Filtrar linhas que contenham pelo menos um dos tópicos</span>
+<span class="sd">    &gt;&gt;&gt; filtrar_coluna_com_termos(df, &#39;Texto&#39;, topicos)</span>
+<span class="sd">    Textos</span>
+<span class="sd">    1  August: melhor da Taylor</span>
+<span class="sd">    3  I Love AlgLin</span>
+
+<span class="sd">    # Tentativa de filtro com coluna inexistente</span>
+<span class="sd">    &gt;&gt;&gt; filtrar_coluna_com_termos(df, &#39;Conteudo&#39;, topicos)</span>
+<span class="sd">    KeyError: &#39;A coluna desejada não pertence ao dataframe passado&#39;</span>
+
+<span class="sd">    # Tentativa de filtro com lista de termos vazia</span>
+<span class="sd">    &gt;&gt;&gt; filtrar_coluna_com_termos(df, &#39;Texto&#39;, [])</span>
+<span class="sd">    ValueError: &#39;A lista de termos desejados está vazia&#39;</span>
+
+<span class="sd">    # Tentativa de filtro com argumento `topicos_desejados` que não é uma lista</span>
+<span class="sd">    &gt;&gt;&gt; filtrar_coluna_com_termos(df, &#39;Texto&#39;, &#39;Python&#39;)</span>
+<span class="sd">    TypeError: &#39;Você deve passar uma lista de termos&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    # Tentativa de filtro com objeto não-DataFrame</span>
+<span class="sd">    &gt;&gt;&gt; filtrar_coluna_com_termos(&#39;Isso não é um DataFrame&#39;, &#39;Texto&#39;, topicos)</span>
+<span class="sd">    TypeError: &#39;Não foi passado um dataframe válido!&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+        
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topicos_desejados</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">topicos_desejados</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        
+        <span class="n">filtro</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">coluna_a_ser_filtrada</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">topicos_desejados</span><span class="p">),</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">filtro</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">df</span>
+    
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topicos_desejados</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Você deve passar uma lista de termos&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Não foi passado um dataframe válido!&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">coluna_a_ser_filtrada</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;A coluna desejada não pertence ao dataframe passado&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">topicos_desejados</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A lista de termos desejados está vazia&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1">### TESTES UNITÁRIOS ###</span>
+<div class="viewcode-block" id="TesteColetarColunas">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteColetarColunas">[docs]</a>
+<span class="k">class</span> <span class="nc">TesteColetarColunas</span><span class="p">(</span><span class="n">un</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="TesteColetarColunas.test_valid_dataframe_and_columns">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteColetarColunas.test_valid_dataframe_and_columns">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_valid_dataframe_and_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">999</span><span class="p">,</span><span class="mi">31</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EMAp&#39;</span><span class="p">,</span> <span class="s1">&#39;força&#39;</span><span class="p">,</span> <span class="s1">&#39;ficar&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">coletar_colunas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">])</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="mi">31</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EMAp&#39;</span><span class="p">,</span> <span class="s1">&#39;força&#39;</span><span class="p">,</span> <span class="s1">&#39;ficar&#39;</span><span class="p">]})</span>
+        <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TesteColetarColunas.test_empty_list_of_columns">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteColetarColunas.test_empty_list_of_columns">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_empty_list_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">999</span><span class="p">,</span><span class="mi">31</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EMAp&#39;</span><span class="p">,</span> <span class="s1">&#39;força&#39;</span><span class="p">,</span> <span class="s1">&#39;ficar&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">coletar_colunas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="TesteColetarColunas.test_non_list_object_as_second_argument">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteColetarColunas.test_non_list_object_as_second_argument">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_non_list_object_as_second_argument</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">999</span><span class="p">,</span><span class="mi">31</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EMAp&#39;</span><span class="p">,</span> <span class="s1">&#39;força&#39;</span><span class="p">,</span> <span class="s1">&#39;ficar&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">coletar_colunas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> </div>
+
+    
+<div class="viewcode-block" id="TesteColetarColunas.test_non_dataframe_object_as_first_argument">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteColetarColunas.test_non_dataframe_object_as_first_argument">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_non_dataframe_object_as_first_argument</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">coletar_colunas</span><span class="p">(</span><span class="s2">&quot;osmar&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">])</span>   </div>
+
+
+<div class="viewcode-block" id="TesteColetarColunas.test_column_not_belonging_to_dataframe">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteColetarColunas.test_column_not_belonging_to_dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_column_not_belonging_to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">999</span><span class="p">,</span><span class="mi">31</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EMAp&#39;</span><span class="p">,</span> <span class="s1">&#39;força&#39;</span><span class="p">,</span> <span class="s1">&#39;ficar&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+            <span class="n">coletar_colunas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;F&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="TesteColetarColunas.test_no_list_of_columns_passed">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteColetarColunas.test_no_list_of_columns_passed">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_no_list_of_columns_passed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">999</span><span class="p">,</span><span class="mi">31</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EMAp&#39;</span><span class="p">,</span> <span class="s1">&#39;força&#39;</span><span class="p">,</span> <span class="s1">&#39;ficar&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">coletar_colunas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="mi">31</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EMAp&#39;</span><span class="p">,</span> <span class="s1">&#39;força&#39;</span><span class="p">,</span> <span class="s1">&#39;ficar&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.7</span><span class="p">]})</span>
+        <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="TesteFiltrarColunaComTermo">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunaComTermo">[docs]</a>
+<span class="k">class</span> <span class="nc">TesteFiltrarColunaComTermo</span><span class="p">(</span><span class="n">un</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="TesteFiltrarColunaComTermo.test_filtered_dataframe_with_desired_term">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunaComTermo.test_filtered_dataframe_with_desired_term">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filtered_dataframe_with_desired_term</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">],</span> <span class="s1">&#39;forma maiúscula&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filtrar_coluna_com_termo</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">filtered_df</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="s1">&#39;forma maiúscula&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]}))</span></div>
+
+        
+<div class="viewcode-block" id="TesteFiltrarColunaComTermo.test_empty_dataframe_if_no_rows_contain_desired_term">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunaComTermo.test_empty_dataframe_if_no_rows_contain_desired_term">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_empty_dataframe_if_no_rows_contain_desired_term</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">],</span> <span class="s1">&#39;forma maiúscula&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filtrar_coluna_com_termo</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">filtered_df</span><span class="o">.</span><span class="n">empty</span></div>
+
+    
+<div class="viewcode-block" id="TesteFiltrarColunaComTermo.test_case_insensitive">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunaComTermo.test_case_insensitive">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_case_insensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">],</span> <span class="s1">&#39;forma maiúscula&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filtrar_coluna_com_termo</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">filtered_df</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="s1">&#39;forma maiúscula&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]}))</span>       </div>
+
+    
+<div class="viewcode-block" id="TesteFiltrarColunaComTermo.test_input_dataframe_not_pandas_dataframe">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunaComTermo.test_input_dataframe_not_pandas_dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_input_dataframe_not_pandas_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">filtrar_coluna_com_termo</span><span class="p">(</span><span class="s2">&quot;almir&quot;</span><span class="p">,</span> <span class="s1">&#39;forma maiúscula&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteFiltrarColunaComTermo.test_input_column_name_not_string">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunaComTermo.test_input_column_name_not_string">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_input_column_name_not_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">],</span> <span class="s1">&#39;forma maiúscula&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">filtrar_coluna_com_termo</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TesteFiltrarColunaComTermo.test_input_column_name_not_exist">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunaComTermo.test_input_column_name_not_exist">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_input_column_name_not_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;letras do alfabeto&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">],</span> <span class="s1">&#39;forma maiúscula&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+            <span class="n">filtrar_coluna_com_termo</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;forma numérica&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas">[docs]</a>
+<span class="k">class</span> <span class="nc">TesteFiltrarColunasNumericas</span><span class="p">:</span>
+    
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas.test_filter_non_negative_integer_values">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas.test_filter_non_negative_integer_values">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filter_non_negative_integer_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]})</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">filtrar_colunas_numericas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">expected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+            <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas.test_filter_non_negative_float_values">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas.test_filter_non_negative_float_values">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filter_non_negative_float_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.5</span><span class="p">]})</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">filtrar_colunas_numericas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.5</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+        <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas.test_filter_column_name_not_string">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas.test_filter_column_name_not_string">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filter_column_name_not_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">filtrar_colunas_numericas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas.test_filter_non_dataframe_object">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas.test_filter_non_dataframe_object">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filter_non_dataframe_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">filtrar_colunas_numericas</span><span class="p">(</span><span class="s2">&quot;almir&quot;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas.test_filter_invalid_integer_restriction">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas.test_filter_invalid_integer_restriction">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filter_invalid_integer_restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">filtrar_colunas_numericas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas.test_filter_non_float_restriction">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas.test_filter_non_float_restriction">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filter_non_float_restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">filtrar_colunas_numericas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas.test_filter_non_existing_column">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas.test_filter_non_existing_column">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filter_non_existing_column</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+            <span class="n">filtrar_colunas_numericas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteFiltrarColunasNumericas.test_filter_empty_dataframe">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasNumericas.test_filter_empty_dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filter_empty_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">filtrar_colunas_numericas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span></div>
+</div>
+
+    
+<div class="viewcode-block" id="TesteValoresInvalidos">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteValoresInvalidos">[docs]</a>
+<span class="k">class</span> <span class="nc">TesteValoresInvalidos</span><span class="p">(</span><span class="n">un</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="TesteValoresInvalidos.test_no_invalid_values">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteValoresInvalidos.test_no_invalid_values">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_no_invalid_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.1</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mf">7.3</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">]})</span>
+        <span class="k">assert</span> <span class="n">valores_invalidos</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="TesteValoresInvalidos.test_one_type_of_data">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteValoresInvalidos.test_one_type_of_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_one_type_of_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.1</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mf">7.3</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">]})</span>
+        <span class="k">assert</span> <span class="n">valores_invalidos</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="TesteValoresInvalidos.test_one_column">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteValoresInvalidos.test_one_column">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_one_column</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]})</span>
+        <span class="k">assert</span> <span class="n">valores_invalidos</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="TesteValoresInvalidos.test_all_columns_with_nan">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteValoresInvalidos.test_all_columns_with_nan">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_all_columns_with_nan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.1</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">]})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">valores_invalidos</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteValoresInvalidos.test_some_columns_with_nan">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteValoresInvalidos.test_some_columns_with_nan">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_some_columns_with_nan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.1</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">]})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">valores_invalidos</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteValoresInvalidos.test_all_columns_with_only_nan">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteValoresInvalidos.test_all_columns_with_only_nan">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_all_columns_with_only_nan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">valores_invalidos</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
+</div>
+
+            
+<div class="viewcode-block" id="TesteFiltrarColunasComTermos">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasComTermos">[docs]</a>
+<span class="k">class</span> <span class="nc">TesteFiltrarColunasComTermos</span><span class="p">(</span><span class="n">un</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="TesteFiltrarColunasComTermos.test_filtered_dataframe_with_at_least_one_term">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasComTermos.test_filtered_dataframe_with_at_least_one_term">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_filtered_dataframe_with_at_least_one_term</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Textos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Halo: melhor da Beyonce&#39;</span><span class="p">,</span> <span class="s1">&#39;August: melhor da Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;Data Science&#39;</span><span class="p">,</span> <span class="s1">&#39;I Love AlgLin&#39;</span><span class="p">]})</span>
+        <span class="n">topicos</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;AlgLin&#39;</span><span class="p">]</span>
+        <span class="n">expected_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Textos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;August: melhor da Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;I Love AlgLin&#39;</span><span class="p">]})</span>
+    
+        <span class="n">result_df</span> <span class="o">=</span> <span class="n">filtrar_coluna_com_termos</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Textos&#39;</span><span class="p">,</span> <span class="n">topicos</span><span class="p">)</span>
+        <span class="n">result_df</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+        <span class="k">assert</span> <span class="n">result_df</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">expected_df</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TesteFiltrarColunasComTermos.test_empty_dataframe_if_no_matches_found">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasComTermos.test_empty_dataframe_if_no_matches_found">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_empty_dataframe_if_no_matches_found</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Textos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Halo: melhor da Beyonce&#39;</span><span class="p">,</span> <span class="s1">&#39;August: melhor da Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;Data Science&#39;</span><span class="p">,</span> <span class="s1">&#39;I Love AlgLin&#39;</span><span class="p">]})</span>
+        <span class="n">topicos</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Python&#39;</span><span class="p">,</span> <span class="s1">&#39;Java&#39;</span><span class="p">]</span>
+        <span class="n">expected_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Textos&#39;</span><span class="p">])</span>
+    
+        <span class="n">result_df</span> <span class="o">=</span> <span class="n">filtrar_coluna_com_termos</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Textos&#39;</span><span class="p">,</span> <span class="n">topicos</span><span class="p">)</span>
+    
+        <span class="k">assert</span> <span class="n">result_df</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">expected_df</span><span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="TesteFiltrarColunasComTermos.test_original_dataframe_if_topicos_desejados_is_empty">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasComTermos.test_original_dataframe_if_topicos_desejados_is_empty">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_original_dataframe_if_topicos_desejados_is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Textos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Halo: melhor da Beyonce&#39;</span><span class="p">,</span> <span class="s1">&#39;August: melhor da Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;Data Science&#39;</span><span class="p">,</span> <span class="s1">&#39;I Love AlgLin&#39;</span><span class="p">]})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">filtrar_coluna_com_termos</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Textos&#39;</span><span class="p">,</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="TesteFiltrarColunasComTermos.test_raises_TypeError_if_topicos_desejados_not_list">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasComTermos.test_raises_TypeError_if_topicos_desejados_not_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_raises_TypeError_if_topicos_desejados_not_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Textos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Halo: melhor da Beyonce&#39;</span><span class="p">,</span> <span class="s1">&#39;August: melhor da Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;Data Science&#39;</span><span class="p">,</span> <span class="s1">&#39;I Love AlgLin&#39;</span><span class="p">]})</span>
+        <span class="n">topicos</span> <span class="o">=</span> <span class="s1">&#39;Python&#39;</span>
+    
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">filtrar_coluna_com_termos</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Textos&#39;</span><span class="p">,</span> <span class="n">topicos</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteFiltrarColunasComTermos.test_raises_TypeError_if_df_not_valid_DataFrame">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasComTermos.test_raises_TypeError_if_df_not_valid_DataFrame">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_raises_TypeError_if_df_not_valid_DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="s1">&#39;Isso não é um DataFrame&#39;</span>
+        <span class="n">topicos</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;AlgLin&#39;</span><span class="p">]</span>
+    
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">filtrar_coluna_com_termos</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Textos&#39;</span><span class="p">,</span> <span class="n">topicos</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="TesteFiltrarColunasComTermos.test_raises_KeyError_if_coluna_a_ser_filtrada_not_column_in_df">
+<a class="viewcode-back" href="../../datacleaning.html#datacleaning.datacleaning.TesteFiltrarColunasComTermos.test_raises_KeyError_if_coluna_a_ser_filtrada_not_column_in_df">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_raises_KeyError_if_coluna_a_ser_filtrada_not_column_in_df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Textos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Halo: melhor da Beyonce&#39;</span><span class="p">,</span> <span class="s1">&#39;August: melhor da Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;Data Science&#39;</span><span class="p">,</span> <span class="s1">&#39;I Love AlgLin&#39;</span><span class="p">]})</span>
+        <span class="n">topicos</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Taylor&#39;</span><span class="p">,</span> <span class="s1">&#39;AlgLin&#39;</span><span class="p">]</span>
+    
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+            <span class="n">filtrar_coluna_com_termos</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Conteudo&#39;</span><span class="p">,</span> <span class="n">topicos</span><span class="p">)</span></div>
+</div>
+
+            
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">un</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Davy Albert, Natalia Brandao, Isabelli Cristhini, Joao Otavio.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as mp
 
 # Analisando os outliers
-#bx.boxplot_coluna_de_dataframe(ae.df_final,'ORÇAMENTO REALIZADO (R$)')
+bx.boxplot_coluna_de_dataframe(ae.df_final,'ORÇAMENTO REALIZADO (R$)')
 
 # Noção da quantidade de outliers
 numero_de_dados = ae.df_final.shape[0]
@@ -17,20 +17,19 @@ numero_de_dados = ae.df_sem_outliers.shape[0]
 
 print(f"O DataFrame sem outliers contém {numero_de_dados} elementos.")
 
-# É perceptível que, na visualização do box plot do DataFrame (limpo e organizado com os dados de orçamento do governo na educação),
-# os outliers são consideravelmente poucos. Além disso, é notório um certo padrão
-# de outliers a cada ano, e que os mesmos, em sua maioria, estão acima da média de gastos. Isso significa que todo ano o governo
-# sempre vai fazer investimentos consideráveis em comparação com a maioria dos investimentos. O que pode indicar que esses
-# orçamentos são "obrigatórios" a cada ano.
+# No boxplot que utilizei, os outliers formam uma concentração na parte superior dos dados, 
+# sugerindo que parte dos orçamentos governamentais está acima da média. A concentração dos
+# outliers é mais proeminente no início da linha formada pelos pontinhos, indicando que há 
+# mais investimentos acima da média, mas sem discrepâncias orçamentárias muito grandes. 
+# Apenas alguns outliers se destacam com orçamentos notavelmente maiores em relação à média.
+# Essa configuração de outliers se mantém consistente ao longo dos anos. Isso sugere a 
+# repetição de outliers ligeiramente acima da média  - investimentos essenciais a cada ano.
+# Enquanto para os poucos outliers discrepantes que se destacam com orçamentos significativamente 
+# acima da média, mostra que investimentos consideravelmente maiores são feitos com menos
+# frequência com um padrão anual constante. Devido à consistência desse padrão ao longo dos anos, é 
+# vantajoso considerar a exclusão dos outliers a fim de realizar uma análise mais precisa nos dados.
 
-# São poucos outliers baixos, também padronizados a cada ano. Indicando que, independentemente
-# de ser um ano de eleição, sempre haverá ações de orçamentos baixos recorrentes em todo ano.
-
-# Portanto, devido a essa padronização de outliers a cada ano, independentemente de ser um ano de eleição ou não,
-# podemos ignorá-los e continuar analisando os orçamentos realizados na educação pelo governo a cada ano, 
-# para tirar conclusões. 
-
-#Análise sem outliers
+# Análise sem outliers
 
 # Não é apropriado analisar o orçamento realizado em educação do governo para 
 # o ano de 2023 neste momento, uma vez que o ano ainda não chegou ao fim.
@@ -48,7 +47,7 @@ filtro = ae.df_sem_outliers['NOME SUBFUNÇÃO'].str.contains('|'.join(palavras_c
 
 # Criando um novo DataFrame contendo apenas as linhas que atendem ao filtro
 novo_df = ae.df_sem_outliers[filtro].reset_index(drop=True)
-grf.plotar_colunas_empilhadas(novo_df, 'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento anual')
+grf.plotar_colunas(novo_df, 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamento anual')
 
 # É notório que nos anos 2014, 2015, 2020 e 2021 a soma dos orçamentos destinados à educação foi maior 
 # do que em outros anos. Logo, não se pode concluir ,nesse intervalo, que em anos de eleição (2014, 2018, 2022) os investimentos em educação
@@ -72,8 +71,8 @@ df_filtrado.loc[df_filtrado['NOME SUBFUNÇÃO'].isin(['Educação básica', 'Edu
 
 grf.plotar_colunas_empilhadas_normalizado(df_filtrado,'NOME SUBFUNÇÃO', 'EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'Orçamentos por setores')
 
-#Depois de ter selecionados os quatro anos e analisar os setores de orçamento realizado pelo goveno
-#de forma a considerar as subfunções relacionadas a educação com um só setor para uma melhor análise, é evidente que 
+#Depois de ter selecionado os quatro anos e analisar os setores de orçamento realizado pelo goveno
+#de forma a considerar as subfunções relacionadas a educação como um só setor para uma melhor análise, é evidente que 
 #educação é sempre um setor mais investido independente do ano. Agora é interessante observar a porcentagem investida 
 #no setor educação em cada ano. 
 
@@ -91,8 +90,9 @@ for ano_desejado in anos_desejados:
     mp.title(f'Gráfico de Pizza - Distribuição de Orçamento Realizado em {ano_desejado}')
     mp.show()
 
-# Fica evidente que em 2019 os orçamentos realizados pelo governo na educação nos anos de 
-# 2029, 2020, 2021 e 2022 foram respectivamente de 71,5%, 72,6%, 71,9%, 74,5%. Ou seja no ano de 
-# eleição teve um gasto maior, enquanto o menor gasto foi localizado no primeiro ano de tal mandato. 
+# Fica evidente que os orçamentos realizados pelo governo na educação nos anos de 
+# 2019, 2020, 2021 e 2022 foram respectivamente de 71,5%, 72,6%, 71,9%, 74,5%. Ou seja no ano de 
+# eleição teve um gasto maior, enquanto o menor gasto foi localizado no primeiro ano de tal mandato, apesar 
+# de ser esperado que os menores orçamentos sejam nos anos de 2020 e 2021 devido a pandemia. 
 
 

@@ -34,7 +34,7 @@ bx.boxplot_sem_outliers(ae.df_final, 'ORÇAMENTO REALIZADO (R$)', 'sem_outliers'
 
 #gráfico de colunas que mostra como diminuiu na pandemia
 
-df_final_colunas = pd.DataFrame({'EXERCÍCIO': df_final['EXERCÍCIO'], 'NOME SUBFUNÇÃO': df_final['NOME SUBFUNÇÃO'], 'ORÇAMENTO REALIZADO (R$)': df_final['ORÇAMENTO REALIZADO (R$)']})
+df_final_colunas = pd.DataFrame({'EXERCÍCIO': ae.df_final['EXERCÍCIO'], 'NOME SUBFUNÇÃO': ae.df_final['NOME SUBFUNÇÃO'], 'ORÇAMENTO REALIZADO (R$)': ae.df_final['ORÇAMENTO REALIZADO (R$)']})
 
 df_final_colunas.groupby(['EXERCÍCIO', 'NOME SUBFUNÇÃO']).sum().unstack().plot(kind='line')
 

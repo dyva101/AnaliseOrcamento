@@ -4,10 +4,10 @@ Análise de dados de gastos do governo federal com educação, no período de 20
 
 import matplotlib.pyplot as plt
 import pandas as pd 
-import graficos as graf
+from graficos import graficos as graf
 import main as ae
-import datacleaning as dt 
-import boxplot as bx 
+from datacleaning import datacleaning as dt 
+from boxplot import boxplot as bx 
 
 #para minha análise, vou começar teorizando que em anos eleitorais os gastos em geral foram maiores, nosso grupo coletou dados do governo do portal de
 #transparência, com gastos do governo nos anos de 2014 a 2023

@@ -1,7 +1,7 @@
 import pandas as pd 
-import datacleaning as dtc
-import boxplot as bx
-import graficos as grf
+from datacleaning import datacleaning as dtc
+from boxplot import boxplot as bx
+from graficos import graficos as grf
 
 ### Exploratory Analysis###
 

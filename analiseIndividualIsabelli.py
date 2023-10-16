@@ -2,9 +2,9 @@
 Análise de dados de gastos do governo federal com educação, no período de 2014 a 2023.
 """ 
 import pandas as pd 
-import datacleaning as dtc
-import boxplot as bx
-import graficos as grf
+from datacleaning import datacleaning as dtc
+from boxplot import boxplot as bx
+from graficos import graficos as grf
 
 ### Limpeza dos dados e teste das funções data_cleaning###
 

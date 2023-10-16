@@ -85,4 +85,19 @@ plt.show()
 #comportamento constante ao longo de 2014 a 2019, mas o comportamento nos extremos é definido com a mesma ideia, e ainda respondem a pergunta da mesma forma, que é a de que o ensino superior foi a área mais investida
 #ao longo dos anos(2014-2023) analisados.
 
-#5hipótese, a tendência dos investimentos em educação ao longo dos anos é de sempre aumentar, para satisfazer as demandas(fazer um gráfico de linhas com os gastos em educação no Brasil e comparar importando outro gráfico)
+#hipótese, a tendência dos investimentos em educação ao longo dos anos é de sempre aumentar, para satisfazer as demandas(fazer um gráfico de linhas com os gastos em educação no Brasil e comparar importando outro gráfico)
+
+df_final_educacao_geral = dt.coletar_colunas(ae.df_final, ['EXERCÍCIO', 'ORÇAMENTO REALIZADO (R$)', 'NOME FUNÇÃO'])
+df_final_educacao_geral.groupby('EXERCÍCIO')['ORÇAMENTO REALIZADO (R$)'].sum().plot(kind='line')
+df_final_educacao_geral.groupby('EXERCÍCIO')['ORÇAMENTO REALIZADO (R$)'].sum().plot(kind='bar')
+
+plt.xlabel('Anos')
+plt.ylabel('Gastos em educação')
+plt.title('Gastos em educação por ano')
+
+plt.legend()
+
+plt.show()
+
+#com o nosso gráfico de linhas, agora temos pela sua visuaização, que ao longo de 2014 a 2023, os investimentos no greal em áreas de educação estão cada vez mais decrescendo, fato que se complementa com o quesito pandemia, qua ajudou nesse grande impasse, logo a hipótese formulada
+#se encontra errada, pela visualização direta do gráfico de linhas e de barras apresentado.

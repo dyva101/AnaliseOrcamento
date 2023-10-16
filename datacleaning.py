@@ -5,7 +5,7 @@ def coletar_colunas(df, colunas_desejadas: list):
 
     exemplo: 
         >>> dataframe = {'A': [1,999,31], 'B': ['EMAp', 'força', 'ficar'], 'C': [8.7, 7.5, 3.7]}
-        >>> df = DataFrame(dataframe)
+        >>> df = pd.DataFrame(dataframe)
         >>> coletar_colunas(df, ['A', 'B'])
           A     B  
           1  EMAp 
@@ -21,10 +21,10 @@ def coletar_colunas(df, colunas_desejadas: list):
         >>> coletar_colunas(df, ['A','F'])
         KeyError: A coluna desejada não pertence ao dataframe passado
         
-        >>> coletar_colunas(df, ['2'])
+        >>> coletar_colunas(df, 2)
         TypeError: Não foi passado uma lista de colunas válidas
         
-        >>> coletar_colunas(osmar, ['A','B'])
+        >>> coletar_colunas("osmar", ['A','B'])
         TypeError: Não foi passado um dataframe válido
  
     Parameters:
@@ -36,17 +36,20 @@ def coletar_colunas(df, colunas_desejadas: list):
     """
     try:
         
-        if colunas_desejadas==[]:
+        if not isinstance(colunas_desejadas, list):
+            raise TypeError
+        
+        if colunas_desejadas == [] or colunas_desejadas == None:
             return pd.DataFrame()
         
         df = df[colunas_desejadas]
         return df
     
     except TypeError:
-        if isinstance(df, pd.DataFrame):
+        if not isinstance(df, pd.DataFrame):
             raise TypeError("Não foi passado um dataframe válido!")
-        elif isinstance(colunas_desejadas, list):
-            raise TypeError("Não foi passado uma lista de colunas válidas")
+        if not isinstance(colunas_desejadas, list):
+            raise TypeError("Não foi passado uma lista de colunas válidas") 
     except KeyError:
         raise KeyError("A coluna desejada não pertence ao dataframe passado")
     

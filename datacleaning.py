@@ -63,19 +63,20 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado):
     Parameters:
         df (dataframe): dataframe original
         coluna_a_ser_filtrada (str): nome da coluna para filtrar
-        topico_desejado (str): termo ou expressão exata que deve ser identificada
+        topico_desejado (str): termo, valor ou expressão que deve ser identificada
 
         Ex: 
         >>> dataframe = {'letras do alfabeto': ['a', 'b','c', 'd' ], 'forma maiúscula': ['A', 'B', 'C', 'D']}
-        >>> df = DataFrame(dataframe)
+        >>> df = pd.DataFrame(dataframe)
 
 
         >>> filtrar_coluna_com_termo(df, 'letras do alfabeto', 'a')
 
         letras do alfabeto 
                a                 
-        #TODO: "acrescentar esse tratamento"
-        >>> filtrar_coluna_com_termo(df, 'forma maiúscula', 'k')
+        
+        >>> df_empty = pd.DataFrame()
+        >>> filtrar_coluna_com_termo(df_empty, 'forma maiúscula', 'k')
         NaoContemValor: foi passado um DataFrame vazio
         
         >>> filtrar_coluna_com_termo(df, 'forma maiúscula', '2')
@@ -84,9 +85,9 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado):
         >>> filtrar_coluna_com_termo(df, 'forma numérica', 'a')
         KeyError: A coluna desejada não pertence ao dataframe passado
 
-        >>> filtrar_coluna_com_termo(almir, 'forma maiúscula', 'c')
+        >>> filtrar_coluna_com_termo("almir", 'forma maiúscula', 'c')
         TypeError: Não foi passado um dataframe válido
-            #TODO: "acrescentar esse tratamento"
+            
         >>> filtrar_coluna_com_termo(df, ['forma maiúscula', 'letras do alfabeto'], 'a')
         TypeError: você só pode passar uma coluna por vez
 
@@ -95,19 +96,23 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada: str, topico_desejado):
         dataframe: dataframe filtrado
     """
     try:
-        if type(topico_desejado) == str:
-            filtro = df[coluna_a_ser_filtrada].str.contains(topico_desejado, case=False)
-            df = df[filtro]
-            return df
-        else:
+        if isinstance(topico_desejado, str):
             filtro = df[coluna_a_ser_filtrada] == topico_desejado
             df = df[filtro]
             return df
+        
+        elif isinstance(topico_desejado, int) or isinstance(topico_desejado, float):
+            filtro = df[coluna_a_ser_filtrada] == topico_desejado
+            df = df[filtro]
+            return df
+        
     except TypeError:
         if not isinstance(df, pd.DataFrame):
             print("Não foi passado um dataframe válido!")
         elif not isinstance(coluna_a_ser_filtrada, list):
             print("Não foi passado uma lista de colunas válidas")
+        elif isinstance(topico_desejado, list):
+            raise TypeError("você só pode passar uma coluna por vez")
     except KeyError:
         print("A coluna desejada não pertence ao dataframe passado")
 

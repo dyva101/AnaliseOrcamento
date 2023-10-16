@@ -5,38 +5,68 @@ import matplotlib.pyplot as plt
 
 def boxplot_coluna_de_dataframe(df, coluna):
     """
-    Cria um gráfico de boxplot para uma coluna específica de um DataFrame.
+    Cria um gráfico de boxplot para uma coluna específica de um DataFrame, sem nenhum tratamento diferente.
 
     Parameters:
         df (pandas.DataFrame): O DataFrame contendo os dados.
-        coluna (str): O nome da coluna a ser visualizada no gráfico de boxplot.
+        coluna: O nome da coluna a ser visualizada no gráfico de boxplot.
 
     Returns:
         None
-    """
-    data = df[coluna]
+    """    
+    try:   
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError
+        
+        if coluna not in df.columns:
+            raise KeyError
+        
+        if df[coluna].isnull().values.any():
+            raise ValueError
+        
+        if df[coluna].dtype == 'object':
+            raise ValueError
+        
+        if df.empty:
+            return None
+        
+        data = df[coluna]
 
-    plt.boxplot([data])
+        plt.boxplot([data])
 
-    plt.show()   
-
-def boxplot_sem_outliers(df, coluna, titulo):
-    """
-    Gera um gráfico de caixa sem outliers a partir de um DataFrame.
+        plt.show()
+        
+    except TypeError:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError('O argumento df deve ser um DataFrame.')
+    except KeyError:
+        if coluna not in df.columns:
+            raise KeyError('A coluna especificada não existe no DataFrame.')
+    except ValueError:
+        if df[coluna].isnull().values.any():
+            raise ValueError('A coluna especificada contém valores nulos.')
+        if df[coluna].dtype == 'object':
+            raise ValueError('A coluna especificada contém valores não numéricos.')
+        
+def boxplot_sem_outliers(df, coluna, titulo='Boxplot Sem Outliers'):
+    """Gera um boxplot sem seus outliers a partir de um DataFrame.
 
     Parameters:
     df (DataFrame): O DataFrame contendo os dados a serem plotados.
-    coluna (str): O nome da coluna no DataFrame a ser usado para criar o gráfico de caixa.
-    titulo (str): O título a ser exibido no gráfico.
+    coluna: O nome da coluna no DataFrame a ser usado para criar o gráfico de caixa.
+    titulo (str): O título a ser exibido no gráfico (OPCIONAL).
 
-    Retorna:
+    Returns:
     fig (Figure): A figura do gráfico de caixa sem outliers.
     ax (Axes): O eixo do gráfico de caixa.
     """
     data = df[coluna]
+    
     fig, ax = plt.subplots()
+    
     ax.set_title(titulo)  
-    ax.boxplot(data, showfliers=False)  # Oculte os outliers no gráfico de caixa
+    ax.boxplot(data, showfliers=False)
+    
     plt.show() 
 
     return fig, ax
@@ -47,9 +77,9 @@ def excluir_outliers(df, coluna_numerica):
 
     Parameters:
     df (DataFrame): O DataFrame contendo os dados a serem analisados.
-    coluna_numerica (str): O nome da coluna numérica a ser analisada quanto a outliers.
+    coluna_numerica: O nome da coluna de valores a ser filtrada.
 
-    Retorna:
+    Returns:
     df_sem_outliers (DataFrame): Um novo DataFrame que contém apenas as observações que não são outliers na coluna especificada.
 
     """
@@ -60,6 +90,6 @@ def excluir_outliers(df, coluna_numerica):
     df_sem_outliers = df[(df[coluna_numerica] >= limite_inferior) &
     (df[coluna_numerica] <= limite_superior)]
 
-    return df_sem_outliers 
+    return df_sem_outliers
 
    

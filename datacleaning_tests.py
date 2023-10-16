@@ -25,7 +25,7 @@ class TesteColetarColunas(un.TestCase):
     def test_non_list_object_as_second_argument(self):
         dataframe = {'A': [1,999,31], 'B': ['EMAp', 'força', 'ficar'], 'C': [8.7, 7.5, 3.7]}
         df = pd.DataFrame(dataframe)
-        with un.ytest.raises(TypeError):
+        with un.pytest.raises(TypeError):
             dtc.coletar_colunas(df, 2) 
     
     def test_non_dataframe_object_as_first_argument(self):

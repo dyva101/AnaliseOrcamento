@@ -282,6 +282,9 @@ def filtrar_coluna_com_termos(df, coluna_a_ser_filtrada, topicos_desejados: list
     TypeError: 'Não foi passado um dataframe válido!'
     """
     try:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError
+        
         if df.empty:
             return pd.DataFrame()
 

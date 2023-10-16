@@ -154,3 +154,50 @@ class TesteValoresInvalidos(un.TestCase):
         with un.pytest.raises(ValueError):
             dtc.valores_invalidos(df)
             
+class TesteFiltrarColunasComTermos(un.TestCase):
+    
+    def test_filtered_dataframe_with_at_least_one_term(self):
+        df = pd.DataFrame({'Textos': ['Halo: melhor da Beyonce', 'August: melhor da Taylor', 'Data Science', 'I Love AlgLin']})
+        topicos = ['Taylor', 'AlgLin']
+        expected_df = pd.DataFrame({'Textos': ['August: melhor da Taylor', 'I Love AlgLin']})
+    
+        result_df = dtc.filtrar_coluna_com_termos(df, 'Textos', topicos)
+        result_df = result_df.reset_index(drop=True)
+    
+        assert result_df.equals(expected_df)
+
+    def test_empty_dataframe_if_no_matches_found(self):
+        df = pd.DataFrame({'Textos': ['Halo: melhor da Beyonce', 'August: melhor da Taylor', 'Data Science', 'I Love AlgLin']})
+        topicos = ['Python', 'Java']
+        expected_df = pd.DataFrame(columns=['Textos'])
+    
+        result_df = dtc.filtrar_coluna_com_termos(df, 'Textos', topicos)
+    
+        assert result_df.equals(expected_df)
+        
+    def test_original_dataframe_if_topicos_desejados_is_empty(self):
+        df = pd.DataFrame({'Textos': ['Halo: melhor da Beyonce', 'August: melhor da Taylor', 'Data Science', 'I Love AlgLin']})
+        with un.pytest.raises(ValueError):
+            dtc.filtrar_coluna_com_termos(df, 'Textos', [])
+
+    def test_raises_TypeError_if_topicos_desejados_not_list(self):
+        df = pd.DataFrame({'Textos': ['Halo: melhor da Beyonce', 'August: melhor da Taylor', 'Data Science', 'I Love AlgLin']})
+        topicos = 'Python'
+    
+        with un.pytest.raises(TypeError):
+            dtc.filtrar_coluna_com_termos(df, 'Textos', topicos)
+            
+    def test_raises_TypeError_if_df_not_valid_DataFrame(self):
+        df = 'Isso não é um DataFrame'
+        topicos = ['Taylor', 'AlgLin']
+    
+        with un.pytest.raises(TypeError):
+            dtc.filtrar_coluna_com_termos(df, 'Textos', topicos)
+            
+    def test_raises_KeyError_if_coluna_a_ser_filtrada_not_column_in_df(self):
+        df = pd.DataFrame({'Textos': ['Halo: melhor da Beyonce', 'August: melhor da Taylor', 'Data Science', 'I Love AlgLin']})
+        topicos = ['Taylor', 'AlgLin']
+    
+        with un.pytest.raises(KeyError):
+            dtc.filtrar_coluna_com_termos(df, 'Conteudo', topicos)
+            

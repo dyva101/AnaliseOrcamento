@@ -88,8 +88,9 @@
 ### About Us
 
   Our working team, informally known as the "Push & Pull" group, was formed for the first evaluation of the Programming 
-  Languages course and currently works together on other projects as well. Curious about us? So check out our individual 
-  profiles linked below:
+  Languages course and currently works together on other projects as well. We worked whit the branch workflow, which was
+  very constructive. We also did pair programming to avoid problems with merge conflicts, as we were physically together 
+  almost all of the time. Curious about us? So check out our individual profiles linked below:
 
   * <a href="https://github.com/isabelli31">Isabelli Cristhini da Silva 'Isa'</a>
 

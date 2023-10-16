@@ -60,20 +60,50 @@ def boxplot_sem_outliers(df, coluna, titulo='Boxplot Sem Outliers'):
     fig (Figure): A figura do gráfico de caixa sem outliers.
     ax (Axes): O eixo do gráfico de caixa.
     """
-    data = df[coluna]
-    
-    fig, ax = plt.subplots()
-    
-    ax.set_title(titulo)  
-    ax.boxplot(data, showfliers=False)
-    
-    plt.show() 
+    try:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError
+        
+        if coluna not in df.columns:
+            raise KeyError
+        
+        if df[coluna].isnull().values.any():
+            raise ValueError
+        
+        if df[coluna].dtype == 'object':
+            raise ValueError
+        
+        if df.empty:
+            return None
+        
+        data = df[coluna]
+        
+        fig, ax = plt.subplots()
+        
+        ax.set_title(titulo)  
+        ax.boxplot(data, showfliers=False)
+        
+        plt.show() 
 
-    return fig, ax
+        return fig, ax
+    except TypeError:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError('O argumento df deve ser um DataFrame.')
+        if coluna not in df.columns:
+            raise KeyError('A coluna especificada não existe no DataFrame.')
+    except KeyError:
+        if coluna not in df.columns:
+            raise KeyError('A coluna especificada não existe no DataFrame.')
+    except ValueError:
+        if df[coluna].isnull().values.any():
+            raise ValueError('A coluna especificada contém valores nulos.')
+        if df[coluna].dtype == 'object':
+            raise ValueError('A coluna especificada contém valores não numéricos.')
+        
     
 def excluir_outliers(df, coluna_numerica):
     """
-    Exclui os valores discrepantes (outliers) de um DataFrame.
+    Exclui as linhas com valores discrepantes (outliers) encontrados em uma dada coluna do dataframe.
 
     Parameters:
     df (DataFrame): O DataFrame contendo os dados a serem analisados.
@@ -83,13 +113,43 @@ def excluir_outliers(df, coluna_numerica):
     df_sem_outliers (DataFrame): Um novo DataFrame que contém apenas as observações que não são outliers na coluna especificada.
 
     """
-    data = df[coluna_numerica]
-    boxplot = plt.boxplot(data)
-    whiskers = [item.get_ydata() for item in boxplot['whiskers']]
-    limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
-    df_sem_outliers = df[(df[coluna_numerica] >= limite_inferior) &
-    (df[coluna_numerica] <= limite_superior)]
+    
+    try:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError
 
-    return df_sem_outliers
+        if coluna_numerica not in df.columns:
+            raise KeyError
+        
+        if df[coluna_numerica].isnull().values.any():
+            raise ValueError
+        
+        if df[coluna_numerica].dtype == 'object':
+            raise ValueError
+        
+        if df.empty:
+            return None
+        
+        data = df[coluna_numerica]
+        
+        boxplot = plt.boxplot(data)
+        
+        whiskers = [item.get_ydata() for item in boxplot['whiskers']]
+        limite_inferior, limite_superior = whiskers[0][0], whiskers[1][0]
+        
+        df_sem_outliers = df[(df[coluna_numerica] >= limite_inferior) &
+                        (df[coluna_numerica] <= limite_superior)]
 
+        return df_sem_outliers
+    except TypeError:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError('O argumento df deve ser um DataFrame.')
+    except KeyError:
+        if coluna_numerica not in df.columns:
+            raise KeyError('A coluna especificada não existe no DataFrame.')
+    except ValueError:
+        if df[coluna_numerica].isnull().values.any():
+            raise ValueError('A coluna especificada contém valores nulos.')
+        if df[coluna_numerica].dtype == 'object':
+            raise ValueError('A coluna especificada contém valores não numéricos.')
    

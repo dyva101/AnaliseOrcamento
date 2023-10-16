@@ -2,7 +2,13 @@ import pandas as pd
 
 def coletar_colunas(df, colunas_desejadas: list):
     """Essa função gera um novo dataframe contendo apenas as colunas desejadas do dataframe original
+    
+    Parameters:
+        df (dataframe): dataframe original
+        colunas_desejadas (list): lista com strings representando as colunas desejadas
 
+    Returns:
+        dataframe: dataframe apenas com as colunas desejadas
     exemplo: 
         >>> dataframe = {'A': [1,999,31], 'B': ['EMAp', 'força', 'ficar'], 'C': [8.7, 7.5, 3.7]}
         >>> df = pd.DataFrame(dataframe)
@@ -26,13 +32,6 @@ def coletar_colunas(df, colunas_desejadas: list):
         
         >>> coletar_colunas("osmar", ['A','B'])
         TypeError: Não foi passado um dataframe válido
- 
-    Parameters:
-        df (dataframe): dataframe original
-        colunas_desejadas (list): lista com strings representando as colunas desejadas
-
-    Returns:
-        dataframe: dataframe apenas com as colunas desejadas
     """
     try:
         
@@ -64,7 +63,8 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada, topico_desejado):
         df (dataframe): dataframe original
         coluna_a_ser_filtrada (str): nome da coluna a ser filtrada
         topico_desejado: termo, valor ou expressão que deve ser identificada
-
+    Returns:
+        dataframe(pd.DataFrame): dataframe filtrado
     Exemplos:
         >>> dataframe = {'letras do alfabeto': ['a', 'b','c', 'd' ], 'forma maiúscula': ['A', 'B', 'C', 'D']}
         >>> df = pd.DataFrame(dataframe)
@@ -93,10 +93,6 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada, topico_desejado):
             
         >>> filtrar_coluna_com_termo(df, ['forma maiúscula', 'letras do alfabeto'], 'a')
         TypeError: você só pode passar uma coluna por vez
-
-
-    Returns:
-        dataframe(pd.DataFrame): dataframe filtrado
     """
     try:
         
@@ -124,8 +120,7 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada, topico_desejado):
         raise KeyError("A coluna desejada não pertence ao dataframe passado")
 
 def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
-    """
-    Esta função filtra um dataframe com base em uma coluna numérica e uma restrição.
+    """Esta função filtra um dataframe com base em uma coluna numérica e uma restrição.
 
     Parameters:
         df (dataframe): dataframe original
@@ -191,12 +186,10 @@ def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
             
 def valores_invalidos(df):
     """
-    Identifica colunas com valores inválidos em um DataFrame.
+    Identifica colunas com valores inválidos em um DataFrame, ou colunas com mais de um tipo de dado presentes, garantindo a sua homogeneidade.
 
     Parameters:
         df (dataframe): Dataframe desejado
-    Raises:
-        ValueError: Se uma coluna contém valores com tipos de dados diferentes ou valores NaN.
 
     Examples:
     >>> df = pd.DataFrame({'A': [1, 2, 'three', 4], 'B': [5.1, 6.2, None, 8.4]})
@@ -209,6 +202,10 @@ def valores_invalidos(df):
     
     >>> valores_invalidos("rafael pinho")
     TypeError: Não foi passado um dataframe válido!
+    
+    >>> df = pd.DataFrame({'A': [1, 2, 3, 4], 'B': [5.1, 6.2, 7.3, 8.4]})
+    >>> valores_invalidos(df)
+    None
 
     """
     error_columns = []
@@ -221,11 +218,14 @@ def valores_invalidos(df):
                 index = df.index[df[column].isna()].tolist()
                 error_columns.append((column, index))
 
-            if len(tipos_de_dados) > 1:
+            elif len(tipos_de_dados) > 1:
                 raise ValueError
 
         if error_columns:
             raise ValueError
+        
+        else:
+            return None
     except TypeError:
         if not isinstance(df, pd.DataFrame):
             raise TypeError("Não foi passado um dataframe válido!")
@@ -237,7 +237,7 @@ def valores_invalidos(df):
 
 
 
-def filtrar_coluna_com_termos(df, coluna_a_ser_filtrada: str, topicos_desejados):
+def filtrar_coluna_com_termos(df, coluna_a_ser_filtrada: str, topicos_desejados: list):
     """Essa função filtra a coluna de um dataframe com base em uma lista de termos desejados. 
        Só restarão as linhas que contenham pelo menos um dos termos da lista na coluna.
 
@@ -251,22 +251,22 @@ def filtrar_coluna_com_termos(df, coluna_a_ser_filtrada: str, topicos_desejados)
     """
     try:
         if df.empty:
-            raise ValueError("O dataframe está vazio")
+            return pd.DataFrame()
     
         if not isinstance(topicos_desejados, list):
-            raise TypeError("Você deve passar uma lista de termos válidos")
+            raise TypeError
         
         if len(topicos_desejados) == 0:
-            raise ValueError("A lista de termos desejados está vazia")
+            raise ValueError
         
         filtro = df[coluna_a_ser_filtrada].str.contains('|'.join(topicos_desejados), case=False)
         df = df[filtro]
         return df
-    except TypeError as e:
-        print(e)
+    except TypeError:
+        print("Você deve passar uma lista de termos válidos")
     except KeyError:
         print("A coluna desejada não pertence ao dataframe passado")
-    except ValueError as e:
-        print(e)
+    except ValueError:
+        print("A lista de termos desejados está vazia")
     except:
         print("Ocorreu um erro não especificado.")

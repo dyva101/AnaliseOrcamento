@@ -124,5 +124,33 @@ class TesteFiltrarColunasNumericas:
         result = dtc.filtrar_colunas_numericas(df, 'A', 1)
         expected = pd.DataFrame()
         assert result.equals(expected)
+    
+class TesteValoresInvalidos(un.TestCase):
+    
+    def test_no_invalid_values(self):
+        df = pd.DataFrame({'A': [1, 2, 3, 4], 'B': [5.1, 6.2, 7.3, 8.4]})
+        assert dtc.valores_invalidos(df) == None
 
-#class TestePlotarColunasEmpilhadas(un.TestCase):
+    def test_one_type_of_data(self):
+        df = pd.DataFrame({'A': [1, 2, 3, 4], 'B': [5.1, 6.2, 7.3, 8.4]})
+        assert dtc.valores_invalidos(df) == None
+
+    def test_one_column(self):
+        df = pd.DataFrame({'A': [1, 2, 3, 4]})
+        assert dtc.valores_invalidos(df) == None
+
+    def test_all_columns_with_nan(self):
+        df = pd.DataFrame({'A': [1, 2, None, 4], 'B': [5.1, 6.2, None, 8.4]})
+        with un.pytest.raises(ValueError):
+            dtc.valores_invalidos(df)
+            
+    def test_some_columns_with_nan(self):
+        df = pd.DataFrame({'A': [1, 2, 'three', 4], 'B': [5.1, 6.2, None, 8.4]})
+        with un.pytest.raises(ValueError):
+            dtc.valores_invalidos(df)
+            
+    def test_all_columns_with_only_nan(self):
+        df = pd.DataFrame({'A': [None, None, None, None], 'B': [None, None, None, None]})
+        with un.pytest.raises(ValueError):
+            dtc.valores_invalidos(df)
+            

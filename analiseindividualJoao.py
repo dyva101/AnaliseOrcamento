@@ -101,3 +101,10 @@ plt.show()
 
 #com o nosso gráfico de linhas, agora temos pela sua visuaização, que ao longo de 2014 a 2023, os investimentos no greal em áreas de educação estão cada vez mais decrescendo, fato que se complementa com o quesito pandemia, qua ajudou nesse grande impasse, logo a hipótese formulada
 #se encontra errada, pela visualização direta do gráfico de linhas e de barras apresentado.
+
+
+#GRÁFICO HISTOGRAMA 2017
+graf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2017, title="Histograma de gastos em educação em 2017")
+graf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2016, title="Histograma de gastos em educação em 2017")
+graf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2015, title="Histograma de gastos em educação em 2017")
+graf.plotar_histograma_com_filtro(df_sem_outliers, 'ORÇAMENTO REALIZADO (R$)', 'EXERCÍCIO', 2014, title="Histograma de gastos em educação em 2017")

@@ -1,4 +1,7 @@
-# https://tmfilho.github.io/pyestbook/math/05_matp.html(fonte)
+"""Módulo de Geração de Gráficos
+Esta biblioteca contém funções para criar e personalizar vários tipos de gráficos usando a biblioteca matplotlib. Também inclui uma função para limpar dados e substituir valores em um DataFrame do pandas.
+"""
+import importlib
 import matplotlib.pyplot as mp
 import numpy as np
 import pandas as pd
@@ -6,31 +9,39 @@ import datacleaning as dtc
 
 
 
-def plotar_colunas(df: pd.DataFrame, coluna_de_empilhamento: str, y_column: str, title="Colunas Empilhadas"):
+def plotar_colunas(df: pd.DataFrame, coluna_de_empilhamento, y_column, title="Colunas Empilhadas"):
     """
     Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.
 
     Parameters:
         df (pd.DataFrame): O DataFrame contendo os dados.
-        x_column (str): Nome da coluna a ser usada no eixo x.
-        y_column (str): Nome da coluna a ser usada no eixo y.
+        x_column: Nome da coluna a ser usada no eixo x.
+        y_column: Nome da coluna a ser usada no eixo y.
         title (str): Título do gráfico (opcional).
 
     Returns:
         None
     """
 
+    if df.empty:
+        raise ValueError("O DataFrame está vazio.")
 
     if not isinstance(df, pd.DataFrame):
         raise TypeError("O argumento 'df' deve ser um DataFrame válido.")
-    
+
     if not all(col in df.columns for col in [coluna_de_empilhamento, y_column]):
         colunas_ausentes = [col for col in [coluna_de_empilhamento, y_column] if col not in df.columns]
         raise ValueError(f"As colunas especificadas não estão presentes no DataFrame: {', '.join(colunas_ausentes)}")
 
     df_for_stacked_chart = pd.DataFrame({coluna_de_empilhamento: df[coluna_de_empilhamento], coluna_de_empilhamento: df[coluna_de_empilhamento], y_column: df[y_column]})
 
-    df_for_stacked_chart.groupby(coluna_de_empilhamento)[y_column].sum().plot(kind='bar', stacked=True )
+    if df_for_stacked_chart.isnull().values.any():
+        raise ValueError("O DataFrame contém valores NaN nas colunas especificadas.")
+
+    if not df[y_column].dtype in [np.float64, np.int64]:
+        raise TypeError(f"The data type of column '{y_column}' is not suitable for plotting.")
+
+    df_for_stacked_chart.groupby(coluna_de_empilhamento)[y_column].sum().plot(kind='bar', stacked=True)
 
     mp.xlabel(coluna_de_empilhamento)
     mp.ylabel(y_column)
@@ -38,15 +49,15 @@ def plotar_colunas(df: pd.DataFrame, coluna_de_empilhamento: str, y_column: str,
 
     mp.show()
 
-def substituir_coluna_por_lista_especificada(df: pd.DataFrame, column: str, substituto: str, termos_a_serem_substituidos: list):
+def substituir_coluna_por_lista_especificada(df: pd.DataFrame, column, substituto: str, termos_a_serem_substituidos: list):
     """
     Substitui valores em uma coluna de um DataFrame, e devolve o dataframe com a coluna modificada.
 
     Parameters:
         df (pd.DataFrame): O DataFrame contendo os dados.
-        column (str): O nome da coluna a ser modificada.
-        replacements (list of tuples): Uma lista de tuplas contendo padrões de substituição e seus valores correspondentes.
-
+        column: O nome da coluna a ser modificada.
+        substituto (str): O valor que substituirá os termos da lista termos_a_serem_substituidos.
+        termos_a_serem_substituidos (list): A lista de termos a serem substituídos.
     Returns:
         pd.DataFrame: O DataFrame com os valores substituídos.
     """
@@ -63,7 +74,18 @@ def substituir_coluna_por_lista_especificada(df: pd.DataFrame, column: str, subs
 
     return df_copy
 
-def plotar_colunas_empilhadas_normalizado(df: pd.DataFrame, coluna_de_empilhamento: str, x_column: str, y_column: str, title="Colunas Empilhadas Normalizadas"):
+def plotar_colunas_empilhadas_normalizado(df: pd.DataFrame, coluna_de_empilhamento, x_column, y_column, title="Colunas Empilhadas Normalizadas"):
+    """Plota um gráfico de colunas empilhadas de mesmo tamanho, dividido proporcionalmente com relação à coluna de empilhamento.
+
+    Parameters
+        df (pd.DataFrame): _description_
+        coluna_de_empilhamento (_type_): _description_
+        x_column (_type_): _description_
+        y_column (_type_): _description_
+        title (str, optional): _description_. Defaults to "Colunas Empilhadas Normalizadas".
+    Returns 
+        None
+    """    
     if not isinstance(df, pd.DataFrame):
         raise TypeError("O argumento 'df' deve ser um DataFrame válido.")
     
@@ -96,7 +118,7 @@ def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada='', filtro=''
     Parameters:
         df (pd.DataFrame): dataframe original
         coluna (str): será mostrada a distribuição dos dados dessa coluna
-        coluna_a_ser_filtrada (str): coluna para filtrar os dados
+        coluna_a_ser_filtrada: coluna para filtrar os dados
         filtro (): termo ou expressão para filtrar os registros do dataframe
         title (str): título do histograma
     """
@@ -110,8 +132,6 @@ def plotar_histograma_com_filtro(df, coluna, coluna_a_ser_filtrada='', filtro=''
     else:
 
         df_hist = df[df[coluna_a_ser_filtrada] == filtro]
-
-        print(df_hist)
 
         mp.hist(df_hist[coluna], bins=50, log=True)
         mp.title(title)

@@ -124,36 +124,63 @@ def filtrar_coluna_com_termo(df, coluna_a_ser_filtrada, topico_desejado):
         raise KeyError("A coluna desejada não pertence ao dataframe passado")
 
 def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
-    """Esta função filtra um dataframe com base em uma coluna numérica e uma restrição.
-    
+    """
+    Esta função filtra um dataframe com base em uma coluna numérica e uma restrição.
+
     Parameters:
         df (dataframe): dataframe original
         coluna_a_ser_filtrada (str): nome da coluna para aplicar o filtro
-        restricao (str): 0 caso queira apenas os valores negativos; 1 para os valores não-negativos (incluindo o zero)
+        restricao (int): 0 para valores negativos; 1 para valores não-negativos (incluindo o zero)
 
     Returns:
         dataframe: dataframe filtrado
+
+    Examples:
+    >>> import pandas as pd
+    >>> df = pd.DataFrame({'A': [1, -2, 3, -4, 5], 'B': [0, 1, -2, 3, -4]})
+
+    # Filtrar valores não-negativos na coluna 'A'
+    >>> filtrar_colunas_numericas(df, 'A', 1)
+       A  B
+    0  1  0
+    2  3 -2
+    4  5 -4
+
+    # Filtrar valores negativos na coluna 'B'
+    >>> filtrar_colunas_numericas(df, 'B', 0)
+       A  B
+    1 -2  1
+    3 -4  3
+    4  5 -4
+
+    >>> filtrar_colunas_numericas(df, 'C', 1)
+    KeyError: "A coluna desejada não pertence ao dataframe passado"
+
+    >>> filtrar_colunas_numericas(df, 'A', 2.5)
+    ValueError: "O número passado não é um inteiro"
+
+    >>> filtrar_colunas_numericas('Isso não é um DataFrame', 'A', 1)
+    TypeError: "Não foi passado um dataframe válido!"
     """
     try:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError("Não foi passado um dataframe válido!")
+        if coluna_a_ser_filtrada not in df.columns:
+            raise KeyError("A coluna desejada não pertence ao dataframe passado")
+        if not isinstance(restricao, int):
+            raise ValueError("O número passado não é um inteiro")
+
         if restricao == 1:
             filtro = df[coluna_a_ser_filtrada] >= 0
-
         elif restricao == 0:
             filtro = df[coluna_a_ser_filtrada] < 0
-
         else:
-            raise ValueError("A restrição deve ser ou igual à 0 ou igual à 1")
-        
+            raise ValueError("A restrição deve ser igual a 0 ou igual a 1")
+
         return df[filtro]
-    except TypeError:
-        if isinstance(df, pd.DataFrame):
-            print("Não foi passado um dataframe válido!")
-        elif isinstance(coluna_a_ser_filtrada, list):
-            print("Não foi passado uma lista de colunas válidas")
-        elif isinstance(restricao, int):
-            print("O número passado não é um inteiro")
-    except KeyError:
-        print("A coluna desejada não pertence ao dataframe passado")
+
+    except Exception as e:
+        print(str(e))
             
 def valores_invalidos(df):
     """Identificar colunas com valores inválidos em um DataFrame.

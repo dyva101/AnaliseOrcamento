@@ -1,7 +1,11 @@
+"""Análise Individual - Natália Brandão de Souza
+Análise de dados de gastos do governo federal com educação, no período de 2014 a 2023.
+""" 
+
 import boxplot as bx
 import graficos as grf
 import datacleaning as dtc 
-import analiseexporatoria as ae
+import main as ae
 import pandas as pd
 import matplotlib.pyplot as mp
 

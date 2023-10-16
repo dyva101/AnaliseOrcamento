@@ -1,3 +1,6 @@
+"""Análise Individual - Isabelli Cristhini da Silva
+Análise de dados de gastos do governo federal com educação, no período de 2014 a 2023.
+""" 
 import pandas as pd 
 import datacleaning as dtc
 import boxplot as bx

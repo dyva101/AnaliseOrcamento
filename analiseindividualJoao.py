@@ -1,7 +1,11 @@
+"""Análise Individual - João Otávio Siqueira de Brito
+Análise de dados de gastos do governo federal com educação, no período de 2014 a 2023.
+""" 
+
 import matplotlib.pyplot as plt
 import pandas as pd 
 import graficos as graf
-import analiseexporatoria as ae
+import main as ae
 import datacleaning as dt 
 import boxplot as bx 
 
@@ -43,8 +47,6 @@ plt.show()
 
 
 #através dos gráfico apresentado, pode-se ver que os anos que se seguem tendem a apenas diminuir os investimenotos em educação, mesmo que aos poucos no nosso intervalo, e que em 2020 foi um dos menores investimentos educacionais , o que confirma a nossa hipótese 
-
-
 
 
 #analisar qual área foi mais investida ao longo do tempo no nosso intervalo

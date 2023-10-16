@@ -4,8 +4,6 @@ import numpy as np
 import pandas as pd
 import datacleaning as dtc
 
-
-
 def plotar_colunas_empilhadas(df: pd.DataFrame, coluna_de_empilhamento: str, x_column: str, y_column: str, title="Colunas Empilhadas"):
     """
     Cria um gráfico de barras empilhadas normalizado a partir de um DataFrame, dadas as 2 colunas que serão os eixos.

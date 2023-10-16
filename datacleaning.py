@@ -190,26 +190,52 @@ def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
         raise ValueError("A restrição deve ser igual a 0 ou igual a 1")
             
 def valores_invalidos(df):
-    """Identificar colunas com valores inválidos em um DataFrame.
+    """
+    Identifica colunas com valores inválidos em um DataFrame.
 
     Parameters:
         df (dataframe): Dataframe desejado
+    Raises:
+        ValueError: Se uma coluna contém valores com tipos de dados diferentes ou valores NaN.
+
+    Examples:
+    >>> df = pd.DataFrame({'A': [1, 2, 'three', 4], 'B': [5.1, 6.2, None, 8.4]})
+    >>> valores_invalidos(df)
+    ValueError: A coluna 'A' contém valores com tipos de dados diferentes.
+    
+    >>> df = pd.DataFrame({'A': [1, 2, None, 4], 'B': [5.1, 6.2, None, 8.4]})
+    >>> valores_invalidos(df)
+    ValueError: As colunas com valores inválidos são: [('A', [2])]
+    
+    >>> valores_invalidos("rafael pinho")
+    TypeError: Não foi passado um dataframe válido!
+
     """
     error_columns = []
 
-    for column in df.columns:
-        tipos_de_dados = df[column].apply(type).unique()
+    try:
+        for column in df.columns:
+            tipos_de_dados = df[column].apply(type).unique()
 
-        # Guardando as colunas e posições onde há valores inválidos
-        if df[column].isna().any():
-            index = df.index[df[column].isnan()].tolist()
-            error_columns.append((column, index))
+            if df[column].isna().any():
+                index = df.index[df[column].isna()].tolist()
+                error_columns.append((column, index))
 
+            if len(tipos_de_dados) > 1:
+                raise ValueError
+
+        if error_columns:
+            raise ValueError
+    except TypeError:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError("Não foi passado um dataframe válido!")
+    except ValueError:
         if len(tipos_de_dados) > 1:
             raise ValueError(f"A coluna '{column}' contém valores com tipos de dados diferentes.")
+        if error_columns:
+            raise ValueError(f"As colunas com valores inválidos são: {error_columns}")
 
-    if error_columns:
-        raise ValueError(f"As colunas com valores inválidos são: {error_columns}")
+
 
 def filtrar_coluna_com_termos(df, coluna_a_ser_filtrada: str, topicos_desejados):
     """Essa função filtra a coluna de um dataframe com base em uma lista de termos desejados. 

@@ -130,7 +130,7 @@ df_final_com_colunas_substituidas = grf.substituir_coluna_por_lista_especificada
                                                                           'Outras transferências',
                                                                          ])
 
-grf.plotar_colunas_empilhadas(df_final_com_colunas_substituidas, "NOME SUBFUNÇÃO", "EXERCÍCIO", "ORÇAMENTO REALIZADO (R$)", "Orçamento Anual & Gastos por função")
+grf.plotar_colunas(df_final_com_colunas_substituidas, "EXERCÍCIO", "ORÇAMENTO REALIZADO (R$)", "Orçamento Anual & Gastos por função")
 
 # Plot a histogram of the data
 for ano in [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]:

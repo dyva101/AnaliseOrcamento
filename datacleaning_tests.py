@@ -81,5 +81,48 @@ class TesteFiltrarColunaComTermo(un.TestCase):
         with un.pytest.raises(KeyError):
             dtc.filtrar_coluna_com_termo(df, 'forma numérica', 'a')
 
-class Teste
+class TesteFiltrarColunasNumericas:
+    
+    def test_filter_non_negative_integer_values(self):
+            df = pd.DataFrame({'A': [1, -2, 3, -4, 5], 'B': [0, 1, -2, 3, -4]})
+            result = dtc.filtrar_colunas_numericas(df, 'A', 1)
+            expected = pd.DataFrame({'A': [1, 3, 5], 'B': [0, -2, -4]}, index=[0, 2, 4])
+            assert result.equals(expected)
+    
+    def test_filter_non_negative_float_values(self):
+        df = pd.DataFrame({'A': [1.5, -2.5, 3.5, -4.5, 5.5], 'B': [0.5, 1.5, -2.5, 3.5, -4.5]})
+        result = dtc.filtrar_colunas_numericas(df, 'A', 1)
+        expected = pd.DataFrame({'A': [1.5, 3.5, 5.5], 'B': [0.5, -2.5, -4.5]}, index=[0, 2, 4])
+        assert result.equals(expected)
+        
+    def test_filter_column_name_not_string(self):
+        df = pd.DataFrame({'A': [1, -2, 3, -4, 5], 'B': [0, 1, -2, 3, -4]})
+        with un.pytest.raises(TypeError):
+            dtc.filtrar_colunas_numericas(df, 23, 1)
+            
+    def test_filter_non_dataframe_object(self):
+        with un.pytest.raises(TypeError):
+            dtc.filtrar_colunas_numericas("almir", 'A', 1)
+            
+    def test_filter_invalid_integer_restriction(self):
+        df = pd.DataFrame({'A': [1, -2, 3, -4, 5], 'B': [0, 1, -2, 3, -4]})
+        with un.pytest.raises(ValueError):
+            dtc.filtrar_colunas_numericas(df, 'A', 2)
+            
+    def test_filter_non_float_restriction(self):
+        df = pd.DataFrame({'A': [1, -2, 3, -4, 5], 'B': [0, 1, -2, 3, -4]})
+        with un.pytest.raises(TypeError):
+            dtc.filtrar_colunas_numericas(df, 'A', 1.5)
+    
+    def test_filter_non_existing_column(self):
+        df = pd.DataFrame({'A': [1, -2, 3, -4, 5], 'B': [0, 1, -2, 3, -4]})
+        with un.pytest.raises(KeyError):
+            dtc.filtrar_colunas_numericas(df, 'C', 1)
+            
+    def test_filter_empty_dataframe(self):
+        df = pd.DataFrame()
+        result = dtc.filtrar_colunas_numericas(df, 'A', 1)
+        expected = pd.DataFrame()
+        assert result.equals(expected)
+
 #class TestePlotarColunasEmpilhadas(un.TestCase):

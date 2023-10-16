@@ -164,23 +164,30 @@ def filtrar_colunas_numericas(df, coluna_a_ser_filtrada: str, restricao: int):
     """
     try:
         if not isinstance(df, pd.DataFrame):
-            raise TypeError("Não foi passado um dataframe válido!")
+            raise TypeError
         if coluna_a_ser_filtrada not in df.columns:
-            raise KeyError("A coluna desejada não pertence ao dataframe passado")
+            raise KeyError
         if not isinstance(restricao, int):
-            raise ValueError("O número passado não é um inteiro")
+            raise TypeError
 
         if restricao == 1:
             filtro = df[coluna_a_ser_filtrada] >= 0
         elif restricao == 0:
             filtro = df[coluna_a_ser_filtrada] < 0
         else:
-            raise ValueError("A restrição deve ser igual a 0 ou igual a 1")
+            raise ValueError
 
         return df[filtro]
 
-    except Exception as e:
-        print(str(e))
+    except TypeError:
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError("Não foi passado um dataframe válido!")
+        if not isinstance(restricao, int):
+            raise TypeError("O número passado não é um inteiro")
+    except KeyError:
+        raise KeyError("A coluna desejada não pertence ao dataframe passado")
+    except ValueError:
+        raise ValueError("A restrição deve ser igual a 0 ou igual a 1")
             
 def valores_invalidos(df):
     """Identificar colunas com valores inválidos em um DataFrame.
@@ -198,12 +205,10 @@ def valores_invalidos(df):
             index = df.index[df[column].isnan()].tolist()
             error_columns.append((column, index))
 
-        # Levantando erro caso haja mais de um tipo de dado em uma coluna
         if len(tipos_de_dados) > 1:
             raise ValueError(f"A coluna '{column}' contém valores com tipos de dados diferentes.")
 
     if error_columns:
-        # Se houver colunas com valores inválidos
         raise ValueError(f"As colunas com valores inválidos são: {error_columns}")
 
 def filtrar_coluna_com_termos(df, coluna_a_ser_filtrada: str, topicos_desejados):
@@ -228,7 +233,6 @@ def filtrar_coluna_com_termos(df, coluna_a_ser_filtrada: str, topicos_desejados)
         if len(topicos_desejados) == 0:
             raise ValueError("A lista de termos desejados está vazia")
         
-        # Use .str.contains para verificar se algum dos termos aparece na coluna
         filtro = df[coluna_a_ser_filtrada].str.contains('|'.join(topicos_desejados), case=False)
         df = df[filtro]
         return df
